@@ -50,7 +50,7 @@ app.get('/api/status', (req, res) => {
     success: true,
     status: 'OPERATIONAL',
     node: 'ID-CGK-01',
-    engine: 'AM-Reverse Core v2.2.0',
+    engine: 'Motion V Core v2.2.0',
     dalvikPackage: 'com.alightcreative.motion',
     dalvikCert: 'ECA6BF91B8715A6F810ED0BBFC65B6CD578F52A8',
     serverUptime: Math.floor(process.uptime()),

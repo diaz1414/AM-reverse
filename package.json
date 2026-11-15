@@ -1,7 +1,7 @@
 {
-  "name": "am-premium",
-  "version": "2.0.0",
-  "description": "Alight Motion Core Protocol Terminal & Reverse Engineering Interface",
+  "name": "motion-v",
+  "version": "2.2.0",
+  "description": "MOTION V // Alight Motion Reverse Engineering Terminal",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

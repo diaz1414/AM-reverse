@@ -1,5 +1,5 @@
 /**
- * AM // PROTOCOL CONTROLLER (NOPIXEL V DESIGN LANGUAGE & SMOOTH ANIMATIONS)
+ * MOTION V CONTROLLER (MOTION V DESIGN LANGUAGE & SMOOTH ANIMATIONS)
  * Developed by DIAWW.DEV (https://diaww.my.id)
  */
 
@@ -59,11 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const backgrounds = [
     {
-      id: 'nopixel',
-      name: 'NOPIXEL V',
+      id: 'motionv',
+      name: 'MOTION V',
       num: '01',
       src: '/images/nopixel_hero_keyart.webp',
-      caption: 'Unveiling NoPixel V: The next evolution of GTA RP created in collaboration with Rockstar Games'
+      caption: 'Unveiling Motion V: The next evolution of GTA RP and Alight Motion reverse engineering'
     },
     {
       id: 'gta6',
