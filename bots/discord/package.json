@@ -1,0 +1,13 @@
+{
+  "name": "motion-v-discord-bot",
+  "version": "1.0.0",
+  "description": "Discord Bot Interface for MOTION V (Alight Motion VIP Activator)",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.7"
+  }
+}

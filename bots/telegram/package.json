@@ -1,0 +1,13 @@
+{
+  "name": "motion-v-telegram-bot",
+  "version": "1.0.0",
+  "description": "Telegram Bot Interface for MOTION V (Alight Motion VIP Activator)",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}
