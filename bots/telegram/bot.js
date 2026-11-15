@@ -252,6 +252,28 @@ bot.on('callback_query', async (query) => {
       '*TAHAP 01 : INPUT EMAIL*\nSilakan kirimkan alamat email akun Alight Motion Anda:',
       { parse_mode: 'Markdown' }
     )
+  } else if (action === 'action_autovip') {
+    await runAutoVip(chatId)
+  } else if (action === 'action_tempmail') {
+    const mailData = tempmail.generateEmail()
+    const mailText = `
+📬 *CODAI DISPOSABLE MAIL GENERATED*
+────────────────────────────
+• *Alamat Email:* \`${mailData.email}\`
+• *Domain:* \`@${mailData.domain}\`
+• *Portal Web:* [mail.codai.site](https://mail.codai.site/)
+────────────────────────────
+`
+    const keyboard = {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: '⚡ Auto-Aktifkan VIP dengan Email Ini', callback_data: `autovip_with_${mailData.email}` }],
+          [{ text: '🔍 Cek Kotak Masuk (API)', callback_data: `checkmail_${mailData.email}` }],
+          [{ text: '🌐 Buka mail.codai.site', url: 'https://mail.codai.site/' }]
+        ]
+      }
+    }
+    bot.sendMessage(chatId, mailText, { parse_mode: 'Markdown', ...keyboard })
   } else if (action === 'action_stats') {
     const stats = getStats()
     const statsText = `
@@ -261,8 +283,160 @@ bot.on('callback_query', async (query) => {
 • *Status:* \`ONLINE (200 OK)\`
 `
     bot.sendMessage(chatId, statsText, { parse_mode: 'Markdown', ...getMainKeyboard() })
+  } else if (action.startsWith('autovip_with_')) {
+    const targetEmail = action.replace('autovip_with_', '').trim()
+    await runAutoVip(chatId, targetEmail)
+  } else if (action.startsWith('poll_link_')) {
+    const targetEmail = action.replace('poll_link_', '').trim()
+    await pollAndVerifyForTelegram(chatId, targetEmail)
+  } else if (action.startsWith('checkmail_')) {
+    const targetEmail = action.replace('checkmail_', '').trim()
+    const inbox = await tempmail.getInbox(targetEmail)
+    if (!inbox.ok || inbox.count === 0) {
+      return bot.sendMessage(
+        chatId,
+        `📭 Kotak masuk untuk \`${targetEmail}\` masih kosong.\nSilakan tunggu beberapa saat atau cek di [mail.codai.site](https://mail.codai.site/).`,
+        { parse_mode: 'Markdown' }
+      )
+    }
+
+    let inboxMsg = `📬 *KOTAK MASUK CODAI MAIL (${inbox.count} Pesan)*\n• Akun: \`${targetEmail}\`\n────────────────────────────\n`
+    for (const msgItem of inbox.messages) {
+      inboxMsg += `• *Dari:* ${msgItem.from || 'Alight Motion'}\n  *Subjek:* ${msgItem.subject || '-'}\n`
+    }
+
+    bot.sendMessage(chatId, inboxMsg, {
+      parse_mode: 'Markdown',
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: '⚡ Ambil Tautan & Aktifkan VIP', callback_data: `poll_link_${targetEmail}` }],
+          [{ text: '🌐 Buka di mail.codai.site', url: 'https://mail.codai.site/' }]
+        ]
+      }
+    })
   }
 })
+
+/**
+ * Helper: 1-Click Auto VIP Flow
+ */
+async function runAutoVip(chatId, specificEmail = null) {
+  const mailData = specificEmail ? { email: specificEmail } : tempmail.generateEmail()
+  const email = mailData.email
+
+  const progressMsg = await bot.sendMessage(
+    chatId,
+    `🚀 *MOTION V // 1-CLICK AUTO VIP*\n────────────────────────────\n[1/4] Inisialisasi email disposable: \`${email}\`...`,
+    { parse_mode: 'Markdown' }
+  )
+
+  // Step 2: Send Link
+  await bot.editMessageText(
+    `🚀 *MOTION V // 1-CLICK AUTO VIP*\n────────────────────────────\n✓ Email: \`${email}\`\n[2/4] Mengirimkan magic link otentikasi via Google Identity Toolkit...`,
+    { chat_id: chatId, message_id: progressMsg.message_id, parse_mode: 'Markdown' }
+  )
+
+  const sendRes = await auth.sendMagicLink(email)
+  if (!sendRes.ok) {
+    const errMsg = friendlyFirebaseError(sendRes.error)
+    return bot.editMessageText(
+      `❌ *Auto-Aktivasi Gagal pada Step 2:*\n${errMsg}`,
+      { chat_id: chatId, message_id: progressMsg.message_id, parse_mode: 'Markdown' }
+    )
+  }
+
+  // Step 3: Poll Inbox
+  await bot.editMessageText(
+    `🚀 *MOTION V // 1-CLICK AUTO VIP*\n────────────────────────────\n✓ Magic link terkirim ke upstream.\n[3/4] Memantau kotak masuk CODAI MAIL API (Polling)...`,
+    { chat_id: chatId, message_id: progressMsg.message_id, parse_mode: 'Markdown' }
+  )
+
+  const pollRes = await tempmail.pollForMagicLink(email, 75, 3)
+  if (!pollRes.ok || !pollRes.link) {
+    return bot.editMessageText(
+      `⚠️ *Waktu Tunggu Habis (Timeout)*\nEmail verifikasi belum masuk ke kotak masuk \`${email}\`.\nAnda dapat memeriksa manual di [mail.codai.site](https://mail.codai.site/).`,
+      {
+        chat_id: chatId,
+        message_id: progressMsg.message_id,
+        parse_mode: 'Markdown',
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: '🔄 Coba Pindai Ulang', callback_data: `poll_link_${email}` }],
+            [{ text: '🌐 Buka mail.codai.site', url: 'https://mail.codai.site/' }]
+          ]
+        }
+      }
+    )
+  }
+
+  // Step 4: Verify & Activate
+  await bot.editMessageText(
+    `🚀 *MOTION V // 1-CLICK AUTO VIP*\n────────────────────────────\n✓ Tautan verifikasi ditemukan di inbox!\n[4/4] Melakukan handshake verifikasi ke verifyPurchase Cloud Function...`,
+    { chat_id: chatId, message_id: progressMsg.message_id, parse_mode: 'Markdown' }
+  )
+
+  const magicLink = pollRes.oobCode || pollRes.link
+  const verifyResult = await auth.verifyMagicLink(email, magicLink)
+  if (!verifyResult.ok) {
+    const errMsg = friendlyFirebaseError(verifyResult.error)
+    return bot.editMessageText(
+      `❌ *Auto-Aktivasi Gagal saat Verifikasi:*\n${errMsg}`,
+      { chat_id: chatId, message_id: progressMsg.message_id, parse_mode: 'Markdown' }
+    )
+  }
+
+  const premiumResult = await auth.activatePremium(verifyResult.idToken)
+  if (premiumResult.ok) incrementStats()
+
+  const now = new Date()
+  const validUntil = new Date()
+  validUntil.setFullYear(validUntil.getFullYear() + 1)
+  const formattedDate = validUntil.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })
+
+  const receiptText = `
+🎉 *1-CLICK AUTO AKTIVASI BERHASIL!*
+────────────────────────────
+• *Status Lisensi:* \`PREMIUM_ACTIVE (ANNUAL VIP)\`
+• *Email CODAI MAIL:* \`${email}\`
+• *Firebase UID:* \`${verifyResult.uid || '-'}\`
+• *Order ID Upstream:* \`${premiumResult.orderId || '-'}\`
+• *Masa Berlaku:* \`${formattedDate} (1 Tahun)\`
+• *Tipe Akun:* \`Alight Motion Pro / Member\`
+────────────────────────────
+*Sesi ID Token:*
+\`${verifyResult.idToken}\`
+────────────────────────────
+_Akun Alight Motion VIP Anda telah aktif penuh. Gunakan email di atas untuk login ke aplikasi Alight Motion._
+
+*Portal Email:* https://mail.codai.site
+*Engineered by DIAWW.DEV* (https://diaww.my.id)
+`
+
+  await bot.editMessageText(receiptText, {
+    chat_id: chatId,
+    message_id: progressMsg.message_id,
+    parse_mode: 'Markdown',
+    ...getMainKeyboard()
+  })
+}
+
+/**
+ * Helper: Polling link and verify
+ */
+async function pollAndVerifyForTelegram(chatId, email) {
+  const waitMsg = await bot.sendMessage(chatId, `🔍 _Memindai kotak masuk CODAI MAIL untuk_ \`${email}\`...`, { parse_mode: 'Markdown' })
+  const pollRes = await tempmail.pollForMagicLink(email, 60, 3)
+
+  if (!pollRes.ok || !pollRes.link) {
+    return bot.editMessageText(
+      `⚠️ Tautan verifikasi belum ditemukan di \`${email}\`.\nSilakan coba lagi beberapa saat atau periksa di [mail.codai.site](https://mail.codai.site/).`,
+      { chat_id: chatId, message_id: waitMsg.message_id, parse_mode: 'Markdown' }
+    )
+  }
+
+  await bot.editMessageText(`✓ Tautan ditemukan! Memproses aktivasi lisensi...`, { chat_id: chatId, message_id: waitMsg.message_id, parse_mode: 'Markdown' })
+  await processVerifyLink(chatId, email, pollRes.oobCode || pollRes.link)
+}
 
 /**
  * Handler Pesan Teks Umum (Mendukung Alur Multi-Step)
@@ -331,10 +505,25 @@ Silakan periksa folder *Kotak Masuk* atau *Spam* email Anda.
 Salin tautan dari email Alight Motion tersebut, lalu tempelkan (paste) langsung ke chat ini.
 `
 
+  const isCodai = email.includes('@codai.site') || email.includes('@daz.codai.site') || email.includes('@mkr.codai.site')
+
+  let sendKeyboard = {}
+  if (isCodai) {
+    sendKeyboard = {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: '⚡ Ambil Tautan Otomatis dari CODAI MAIL', callback_data: `poll_link_${email}` }],
+          [{ text: '🌐 Buka mail.codai.site', url: 'https://mail.codai.site/' }]
+        ]
+      }
+    }
+  }
+
   await bot.editMessageText(successText, {
     chat_id: chatId,
     message_id: loadingMsg.message_id,
-    parse_mode: 'Markdown'
+    parse_mode: 'Markdown',
+    ...sendKeyboard
   })
 
   // Simpan state untuk menunggu link verifikasi

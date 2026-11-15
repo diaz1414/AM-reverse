@@ -20,6 +20,7 @@ const {
 
 // Import core engine modules from root
 const auth = require('../../lib/auth')
+const tempmail = require('../../lib/tempmail')
 const { friendlyFirebaseError } = require('../../lib/errors')
 const { getStats, incrementStats } = require('../../lib/stats')
 
@@ -50,6 +51,14 @@ const client = new Client({
 
 // Definisi Slash Commands
 const commands = [
+  new SlashCommandBuilder()
+    .setName('autovip')
+    .setDescription('1-Click Full Auto: Buat tempmail @codai.site, ambil link & aktifkan VIP Alight Motion'),
+
+  new SlashCommandBuilder()
+    .setName('tempmail')
+    .setDescription('Generate alamat disposable email @codai.site resmi dari CODAI MAIL (https://mail.codai.site)'),
+
   new SlashCommandBuilder()
     .setName('sendlink')
     .setDescription('Kirim magic link otentikasi Alight Motion ke email Anda')
@@ -173,16 +182,55 @@ client.on('interactionCreate', async (interaction) => {
     const embed = new EmbedBuilder()
       .setTitle('TERMINAL PANDUAN // MOTION V')
       .setColor(BRAND_COLOR)
-      .setDescription('Sistem otomatisasi protokol rekayasa balik Alight Motion via Firebase Auth.')
+      .setDescription('Sistem otomatisasi protokol rekayasa balik Alight Motion via Firebase Auth & CODAI MAIL.')
       .addFields(
-        { name: '1. /sendlink <email>', value: 'Mengirimkan magic link login resmi ke email Anda.' },
-        { name: '2. /verify <email> <link>', value: 'Memvalidasi link dan mengaktifkan lisensi VIP 1 tahun.' },
-        { name: '3. /stats', value: 'Melihat jumlah total aktivasi lisensi.' },
-        { name: '4. /ping', value: 'Memeriksa latensi respon bot.' }
+        { name: '1. /autovip', value: '🚀 **1-Click Auto VIP**: Buat email @codai.site, ambil link & aktifkan VIP tanpa repot.' },
+        { name: '2. /tempmail', value: '📬 Generate email sementara resmi @codai.site (https://mail.codai.site).' },
+        { name: '3. /sendlink <email>', value: 'Mengirimkan magic link login resmi ke email Anda.' },
+        { name: '4. /verify <email> <link>', value: 'Memvalidasi link dan mengaktifkan lisensi VIP 1 tahun.' },
+        { name: '5. /stats & /ping', value: 'Melihat telemetri aktivasi & latensi bot.' }
       )
       .setFooter({ text: 'MOTION V // DEVELOPED BY DIAWW.DEV (https://diaww.my.id)' })
 
     return interaction.reply({ embeds: [embed], components: [getDeveloperButtons()] })
+  }
+
+  // Command: /tempmail
+  if (commandName === 'tempmail') {
+    const mailData = tempmail.generateEmail()
+    const embed = new EmbedBuilder()
+      .setTitle('📬 CODAI DISPOSABLE MAIL GENERATED')
+      .setColor(BRAND_COLOR)
+      .setDescription('Alamat email sementara resmi via [mail.codai.site](https://mail.codai.site/).')
+      .addFields(
+        { name: 'Alamat Email', value: `\`${mailData.email}\``, inline: true },
+        { name: 'Domain', value: `\`@${mailData.domain}\``, inline: true },
+        { name: 'Infrastruktur', value: '`CODAI MAIL API (api-mail.codai.site)`', inline: false }
+      )
+      .setFooter({ text: 'MOTION V // ZERO-LOG PROTOCOL' })
+
+    const row = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId(`btn_autovip_${mailData.email}`)
+        .setLabel('🚀 1-Click Auto VIP')
+        .setStyle(ButtonStyle.Success),
+      new ButtonBuilder()
+        .setCustomId(`btn_checkmail_${mailData.email}`)
+        .setLabel('📬 Cek Inbox API')
+        .setStyle(ButtonStyle.Primary),
+      new ButtonBuilder()
+        .setLabel('Buka mail.codai.site')
+        .setStyle(ButtonStyle.Link)
+        .setURL('https://mail.codai.site/')
+    )
+
+    return interaction.reply({ embeds: [embed], components: [row] })
+  }
+
+  // Command: /autovip
+  if (commandName === 'autovip') {
+    await interaction.deferReply()
+    return runDiscordAutoVip(interaction, null, false)
   }
 
   // Command: /sendlink
