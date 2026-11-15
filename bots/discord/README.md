@@ -72,6 +72,8 @@ pm2 start bot.js --name "motion-v-discord"
 ### Slash Commands:
 | Command | Deskripsi |
 | :--- | :--- |
+| `/autovip` | 🚀 **1-Click Auto VIP**: Buat tempmail @codai.site & aktifkan VIP instan |
+| `/tempmail` | 📬 Generate disposable email @codai.site resmi dari CODAI MAIL |
 | `/sendlink email:<email>` | Mengirimkan magic link login resmi ke email Anda |
 | `/verify email:<email> link:<link>` | Memvalidasi link dan mengaktifkan lisensi VIP 1 tahun |
 | `/stats` | Melihat jumlah total dan aktivasi lisensi hari ini |
@@ -81,6 +83,8 @@ pm2 start bot.js --name "motion-v-discord"
 ### Prefix Commands:
 | Command | Contoh Penggunaan |
 | :--- | :--- |
+| `!autovip` | `!autovip` (Aktivasi instan 1-klik dengan tempmail) |
+| `!tempmail` | `!tempmail` (Buat email sementara @codai.site) |
 | `!send <email>` | `!send user@gmail.com` |
 | `!verify <email> <link>` | `!verify user@gmail.com https://alightcreative.com?...` |
 | `!stats` | `!stats` |
