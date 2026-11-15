@@ -63,6 +63,8 @@ pm2 start bot.js --name "motion-v-telegram"
 
 | Perintah | Deskripsi |
 | :--- | :--- |
+| `/autovip` | 🚀 **1-Click Auto VIP**: Buat tempmail @codai.site & aktifkan VIP instan |
+| `/tempmail` atau `/mail` | 📬 Generate disposable email @codai.site dari CODAI MAIL |
 | `/start` atau `/help` | Menampilkan menu utama dan tombol interaktif |
 | `/activate` | Memulai alur interaktif dua langkah (Email -> Link) |
 | `/send <email>` | Mengirimkan magic link login langsung ke alamat email |

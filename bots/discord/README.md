@@ -6,8 +6,10 @@ Antarmuka bot Discord resmi untuk sistem aktivasi otomatis lisensi Alight Motion
 
 ## Fitur Utama
 
-- **Slash Commands Modern:** Mendukung `/sendlink`, `/verify`, `/stats`, `/ping`, dan `/help`.
-- **Legacy Prefix Commands:** Mendukung perintah teks tradisional seperti `!send`, `!verify`, `!stats`, dan `!ping`.
+- **🚀 1-Click Auto VIP (`/autovip` & `!autovip`):** Automasi end-to-end tanpa email pribadi. Membuat email disposable `@codai.site`, mengirim magic link, memantau inbox via polling API CODAI MAIL, dan langsung mengaktifkan VIP Annual!
+- **📬 Integrasi Resmi CODAI MAIL (`/tempmail` & `!tempmail`):** Buat alamat email disposable `@codai.site` resmi via [mail.codai.site](https://mail.codai.site/) lengkap dengan interactive buttons untuk cek inbox dan auto-aktivasi.
+- **Slash Commands Modern:** Mendukung `/autovip`, `/tempmail`, `/sendlink`, `/verify`, `/stats`, `/ping`, dan `/help`.
+- **Legacy Prefix Commands:** Mendukung perintah teks tradisional seperti `!autovip`, `!tempmail`, `!send`, `!verify`, `!stats`, dan `!ping`.
 - **Tampilan Dark Tactical NoPixel:** Output embed menggunakan palet resmi NoPixel V (Mint Green `0x00F8B9` & Electric Cyan `0x40E5FF`).
 - **Keamanan Token Ephemeral:** Respon token JWT sesi ditampilkan secara aman dan terenkripsi.
 - **Zero Credentials Saved:** Tidak ada data akun atau token yang disimpan ke disk.
