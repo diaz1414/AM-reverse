@@ -44,6 +44,115 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Ken Burns Subtle Background Breathing Animation */
+@keyframes kenburns {
+  0% {
+    transform: scale(1.0);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1.0);
+  }
+}
+
+.animate-kenburns {
+  animation: kenburns 28s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+/* Smooth Scroll Reveal Animations */
+.np-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.np-reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.np-reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.np-reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.np-visible {
+  opacity: 1 !important;
+  transform: translate(0, 0) scale(1) !important;
+}
+
+/* Stagger Delays */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+/* Navbar Dynamic Scroll Transformation */
+#main-header {
+  height: 60px;
+  transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s ease, backdrop-filter 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+@media (min-width: 768px) {
+  #main-header {
+    height: 6rem;
+  }
+}
+
+#main-header.nav-scrolled {
+  height: 4.25rem !important;
+  background-color: rgba(10, 10, 10, 0.94) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom-color: rgba(0, 248, 185, 0.2) !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.85);
+}
+
+@media (max-width: 768px) {
+  #main-header.nav-scrolled {
+    height: 3.5rem !important;
+  }
+}
+
+/* Central Hero Play Trigger Pulse & Glow */
+.hero-play-pulse {
+  position: relative;
+}
+
+.hero-play-pulse::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  background: radial-gradient(circle, rgba(0, 248, 185, 0.3) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 70%);
+  border-radius: 4px;
+  opacity: 0.8;
+  filter: blur(12px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.hero-play-pulse:hover::before {
+  inset: -20px;
+  opacity: 1;
+  filter: blur(18px);
+}
+
 /* NoPixel Title Box Styling */
 .np-title-box {
   background-color: var(--paper);
@@ -81,13 +190,15 @@ body {
   padding: 0.65rem 1.75rem;
   border: none;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
 }
 
 .np-btn-primary:hover {
   background-color: var(--brand);
   color: var(--ink);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 248, 185, 0.35);
 }
 
 .np-btn-outline {
@@ -106,12 +217,14 @@ body {
   padding: 0.65rem 1.5rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-decoration: none;
 }
 
 .np-btn-outline:hover {
   background-color: rgba(255, 255, 255, 0.08);
   border-color: var(--brand-2);
   color: var(--brand-2);
+  transform: translateY(-1px);
 }
 
 /* NoPixel Input Fields */
@@ -137,16 +250,28 @@ body {
   color: #777;
 }
 
-/* NoPixel Card Surfaces */
+/* NoPixel Card Surfaces with Zoomable Background */
 .np-card {
   background-color: var(--shade-800);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
 }
 
 .np-card:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  transform: translateY(-2px);
+  border-color: var(--brand);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+}
+
+.np-card .np-card-img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+}
+
+.np-card:hover .np-card-img {
+  transform: scale(1.08);
+  filter: brightness(1.1);
 }
 
 /* Pulse Beacon */

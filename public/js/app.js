@@ -1,10 +1,134 @@
 /**
- * AM // PROTOCOL CONTROLLER (NOPIXEL V DESIGN LANGUAGE)
+ * AM // PROTOCOL CONTROLLER (NOPIXEL V DESIGN LANGUAGE & SMOOTH ANIMATIONS)
  * Developed by DIAWW.DEV (https://diaww.my.id)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Elements
+  // 1. DYNAMIC NAVBAR ON SCROLL
+  const mainHeader = document.getElementById('main-header')
+  if (mainHeader) {
+    let lastScrollY = window.scrollY
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY
+
+      if (currentScrollY > 40) {
+        mainHeader.classList.add('nav-scrolled')
+      } else {
+        mainHeader.classList.remove('nav-scrolled')
+      }
+
+      lastScrollY = currentScrollY
+    }, { passive: true })
+
+    // Initial check
+    if (window.scrollY > 40) mainHeader.classList.add('nav-scrolled')
+  }
+
+  // 2. SMOOTH ENTRANCE & SCROLL REVEAL ANIMATIONS
+  const revealElements = document.querySelectorAll('.np-reveal, .np-reveal-scale, .np-reveal-left, .np-reveal-right')
+  
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('np-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    }, {
+      root: null,
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    })
+
+    revealElements.forEach(el => revealObserver.observe(el))
+  } else {
+    revealElements.forEach(el => el.classList.add('np-visible'))
+  }
+
+  // Trigger initial hero elements immediately with nice staggered entrance
+  setTimeout(() => {
+    document.querySelectorAll('.hero-entrance').forEach(el => el.classList.add('np-visible'))
+  }, 100)
+
+  // 3. CINEMATIC HERO BACKGROUND SWITCHER (GTA VI / NOPIXEL V / GTA V)
+  const heroBgImage = document.getElementById('hero-bg-img')
+  const bgSwitchBtns = document.querySelectorAll('.bg-switch-btn')
+  const bgSlideNum = document.getElementById('bg-slide-num')
+
+  const backgrounds = [
+    {
+      id: 'nopixel',
+      name: 'NOPIXEL V',
+      num: '01',
+      src: '/images/nopixel_hero_keyart.webp',
+      caption: 'Unveiling NoPixel V: The next evolution of GTA RP created in collaboration with Rockstar Games'
+    },
+    {
+      id: 'gta6',
+      name: 'GTA VI',
+      num: '02',
+      src: '/images/gta6_hero_lucia_jason.jpg',
+      caption: 'Vice City Next-Gen: Lucia & Jason Vice City Leonida Cinematic Engine'
+    },
+    {
+      id: 'gta5',
+      name: 'GTA V',
+      num: '03',
+      src: '/images/gta5_los_santos_city.jpg',
+      caption: 'Los Santos Legacy: Iconic Downtown Skyline & City Center'
+    },
+    {
+      id: 'night',
+      name: 'LS NIGHT',
+      num: '04',
+      src: '/images/gta_downtown_night.webp',
+      caption: 'Downtown Los Santos at Midnight: Dark Tactical Roleplay Atmosphere'
+    }
+  ]
+
+  let currentBgIndex = 0
+
+  function switchBackground(index) {
+    if (!heroBgImage || index < 0 || index >= backgrounds.length) return
+    currentBgIndex = index
+    const bg = backgrounds[index]
+
+    // Fade out slightly, switch src, fade in
+    heroBgImage.style.opacity = '0'
+    setTimeout(() => {
+      heroBgImage.src = bg.src
+      heroBgImage.style.opacity = '1'
+    }, 250)
+
+    if (bgSlideNum) bgSlideNum.textContent = bg.num
+
+    bgSwitchBtns.forEach((btn, idx) => {
+      if (idx === index) {
+        btn.classList.add('bg-paper', 'text-ink')
+        btn.classList.remove('bg-paper/20', 'text-paper')
+      } else {
+        btn.classList.remove('bg-paper', 'text-ink')
+        btn.classList.add('bg-paper/20', 'text-paper')
+      }
+    })
+  }
+
+  bgSwitchBtns.forEach((btn, idx) => {
+    btn.addEventListener('click', () => {
+      playTactileFeedback('click')
+      switchBackground(idx)
+    })
+  })
+
+  // Optional subtle auto slide every 14 seconds
+  setInterval(() => {
+    const nextIdx = (currentBgIndex + 1) % backgrounds.length
+    switchBackground(nextIdx)
+  }, 14000)
+
+  // 4. TERMINAL ACTIVATOR LOGIC
   const stepIndicators = {
     1: document.getElementById('step-indicator-1'),
     2: document.getElementById('step-indicator-2'),
@@ -17,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
     3: document.getElementById('panel-step-3')
   }
 
-  // Inputs & Buttons
   const emailInput = document.getElementById('input-email')
   const btnSendLink = document.getElementById('btn-send-link')
   const sendAlert = document.getElementById('alert-step-1')
@@ -28,7 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnVerifyLink = document.getElementById('btn-verify-link')
   const verifyAlert = document.getElementById('alert-step-2')
 
-  // Result fields
   const resEmail = document.getElementById('res-email')
   const resUid = document.getElementById('res-uid')
   const resOrderId = document.getElementById('res-order-id')
@@ -37,20 +159,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnCopyToken = document.getElementById('btn-copy-token')
   const btnReset = document.getElementById('btn-reset-flow')
 
-  // Telemetry Elements
   const statTotal = document.getElementById('stat-total')
   const statToday = document.getElementById('stat-today')
   const statGateway = document.getElementById('stat-gateway')
 
-  // Mobile Menu Elements
   const mobileMenuBtn = document.getElementById('mobile-menu-btn')
   const mobileMenu = document.getElementById('mobile-menu')
 
-  // State
   let currentEmail = ''
-  let currentStep = 1
 
-  // Audio synthesis for tactile micro-feedback
+  // Audio feedback synthesis
   function playTactileFeedback(type = 'click') {
     try {
       const ctx = new (window.AudioContext || window.webkitAudioContext)()
@@ -62,8 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const now = ctx.currentTime
       if (type === 'success') {
         osc.type = 'sine'
-        osc.frequency.setValueAtTime(587.33, now) // D5
-        osc.frequency.exponentialRampToValueAtTime(880, now + 0.12) // A5
+        osc.frequency.setValueAtTime(587.33, now)
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.12)
         gain.gain.setValueAtTime(0.08, now)
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14)
         osc.start(now)
@@ -87,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch {}
   }
 
-  // Toast System in NoPixel palette
+  // Toast Notification
   function showToast(message, type = 'success') {
     let container = document.getElementById('toast-container')
     if (!container) {
@@ -121,9 +239,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 4500)
   }
 
-  // Step Switcher with Exact NoPixel Active/Inactive Button Classes
+  // Step Switcher
   function goToStep(step) {
-    currentStep = step
     playTactileFeedback('click')
 
     for (let i = 1; i <= 3; i++) {

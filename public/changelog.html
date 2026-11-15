@@ -37,9 +37,9 @@
 </head>
 <body class="bg-ink text-paper font-barlow min-h-screen relative selection:bg-brand selection:text-ink flex flex-col justify-between">
 
-  <!-- NoPixel Sticky Header -->
-  <header class="sticky top-0 z-50 w-full bg-[rgba(12,12,12,0.65)] font-barlow backdrop-blur-[10px] border-b border-white/5">
-    <div class="mx-auto flex h-[60px] w-full items-center gap-5 px-5 md:h-[6rem] md:gap-8 md:px-8 max-w-[155rem]">
+  <!-- NoPixel Sticky Dynamic Header -->
+  <header id="main-header" class="sticky top-0 z-50 w-full bg-[rgba(12,12,12,0.65)] font-barlow backdrop-blur-[10px] border-b border-white/5">
+    <div class="mx-auto flex h-full w-full items-center gap-5 px-5 md:gap-8 md:px-8 max-w-[155rem]">
       
       <a href="/" class="flex items-center gap-3 shrink-0 group text-decoration-none">
         <div class="w-8 h-8 md:w-10 md:h-10 bg-paper text-ink flex items-center justify-center font-extrabold text-lg md:text-xl tracking-tighter group-hover:bg-brand transition-colors">
@@ -243,11 +243,6 @@
     </div>
   </footer>
 
-  <script>
-    const btn = document.getElementById('mobile-menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-  </script>
-
+  <script src="/js/app.js"></script>
 </body>
 </html>

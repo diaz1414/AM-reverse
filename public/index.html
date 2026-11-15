@@ -38,9 +38,9 @@
 </head>
 <body class="bg-ink text-paper font-barlow min-h-screen relative selection:bg-brand selection:text-ink">
 
-  <!-- 1. STICKY NOPIXEL HEADER -->
-  <header class="sticky top-0 z-50 w-full bg-[rgba(12,12,12,0.65)] font-barlow backdrop-blur-[10px] border-b border-white/5">
-    <div class="mx-auto flex h-[60px] w-full items-center gap-5 px-5 md:h-[6rem] md:gap-8 md:px-8 max-w-[155rem]">
+  <!-- 1. STICKY DYNAMIC NAVBAR (SMOOTH TRANSFORMATION ON SCROLL) -->
+  <header id="main-header" class="sticky top-0 z-50 w-full bg-[rgba(12,12,12,0.65)] font-barlow backdrop-blur-[10px] border-b border-white/5">
+    <div class="mx-auto flex h-full w-full items-center gap-5 px-5 md:gap-8 md:px-8 max-w-[155rem]">
       
       <!-- Brand Logo in NoPixel block style -->
       <a href="/" class="flex items-center gap-3 shrink-0 group text-decoration-none">
@@ -114,42 +114,51 @@
     </div>
   </header>
 
-  <!-- 2. NOPIXEL CINEMATIC HERO SECTION (LAUNCH SHOWCASE) -->
-  <section class="relative h-svh min-h-[580px] w-full overflow-hidden bg-ink font-barlow text-paper flex items-center justify-center border-b border-white/10">
+  <!-- 2. NOPIXEL CINEMATIC HERO SECTION (WITH GTA & NOPIXEL BACKGROUND ARTWORK) -->
+  <section class="relative h-svh min-h-[640px] w-full overflow-hidden bg-ink font-barlow text-paper flex items-center justify-center border-b border-white/10">
     
-    <!-- Background Vignette & Ambient Radial Glow -->
-    <div class="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/60 z-10 pointer-events-none"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,248,185,0.08)_0%,transparent_70%)] pointer-events-none"></div>
-    
-    <!-- Fine Cyber Grid Background Texture -->
-    <div class="absolute inset-0 opacity-15 pointer-events-none" style="background-image: linear-gradient(to right, #333 1px, transparent 1px), linear-gradient(to bottom, #333 1px, transparent 1px); background-size: 50px 50px;"></div>
+    <!-- Hero Background Image Layer with Ken Burns Breathing Animation & Smooth Crossfade -->
+    <div class="absolute inset-0 z-0 overflow-hidden">
+      <img 
+        id="hero-bg-img"
+        src="/images/nopixel_hero_keyart.webp" 
+        alt="GTA RP Keyart Background" 
+        class="w-full h-full object-cover object-center animate-kenburns transition-opacity duration-700 opacity-100 filter brightness-90 contrast-105"
+      >
+    </div>
 
-    <!-- Center Play / Launch Terminal Button (Exact NoPixel Trigger) -->
-    <div class="relative z-20 flex flex-col items-center justify-center text-center px-4">
-      <a href="#terminal-section" aria-label="Buka Terminal Aktivasi" class="group flex h-[104px] w-[112px] md:h-[12.5rem] md:w-[13.3125rem] items-center justify-center bg-paper text-ink backdrop-blur-sm transition-transform hover:scale-[1.03] shadow-[0_0_50px_rgba(255,255,255,0.2)]">
-        <!-- Terminal / Lightning Icon -->
-        <svg viewBox="0 0 24 24" fill="currentColor" class="ml-1 h-11 w-11 text-ink md:h-[5.5rem] md:w-[5.5rem]">
-          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
-        </svg>
-      </a>
-      <span class="mt-4 text-xs md:text-sm uppercase tracking-[0.25em] text-[rgba(255,255,255,0.6)] font-semibold">
+    <!-- Atmospheric Vignette & Contrast Overlays -->
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/75 z-10 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(12,12,12,0.85)_80%)] z-10 pointer-events-none"></div>
+
+    <!-- Center Play / Launch Terminal Button (Hero Entrance Scale Animation) -->
+    <div class="relative z-20 flex flex-col items-center justify-center text-center px-4 hero-entrance np-reveal-scale">
+      <div class="hero-play-pulse">
+        <a href="#terminal-section" aria-label="Buka Terminal Aktivasi" class="group flex h-[104px] w-[112px] md:h-[12.5rem] md:w-[13.3125rem] items-center justify-center bg-paper text-ink backdrop-blur-sm transition-transform hover:scale-[1.04] shadow-[0_0_60px_rgba(0,248,185,0.25)]">
+          <!-- Terminal Lightning Bolt Icon -->
+          <svg viewBox="0 0 24 24" fill="currentColor" class="ml-1 h-11 w-11 text-ink md:h-[5.5rem] md:w-[5.5rem] transition-transform group-hover:scale-110">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+          </svg>
+        </a>
+      </div>
+      <span class="mt-5 text-xs md:text-sm uppercase tracking-[0.25em] text-paper font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
         KLIK UNTUK MEMULAI AKTIVASI
       </span>
     </div>
 
     <!-- Bottom-Left Stacked Title Box (Signature NoPixel Hero Component) -->
-    <div class="absolute bottom-0 left-0 max-w-[calc(100%-1rem)] z-20">
+    <div class="absolute bottom-0 left-0 max-w-[calc(100%-1rem)] z-20 hero-entrance np-reveal-left delay-200">
       <div class="flex flex-col items-start">
         
         <!-- White Paper Title Block -->
-        <div class="bg-paper p-[8.5px] lg:p-[0.8375rem]">
+        <div class="bg-paper p-[8.5px] lg:p-[0.8375rem] shadow-2xl">
           <h1 class="whitespace-nowrap text-[28px] font-extrabold uppercase leading-[1.05] text-ink md:text-[4rem] md:leading-[4.25rem]">
             ALIGHT MOTION VIP
           </h1>
         </div>
 
         <!-- Dark Frosted Blur Subtitle Block -->
-        <div class="max-w-[421px] bg-ink/95 p-5 backdrop-blur-md lg:max-w-[42.0625rem] lg:p-8">
+        <div class="max-w-[421px] bg-ink/95 p-5 backdrop-blur-md lg:max-w-[42.0625rem] lg:p-8 border-l-2 border-brand shadow-2xl">
           <p class="text-[13px] font-semibold leading-[1.3] text-paper md:text-[1.5rem] md:leading-[2rem]">
             Aktivasi lisensi resmi tahunan Alight Motion melalui Firebase Identity Gateway dan Alight Creative Cloud Functions. Zero-log, aman, dan tanpa kata sandi.
           </p>
@@ -158,22 +167,35 @@
       </div>
     </div>
 
-    <!-- Bottom-Right Slide / Telemetry Box (Exact NoPixel) -->
-    <div class="absolute bottom-0 right-0 hidden h-[6rem] items-center gap-[0.9rem] bg-ink px-16 sm:flex lg:right-[11.25rem] z-20 border-t border-l border-white/10">
+    <!-- Bottom-Right Slide Ticker & GTA VI / NoPixel Background Switcher -->
+    <div class="absolute bottom-0 right-0 hidden h-[6rem] items-center gap-[1rem] bg-ink/95 px-8 sm:flex lg:right-[11.25rem] z-20 border-t border-l border-white/10 backdrop-blur-md hero-entrance np-reveal-right delay-300">
+      
       <span class="relative inline-flex overflow-hidden">
-        <span class="block text-[2rem] font-semibold uppercase leading-[2.25rem] text-paper">01</span>
+        <span id="bg-slide-num" class="block text-[2rem] font-semibold uppercase leading-[2.25rem] text-paper">01</span>
       </span>
-      <span class="flex items-center gap-[0.33125rem]">
-        <span class="block h-[0.21875rem] w-[1.4375rem] bg-paper"></span>
-        <span class="block h-[0.21875rem] w-[1.4375rem] bg-paper/30"></span>
-      </span>
-      <span class="text-xs text-[rgba(255,255,255,0.48)] font-mono ml-3">DALVIK // v2.1</span>
+
+      <!-- Background Switcher Buttons (NoPixel V / GTA VI / GTA V) -->
+      <div class="flex items-center gap-1.5 font-mono text-[11px]">
+        <button type="button" class="bg-switch-btn px-2.5 py-1 uppercase font-bold transition-all bg-paper text-ink" title="NoPixel V Keyart">
+          NoPixel V
+        </button>
+        <button type="button" class="bg-switch-btn px-2.5 py-1 uppercase font-bold transition-all bg-paper/20 text-paper hover:bg-paper/40" title="GTA VI Vice City">
+          GTA VI
+        </button>
+        <button type="button" class="bg-switch-btn px-2.5 py-1 uppercase font-bold transition-all bg-paper/20 text-paper hover:bg-paper/40" title="GTA V Los Santos">
+          GTA V
+        </button>
+        <button type="button" class="bg-switch-btn px-2.5 py-1 uppercase font-bold transition-all bg-paper/20 text-paper hover:bg-paper/40" title="Los Santos Night RP">
+          LS Night
+        </button>
+      </div>
+
     </div>
 
   </section>
 
-  <!-- 3. MAIN TERMINAL / WHAT'S NEW SECTION (NoPixel Tabbed Interface) -->
-  <section id="terminal-section" class="relative w-full overflow-hidden bg-ink font-barlow py-16 sm:py-24 border-b border-white/10">
+  <!-- 3. MAIN TERMINAL / WHAT'S NEW SECTION (NoPixel Tabbed Interface with Smooth Scroll Reveal) -->
+  <section id="terminal-section" class="relative w-full overflow-hidden bg-ink font-barlow py-16 sm:py-24 border-b border-white/10 np-reveal">
     <div class="relative z-10 flex w-full flex-col px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] mx-auto max-w-[155rem]">
       
       <!-- Section Title -->
@@ -216,7 +238,7 @@
       <div class="mt-8 max-w-4xl">
 
         <!-- STEP 1: EMAIL DISPATCH -->
-        <div id="panel-step-1" class="block bg-shade-800 border border-shade-600 p-6 sm:p-10">
+        <div id="panel-step-1" class="block bg-shade-800 border border-shade-600 p-6 sm:p-10 shadow-2xl">
           <div class="mb-6">
             <span class="text-xs uppercase tracking-widest text-brand font-bold font-mono">// STEP 01 : OOB CONFIRMATION CODE DISPATCH</span>
             <h3 class="text-2xl sm:text-4xl font-extrabold uppercase text-paper mt-1">KIRIM MAGIC LINK KE EMAIL</h3>
@@ -257,7 +279,7 @@
         </div>
 
         <!-- STEP 2: VERIFY LINK -->
-        <div id="panel-step-2" class="hidden bg-shade-800 border border-shade-600 p-6 sm:p-10">
+        <div id="panel-step-2" class="hidden bg-shade-800 border border-shade-600 p-6 sm:p-10 shadow-2xl">
           <div class="mb-6">
             <span class="text-xs uppercase tracking-widest text-brand-2 font-bold font-mono">// STEP 02 : VERIFIKASI TAUTAN MASUK</span>
             <h3 class="text-2xl sm:text-4xl font-extrabold uppercase text-paper mt-1">TEMPELKAN TAUTAN DARI EMAIL</h3>
@@ -300,7 +322,7 @@
         </div>
 
         <!-- STEP 3: LISENSI AKTIF (RECEIPT) -->
-        <div id="panel-step-3" class="hidden bg-shade-800 border border-brand p-6 sm:p-10">
+        <div id="panel-step-3" class="hidden bg-shade-800 border border-brand p-6 sm:p-10 shadow-2xl">
           <div class="flex items-center gap-4 pb-4 border-b border-white/10 mb-6">
             <div class="w-12 h-12 bg-brand text-ink flex items-center justify-center font-bold text-2xl">
               ✓
@@ -361,7 +383,7 @@
   </section>
 
   <!-- 4. NOPIXEL TELEMETRY HUD & LIVE STATS ROW -->
-  <section class="w-full bg-shade-900 border-b border-white/10 py-12 px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] max-w-[155rem] mx-auto">
+  <section class="w-full bg-shade-900 border-b border-white/10 py-12 px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] max-w-[155rem] mx-auto np-reveal">
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 font-barlow">
       
       <div class="border-l-2 border-brand pl-4">
@@ -391,78 +413,122 @@
     </div>
   </section>
 
-  <!-- 5. CITY HIGHLIGHTS / FEATURE CARDS GRID (Exact NoPixel Aspect Ratio Cards) -->
-  <section class="w-full bg-ink py-20 px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] max-w-[155rem] mx-auto border-b border-white/10 font-barlow">
+  <!-- 5. CITY HIGHLIGHTS / FEATURE CARDS GRID (WITH REAL GTA 6, GTA 5 & NOPIXEL KEYARTS) -->
+  <section class="w-full bg-ink py-20 px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] max-w-[155rem] mx-auto border-b border-white/10 font-barlow np-reveal">
     
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
       <div>
         <h2 class="text-[20px] font-semibold uppercase leading-[22.5px] text-paper lg:text-[2rem] lg:leading-[2.25rem]">
-          System Highlights // Fitur Arsitektur
+          City Highlights // Arsitektur & Artwork
         </h2>
         <p class="text-sm font-sans text-paper/60 mt-2">
-          Rincian protokol keamanan dan rekayasa balik yang diterapkan pada sistem.
+          Visualisasi grafis dan spesifikasi protokol rekayasa balik Alight Motion.
         </p>
       </div>
       <div class="text-xs font-mono text-paper/40">
-        SPEC // v2.2.0 PRODUCTION
+        EDITION // GTA VI & GTA V GRAPHICAL SUITE
       </div>
     </div>
 
-    <!-- 4-Card Grid in NoPixel Style -->
+    <!-- 4-Card Grid with Real GTA Artwork Backgrounds -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       
-      <!-- Card 1 -->
-      <div class="np-card p-6 flex flex-col justify-between min-h-[300px]">
-        <div>
+      <!-- Card 1: GTA 6 Lucia & Jason Vice City -->
+      <div class="np-card flex flex-col justify-between min-h-[360px] group">
+        <div class="absolute inset-0 z-0 overflow-hidden">
+          <img 
+            src="/images/gta6_hero_lucia_jason.jpg" 
+            alt="GTA 6 Vice City" 
+            class="np-card-img w-full h-full object-cover object-center filter brightness-60"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-transparent"></div>
+        </div>
+        <div class="relative z-10 p-6">
           <span class="text-3xl font-extrabold text-brand block mb-2">01</span>
-          <h3 class="text-2xl font-bold uppercase text-paper mb-3">Dalvik Emulation</h3>
-          <p class="text-xs font-sans text-paper/70 leading-relaxed">
-            Meniru paket Android resmi <code class="text-brand font-mono">com.alightcreative.motion</code> dengan hash sertifikat SHA-1 asli dan Dalvik user agent untuk menjamin kesesuaian pada gateway.
+          <span class="text-[10px] font-mono px-2 py-0.5 bg-brand text-ink font-bold uppercase tracking-wider inline-block mb-2">
+            GTA VI ENGINE
+          </span>
+          <h3 class="text-2xl font-bold uppercase text-paper mb-2">Dalvik Emulation</h3>
+          <p class="text-xs font-sans text-paper/80 leading-relaxed">
+            Meniru paket Android resmi <code class="text-brand font-mono">com.alightcreative.motion</code> dengan SHA-1 cert fingerprint asli untuk kesesuaian gateway Google.
           </p>
         </div>
-        <div class="pt-4 border-t border-white/10 text-xs font-mono text-paper/40">
+        <div class="relative z-10 p-6 pt-0 border-t border-white/10 text-xs font-mono text-paper/60">
           SIGNATURE: ECA6BF91B87...
         </div>
       </div>
 
-      <!-- Card 2 -->
-      <div class="np-card p-6 flex flex-col justify-between min-h-[300px]">
-        <div>
+      <!-- Card 2: GTA 5 Los Santos Iconic City -->
+      <div class="np-card flex flex-col justify-between min-h-[360px] group">
+        <div class="absolute inset-0 z-0 overflow-hidden">
+          <img 
+            src="/images/gta5_los_santos_city.jpg" 
+            alt="GTA 5 Los Santos" 
+            class="np-card-img w-full h-full object-cover object-center filter brightness-60"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-transparent"></div>
+        </div>
+        <div class="relative z-10 p-6">
           <span class="text-3xl font-extrabold text-brand-2 block mb-2">02</span>
-          <h3 class="text-2xl font-bold uppercase text-paper mb-3">Cloud Relay</h3>
-          <p class="text-xs font-sans text-paper/70 leading-relaxed">
-            Menghubungkan langsung token otorisasi Bearer ke Google Cloud Function <code class="text-brand-2 font-mono">verifyPurchase</code> milik Alight Creative untuk validasi lisensi paket tahunan.
+          <span class="text-[10px] font-mono px-2 py-0.5 bg-brand-2 text-ink font-bold uppercase tracking-wider inline-block mb-2">
+            GTA V LOS SANTOS
+          </span>
+          <h3 class="text-2xl font-bold uppercase text-paper mb-2">Cloud Relay</h3>
+          <p class="text-xs font-sans text-paper/80 leading-relaxed">
+            Menghubungkan langsung token otorisasi Bearer ke Google Cloud Function <code class="text-brand-2 font-mono">verifyPurchase</code> milik Alight Creative.
           </p>
         </div>
-        <div class="pt-4 border-t border-white/10 text-xs font-mono text-paper/40">
+        <div class="relative z-10 p-6 pt-0 border-t border-white/10 text-xs font-mono text-paper/60">
           ENDPOINT: CLOUD FUNCTIONS
         </div>
       </div>
 
-      <!-- Card 3 -->
-      <div class="np-card p-6 flex flex-col justify-between min-h-[300px]">
-        <div>
+      <!-- Card 3: Downtown Los Santos at Midnight (NoPixel) -->
+      <div class="np-card flex flex-col justify-between min-h-[360px] group">
+        <div class="absolute inset-0 z-0 overflow-hidden">
+          <img 
+            src="/images/gta_downtown_night.webp" 
+            alt="Downtown Night RP" 
+            class="np-card-img w-full h-full object-cover object-center filter brightness-60"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-transparent"></div>
+        </div>
+        <div class="relative z-10 p-6">
           <span class="text-3xl font-extrabold text-brand block mb-2">03</span>
-          <h3 class="text-2xl font-bold uppercase text-paper mb-3">Zero-Log Privacy</h3>
-          <p class="text-xs font-sans text-paper/70 leading-relaxed">
-            Seluruh proses otentikasi bersifat sementara (stateless) di memori RAM dan tidak pernah mencatat email, password, atau token ke dalam database eksternal mana pun.
+          <span class="text-[10px] font-mono px-2 py-0.5 bg-brand text-ink font-bold uppercase tracking-wider inline-block mb-2">
+            MIDNIGHT ROLEPLAY
+          </span>
+          <h3 class="text-2xl font-bold uppercase text-paper mb-2">Zero-Log Privacy</h3>
+          <p class="text-xs font-sans text-paper/80 leading-relaxed">
+            Seluruh proses otentikasi bersifat sementara (stateless) di RAM dan tidak pernah mencatat email atau kredensial ke database luar.
           </p>
         </div>
-        <div class="pt-4 border-t border-white/10 text-xs font-mono text-paper/40">
-          DATABASE: NONE (EPHEMERAL)
+        <div class="relative z-10 p-6 pt-0 border-t border-white/10 text-xs font-mono text-paper/60">
+          DATABASE: ZERO RETENTION
         </div>
       </div>
 
-      <!-- Card 4 -->
-      <div class="np-card p-6 flex flex-col justify-between min-h-[300px]">
-        <div>
+      <!-- Card 4: NoPixel Roleplay Character -->
+      <div class="np-card flex flex-col justify-between min-h-[360px] group">
+        <div class="absolute inset-0 z-0 overflow-hidden">
+          <img 
+            src="/images/character_standing.webp" 
+            alt="NoPixel Character" 
+            class="np-card-img w-full h-full object-cover object-top filter brightness-60"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-transparent"></div>
+        </div>
+        <div class="relative z-10 p-6">
           <span class="text-3xl font-extrabold text-brand-2 block mb-2">04</span>
-          <h3 class="text-2xl font-bold uppercase text-paper mb-3">Proxy Rotation</h3>
-          <p class="text-xs font-sans text-paper/70 leading-relaxed">
-            Injeksi header transmisi IP acak (<code class="text-paper font-mono">x-forwarded-for</code>, <code class="text-paper font-mono">x-real-ip</code>) untuk merotasi koneksi dan memitigasi risiko rate-limit.
+          <span class="text-[10px] font-mono px-2 py-0.5 bg-brand-2 text-ink font-bold uppercase tracking-wider inline-block mb-2">
+            NOPIXEL ROSTER
+          </span>
+          <h3 class="text-2xl font-bold uppercase text-paper mb-2">Proxy Rotation</h3>
+          <p class="text-xs font-sans text-paper/80 leading-relaxed">
+            Injeksi header transmisi IP acak (<code class="text-paper font-mono">x-forwarded-for</code>, <code class="text-paper font-mono">x-real-ip</code>) untuk merotasi koneksi dan mencegah rate-limiting.
           </p>
         </div>
-        <div class="pt-4 border-t border-white/10 text-xs font-mono text-paper/40">
+        <div class="relative z-10 p-6 pt-0 border-t border-white/10 text-xs font-mono text-paper/60">
           PROXY: RANDOMIZED SUITE
         </div>
       </div>
@@ -471,8 +537,8 @@
 
   </section>
 
-  <!-- 6. OPERATIONAL FAQ (Barlow Condensed Headers + Clean Body) -->
-  <section class="w-full bg-ink py-20 px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] max-w-[155rem] mx-auto border-b border-white/10 font-barlow">
+  <!-- 6. OPERATIONAL FAQ (Barlow Condensed Headers + Clean Body with Reveal) -->
+  <section class="w-full bg-ink py-20 px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] max-w-[155rem] mx-auto border-b border-white/10 font-barlow np-reveal">
     <div class="max-w-4xl">
       <h2 class="text-[20px] font-semibold uppercase leading-[22.5px] text-paper lg:text-[2rem] lg:leading-[2.25rem] mb-8">
         The Rulebook // Pertanyaan Operasional
@@ -480,7 +546,7 @@
 
       <div class="space-y-4">
         
-        <details class="bg-shade-800 border border-white/10 p-5 group cursor-pointer">
+        <details class="bg-shade-800 border border-white/10 p-5 group cursor-pointer transition-colors hover:border-brand/40">
           <summary class="text-lg sm:text-xl font-bold uppercase text-paper flex items-center justify-between list-none">
             <span>Apakah saya perlu memasukkan kata sandi akun?</span>
             <span class="text-brand group-open:rotate-180 transition-transform">&darr;</span>
@@ -490,7 +556,7 @@
           </p>
         </details>
 
-        <details class="bg-shade-800 border border-white/10 p-5 group cursor-pointer">
+        <details class="bg-shade-800 border border-white/10 p-5 group cursor-pointer transition-colors hover:border-brand/40">
           <summary class="text-lg sm:text-xl font-bold uppercase text-paper flex items-center justify-between list-none">
             <span>Bagaimana cara menggunakan akun setelah aktivasi selesai?</span>
             <span class="text-brand group-open:rotate-180 transition-transform">&darr;</span>
@@ -500,7 +566,7 @@
           </p>
         </details>
 
-        <details class="bg-shade-800 border border-white/10 p-5 group cursor-pointer">
+        <details class="bg-shade-800 border border-white/10 p-5 group cursor-pointer transition-colors hover:border-brand/40">
           <summary class="text-lg sm:text-xl font-bold uppercase text-paper flex items-center justify-between list-none">
             <span>Berapa lama masa aktif lisensi ini?</span>
             <span class="text-brand group-open:rotate-180 transition-transform">&darr;</span>
