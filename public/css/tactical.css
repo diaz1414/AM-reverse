@@ -1,35 +1,27 @@
-/* 
-  AM // PROTOCOL — TACTICAL DARK UI SYSTEM (NoPixel Design Language)
-  Engineered by DIAWW.DEV (https://diaww.my.id)
+/*
+  NOPIXEL V DESIGN SYSTEM & PALETTE SPECIFICATION
+  Faithfully matched 1000% to https://www.nopixel.net/
+  Developer: DIAWW.DEV (https://diaww.my.id)
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-primary: #07080b;
-  --bg-card: rgba(13, 16, 24, 0.78);
-  --bg-card-hover: rgba(18, 22, 34, 0.9);
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-tactical: rgba(16, 185, 129, 0.25);
-  --border-cyan: rgba(6, 182, 212, 0.25);
-  
-  --color-green: #10b981;
-  --color-green-glow: rgba(16, 185, 129, 0.35);
-  --color-cyan: #06b6d4;
-  --color-cyan-glow: rgba(6, 182, 212, 0.35);
-  --color-amber: #f59e0b;
-  --color-red: #ef4444;
-  
-  --text-main: #f1f5f9;
-  --text-dim: #94a3b8;
-  --text-muted: #64748b;
-  
-  --font-display: 'Chakra Petch', sans-serif;
+  --ink: #0c0c0c;
+  --paper: #fefefe;
+  --brand: #00f8b9;    /* NoPixel Vivid Mint Green */
+  --brand-2: #40e5ff;  /* NoPixel Electric Sky Cyan */
+  --shade-900: #080808;
+  --shade-800: #141414;
+  --shade-700: #1c1c1c;
+  --shade-600: #2b2b2b;
+  --shade-100: rgba(255, 255, 255, 0.16);
+
+  --font-barlow: 'Barlow Condensed', sans-serif;
+  --font-sans: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --font-sans: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
 }
 
-/* Base Body & Reset */
 * {
   margin: 0;
   padding: 0;
@@ -38,271 +30,183 @@
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
+  background-color: var(--ink);
+  color: var(--paper);
 }
 
 body {
-  background-color: var(--bg-primary);
-  color: var(--text-main);
-  font-family: var(--font-sans);
+  font-family: var(--font-barlow);
+  background-color: var(--ink);
+  color: var(--paper);
   min-height: 100vh;
-  position: relative;
   overflow-x: hidden;
-  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Subtle Tactical Scanline Overlay */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 0, 0, 0.15) 50%
-  ), linear-gradient(
-    90deg,
-    rgba(255, 0, 0, 0.015),
-    rgba(0, 255, 0, 0.01),
-    rgba(0, 0, 255, 0.015)
-  );
-  background-size: 100% 3px, 6px 100%;
-  pointer-events: none;
-  z-index: 999;
-  opacity: 0.75;
+/* NoPixel Title Box Styling */
+.np-title-box {
+  background-color: var(--paper);
+  color: var(--ink);
+  padding: 0.5rem 0.85rem;
+  display: inline-block;
+  font-family: var(--font-barlow);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
 }
 
-/* Background Cyber Grid */
-.tactical-grid-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask-image: radial-gradient(circle at 50% 20%, black 20%, transparent 80%);
-  pointer-events: none;
-  z-index: 0;
+.np-subtitle-box {
+  background-color: rgba(12, 12, 12, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--paper);
+  padding: 1.25rem 1.75rem;
+  border-left: 2px solid var(--brand);
 }
 
-/* Ambient Radial Glows */
-.ambient-glow-green {
-  position: absolute;
-  top: 5%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  max-width: 90vw;
-  height: 350px;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(6, 182, 212, 0.04) 50%, transparent 70%);
-  filter: blur(80px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.ambient-glow-cyan {
-  position: absolute;
-  top: 45%;
-  right: -5%;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 70%);
-  filter: blur(90px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Tactical HUD Card & Glassmorphism */
-.tactical-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--border-color);
-  position: relative;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.tactical-card:hover {
-  background: var(--bg-card-hover);
-  border-color: rgba(255, 255, 255, 0.14);
-}
-
-.tactical-card-green {
-  border-color: rgba(16, 185, 129, 0.25);
-  box-shadow: 0 0 30px -10px rgba(16, 185, 129, 0.12);
-}
-
-.tactical-card-green:hover {
-  border-color: rgba(16, 185, 129, 0.45);
-  box-shadow: 0 0 40px -8px rgba(16, 185, 129, 0.2);
-}
-
-/* Tactical Corner Brackets [+] */
-.bracket-corners {
-  position: relative;
-}
-
-.bracket-corners::before,
-.bracket-corners::after {
-  content: "";
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  pointer-events: none;
-  transition: all 0.2s ease;
-}
-
-.bracket-corners::before {
-  top: -1px;
-  left: -1px;
-  border-top: 2px solid var(--color-green);
-  border-left: 2px solid var(--color-green);
-}
-
-.bracket-corners::after {
-  bottom: -1px;
-  right: -1px;
-  border-bottom: 2px solid var(--color-green);
-  border-right: 2px solid var(--color-green);
-}
-
-/* Monospace Readout Font */
-.font-mono-tactical {
-  font-family: var(--font-mono);
-  letter-spacing: -0.02em;
-}
-
-.font-display-tactical {
-  font-family: var(--font-display);
-  letter-spacing: 0.03em;
-}
-
-/* Tactical Buttons */
-.btn-tactical {
+/* NoPixel Buttons */
+.np-btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.825rem;
-  font-weight: 600;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-barlow);
+  font-size: 1.15rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 0.75rem 1.4rem;
-  border-radius: 4px;
+  letter-spacing: 0.02em;
+  padding: 0.65rem 1.75rem;
+  border: none;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
-  text-decoration: none;
 }
 
-.btn-tactical-primary {
-  background: var(--color-green);
-  color: #04140b;
-  border: 1px solid #10b981;
-  box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.4);
-}
-
-.btn-tactical-primary:hover {
-  background: #22c55e;
-  box-shadow: 0 0 26px -2px rgba(16, 185, 129, 0.6);
+.np-btn-primary:hover {
+  background-color: var(--brand);
+  color: var(--ink);
   transform: translateY(-1px);
 }
 
-.btn-tactical-primary:active {
-  transform: translateY(0);
+.np-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: var(--paper);
+  border: 1px solid var(--shade-100);
+  font-family: var(--font-barlow);
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  padding: 0.65rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.btn-tactical-secondary {
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--text-main);
-  border: 1px solid var(--border-color);
+.np-btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: var(--brand-2);
+  color: var(--brand-2);
 }
 
-.btn-tactical-secondary:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: #fff;
-}
-
-.btn-tactical-ghost {
-  background: transparent;
-  color: var(--text-dim);
-  border: 1px solid transparent;
-}
-
-.btn-tactical-ghost:hover {
-  color: var(--text-main);
-  background: rgba(255, 255, 255, 0.04);
-  border-color: var(--border-color);
-}
-
-/* Tactical Inputs */
-.input-tactical {
+/* NoPixel Input Fields */
+.np-input {
   width: 100%;
-  background: rgba(8, 10, 15, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-main);
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  padding: 0.85rem 1rem;
-  border-radius: 4px;
+  background-color: #121212;
+  border: 1px solid var(--shade-600);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  padding: 0.85rem 1.15rem;
   outline: none;
   transition: all 0.2s ease;
 }
 
-.input-tactical:focus {
-  border-color: var(--color-green);
-  box-shadow: 0 0 15px -3px rgba(16, 185, 129, 0.25);
-  background: rgba(11, 14, 22, 0.95);
+.np-input:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 1px var(--brand);
+  background-color: #171717;
 }
 
-.input-tactical::placeholder {
-  color: var(--text-muted);
+.np-input::placeholder {
+  color: #777;
 }
 
-/* Live Pulse Radar Beacon */
-.radar-beacon {
+/* NoPixel Card Surfaces */
+.np-card {
+  background-color: var(--shade-800);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.np-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
+}
+
+/* Pulse Beacon */
+.np-beacon {
   position: relative;
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
 }
 
-.radar-beacon::before {
-  content: "";
+.np-beacon-ping {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: var(--color-green);
+  inset: 0;
+  border-radius: 9999px;
+  background-color: var(--brand);
   opacity: 0.75;
-  animation: radar-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  animation: np-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-.radar-beacon-dot {
+.np-beacon-dot {
   position: relative;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: var(--color-green);
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background-color: var(--brand);
 }
 
-@keyframes radar-ping {
+@keyframes np-ping {
   75%, 100% {
-    transform: scale(2.4);
+    transform: scale(2.5);
     opacity: 0;
   }
 }
 
-/* Toast Notifications */
+/* NoPixel Developer Pill */
+.np-dev-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--paper);
+  font-family: var(--font-barlow);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.np-dev-badge:hover {
+  background-color: var(--brand);
+  color: var(--ink);
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}
+
+/* Floating Toast System */
 #toast-container {
   position: fixed;
   bottom: 24px;
@@ -316,33 +220,32 @@ body::before {
   pointer-events: none;
 }
 
-.tactical-toast {
+.np-toast {
   pointer-events: auto;
   display: flex;
   align-items: flex-start;
   gap: 12px;
   padding: 14px 16px;
-  background: rgba(13, 16, 24, 0.95);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border-color);
-  border-left: 3px solid var(--color-green);
-  border-radius: 4px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  color: var(--text-main);
-  font-size: 0.85rem;
-  animation: toast-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid var(--brand);
+  color: var(--paper);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  animation: np-toast-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   transition: all 0.25s ease;
 }
 
-.tactical-toast.error {
-  border-left-color: var(--color-red);
+.np-toast.error {
+  border-left-color: #ff4757;
 }
 
-.tactical-toast.info {
-  border-left-color: var(--color-cyan);
+.np-toast.info {
+  border-left-color: var(--brand-2);
 }
 
-@keyframes toast-in {
+@keyframes np-toast-in {
   from {
     transform: translateY(20px) scale(0.95);
     opacity: 0;
@@ -353,75 +256,19 @@ body::before {
   }
 }
 
-/* Custom Scrollbars */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #08090d;
+  background: var(--ink);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 3px;
+  background: #2a2a2a;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(16, 185, 129, 0.4);
-}
-
-/* Micro Tactical Accents */
-.badge-tactical {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.25rem 0.6rem;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 3px;
-}
-
-.badge-tactical-green {
-  background: rgba(16, 185, 129, 0.08);
-  border-color: rgba(16, 185, 129, 0.25);
-  color: var(--color-green);
-}
-
-.badge-tactical-cyan {
-  background: rgba(6, 182, 212, 0.08);
-  border-color: rgba(6, 182, 212, 0.25);
-  color: var(--color-cyan);
-}
-
-/* Developer Pill Link DIAWW.DEV */
-.dev-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0.8rem;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 182, 212, 0.08) 100%);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  border-radius: 9999px;
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.dev-pill:hover {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(6, 182, 212, 0.18) 100%);
-  border-color: rgba(16, 185, 129, 0.6);
-  box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.4);
-  color: #fff;
-  transform: translateY(-1px);
+  background: var(--brand);
 }

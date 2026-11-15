@@ -1,6 +1,6 @@
 /**
- * AM // PROTOCOL TACTICAL CONTROLLER
- * Engineered by DIAWW.DEV (https://diaww.my.id)
+ * AM // PROTOCOL CONTROLLER (NOPIXEL V DESIGN LANGUAGE)
+ * Developed by DIAWW.DEV (https://diaww.my.id)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Telemetry Elements
   const statTotal = document.getElementById('stat-total')
   const statToday = document.getElementById('stat-today')
-  const statUptime = document.getElementById('stat-uptime')
   const statGateway = document.getElementById('stat-gateway')
 
   // Mobile Menu Elements
@@ -50,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // State
   let currentEmail = ''
   let currentStep = 1
-  let countdownTimer = null
 
   // Audio synthesis for tactile micro-feedback
   function playTactileFeedback(type = 'click') {
@@ -79,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         osc.start(now)
         osc.stop(now + 0.2)
       } else {
-        // Subtle crisp UI click
         osc.type = 'sine'
         osc.frequency.setValueAtTime(1200, now)
         gain.gain.setValueAtTime(0.03, now)
@@ -90,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch {}
   }
 
-  // Toast System
+  // Toast System in NoPixel palette
   function showToast(message, type = 'success') {
     let container = document.getElementById('toast-container')
     if (!container) {
@@ -100,18 +97,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const toast = document.createElement('div')
-    toast.className = `tactical-toast ${type}`
+    toast.className = `np-toast ${type}`
 
     const icon = type === 'success' 
-      ? '<span style="color:#10b981;font-weight:bold;">[OK]</span>'
+      ? '<span style="color:#00f8b9;font-weight:bold;">[OK]</span>'
       : type === 'error'
-      ? '<span style="color:#ef4444;font-weight:bold;">[ERR]</span>'
-      : '<span style="color:#06b6d4;font-weight:bold;">[SYS]</span>'
+      ? '<span style="color:#ff4757;font-weight:bold;">[ERR]</span>'
+      : '<span style="color:#40e5ff;font-weight:bold;">[SYS]</span>'
 
     toast.innerHTML = `
       <div style="font-size:1.1rem;line-height:1;">${icon}</div>
       <div style="flex:1;">
-        <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">STATUS // LOG</div>
+        <div style="font-family:var(--font-mono);font-size:0.75rem;color:#888;text-transform:uppercase;">SYSTEM // LOG</div>
         <div style="margin-top:2px;">${message}</div>
       </div>
     `
@@ -124,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 4500)
   }
 
-  // Step Switcher
+  // Step Switcher with Exact NoPixel Active/Inactive Button Classes
   function goToStep(step) {
     currentStep = step
     playTactileFeedback('click')
@@ -142,11 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (stepIndicators[i]) {
         if (i === step) {
-          stepIndicators[i].className = 'flex items-center gap-2 py-2 px-3 border-b-2 border-emerald-400 text-emerald-400 font-semibold'
-        } else if (i < step) {
-          stepIndicators[i].className = 'flex items-center gap-2 py-2 px-3 border-b-2 border-emerald-500/40 text-emerald-500/70'
+          stepIndicators[i].className = 'px-[10px] py-[5px] text-[12.5px] leading-[17.5px] tracking-[0.02em] transition-colors duration-300 lg:px-5 lg:py-2.5 lg:text-[1.25rem] lg:leading-[1.75rem] bg-paper text-ink font-bold uppercase'
         } else {
-          stepIndicators[i].className = 'flex items-center gap-2 py-2 px-3 border-b-2 border-slate-800 text-slate-500'
+          stepIndicators[i].className = 'px-[10px] py-[5px] text-[12.5px] leading-[17.5px] tracking-[0.02em] transition-colors duration-300 lg:px-5 lg:py-2.5 lg:text-[1.25rem] lg:leading-[1.75rem] text-paper/60 hover:text-brand-2 font-semibold uppercase'
         }
       }
     }
@@ -167,15 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Format seconds to human uptime
-  function formatUptime(seconds) {
-    const d = Math.floor(seconds / (3600 * 24))
-    const h = Math.floor((seconds % (3600 * 24)) / 3600)
-    const m = Math.floor((seconds % 3600) / 60)
-    return `${d}d ${h}h ${m}m`
-  }
-
-  // Polling intervals
   fetchTelemetry()
   setInterval(fetchTelemetry, 15000)
 
@@ -186,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!email || !email.includes('@') || !email.includes('.')) {
         playTactileFeedback('error')
         if (sendAlert) {
-          sendAlert.className = 'mt-3 p-3 rounded text-xs bg-red-950/60 border border-red-800/80 text-red-300 block'
+          sendAlert.className = 'mt-4 p-4 text-xs font-mono bg-red-950/80 border border-red-500 text-red-200 block'
           sendAlert.textContent = 'Harap masukkan format alamat email yang valid.'
         }
         showToast('Format alamat email tidak valid.', 'error')
@@ -198,15 +184,15 @@ document.addEventListener('DOMContentLoaded', () => {
       btnSendLink.disabled = true
       const originalText = btnSendLink.innerHTML
       btnSendLink.innerHTML = `
-        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-ink inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
-        MENGIRIMKAN TAUTAN...
+        <span>MENGIRIMKAN TAUTAN...</span>
       `
 
       if (sendAlert) {
-        sendAlert.className = 'mt-3 p-3 rounded text-xs bg-emerald-950/40 border border-emerald-800/50 text-emerald-300 block'
+        sendAlert.className = 'mt-4 p-4 text-xs font-mono bg-shade-900 border border-brand text-brand block'
         sendAlert.textContent = 'Menghubungkan ke gateway Firebase Identity Toolkit...'
       }
 
@@ -231,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           playTactileFeedback('error')
           if (sendAlert) {
-            sendAlert.className = 'mt-3 p-3 rounded text-xs bg-red-950/60 border border-red-800/80 text-red-300 block'
+            sendAlert.className = 'mt-4 p-4 text-xs font-mono bg-red-950/80 border border-red-500 text-red-200 block'
             sendAlert.textContent = data.message || 'Gagal mengirim tautan otentikasi.'
           }
           showToast(data.message || 'Pengiriman gagal', 'error')
@@ -239,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         playTactileFeedback('error')
         if (sendAlert) {
-          sendAlert.className = 'mt-3 p-3 rounded text-xs bg-red-950/60 border border-red-800/80 text-red-300 block'
+          sendAlert.className = 'mt-4 p-4 text-xs font-mono bg-red-950/80 border border-red-500 text-red-200 block'
           sendAlert.textContent = 'Gagal berkomunikasi dengan server backend.'
         }
         showToast('Koneksi terputus ke server lokal.', 'error')
@@ -270,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!linkValue) {
         playTactileFeedback('error')
         if (verifyAlert) {
-          verifyAlert.className = 'mt-3 p-3 rounded text-xs bg-red-950/60 border border-red-800/80 text-red-300 block'
+          verifyAlert.className = 'mt-4 p-4 text-xs font-mono bg-red-950/80 border border-red-500 text-red-200 block'
           verifyAlert.textContent = 'Harap tempelkan tautan dari email atau kode oobCode.'
         }
         showToast('Tautan verifikasi kosong.', 'error')
@@ -281,15 +267,15 @@ document.addEventListener('DOMContentLoaded', () => {
       btnVerifyLink.disabled = true
       const originalText = btnVerifyLink.innerHTML
       btnVerifyLink.innerHTML = `
-        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-ink inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
-        MEMPROSES HANDSHAKE LISENSI...
+        <span>MEMPROSES LISENSI UPSTREAM...</span>
       `
 
       if (verifyAlert) {
-        verifyAlert.className = 'mt-3 p-3 rounded text-xs bg-emerald-950/40 border border-emerald-800/50 text-emerald-300 block'
+        verifyAlert.className = 'mt-4 p-4 text-xs font-mono bg-shade-900 border border-brand-2 text-brand-2 block'
         verifyAlert.textContent = 'Melakukan dekode oobCode & handshake ke verifyPurchase Cloud Function...'
       }
 
@@ -308,7 +294,6 @@ document.addEventListener('DOMContentLoaded', () => {
           playTactileFeedback('success')
           showToast('Lisensi Alight Motion VIP Annual Aktif!', 'success')
 
-          // Populate step 3 data
           const details = data.data
           if (resEmail) resEmail.textContent = details.email || currentEmail
           if (resUid) resUid.textContent = details.uid || '-'
@@ -321,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           playTactileFeedback('error')
           if (verifyAlert) {
-            verifyAlert.className = 'mt-3 p-3 rounded text-xs bg-red-950/60 border border-red-800/80 text-red-300 block'
+            verifyAlert.className = 'mt-4 p-4 text-xs font-mono bg-red-950/80 border border-red-500 text-red-200 block'
             verifyAlert.textContent = data.message || 'Verifikasi gagal. Periksa kembali tautan Anda.'
           }
           showToast(data.message || 'Aktivasi lisensi gagal.', 'error')
@@ -329,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         playTactileFeedback('error')
         if (verifyAlert) {
-          verifyAlert.className = 'mt-3 p-3 rounded text-xs bg-red-950/60 border border-red-800/80 text-red-300 block'
+          verifyAlert.className = 'mt-4 p-4 text-xs font-mono bg-red-950/80 border border-red-500 text-red-200 block'
           verifyAlert.textContent = 'Gagal menghubungi server lokal saat proses verifikasi.'
         }
         showToast('Gagal menghubungi server.', 'error')

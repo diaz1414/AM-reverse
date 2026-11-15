@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AM // REVERSE — Tactical Core Terminal</title>
-  <meta name="description" content="Antarmuka protokol reverse engineering Alight Motion melalui Firebase Identity Gateway dan Google Cloud Functions.">
-  
+  <title>AM PROTOCOL // Alight Motion Reverse Engineering</title>
+  <meta name="description" content="Official AM // PROTOCOL terminal. Alight Motion reverse engineering, Firebase Identity Toolkit, and upstream Cloud Function license verification.">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -14,107 +14,85 @@
       theme: {
         extend: {
           colors: {
-            obsidian: '#07080b',
-            carbon: '#0c0e15',
-            panel: '#10131e',
-            tacticalGreen: '#10b981',
-            tacticalCyan: '#06b6d4',
-            tacticalBorder: 'rgba(255, 255, 255, 0.08)'
+            ink: '#0c0c0c',
+            paper: '#fefefe',
+            brand: '#00f8b9',
+            'brand-2': '#40e5ff',
+            'shade-900': '#080808',
+            'shade-800': '#141414',
+            'shade-700': '#1c1c1c',
+            'shade-600': '#2b2b2b',
+            'shade-100': 'rgba(255, 255, 255, 0.16)',
           },
           fontFamily: {
-            sans: ['Space Grotesk', 'Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-            display: ['Chakra Petch', 'sans-serif']
+            barlow: ['"Barlow Condensed"', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
           }
         }
       }
     }
   </script>
 
-  <!-- Custom Tactical Stylesheet -->
   <link rel="stylesheet" href="/css/tactical.css">
 </head>
-<body class="bg-obsidian text-slate-100 min-h-screen relative selection:bg-emerald-500/30 selection:text-emerald-300">
+<body class="bg-ink text-paper font-barlow min-h-screen relative selection:bg-brand selection:text-ink">
 
-  <!-- Ambient Light Effects & Grid Overlay -->
-  <div class="tactical-grid-bg"></div>
-  <div class="ambient-glow-green"></div>
-  <div class="ambient-glow-cyan"></div>
-
-  <!-- Top System Telemetry Bar (NoPixel Style HUD) -->
-  <aside aria-label="System Telemetry" class="relative z-40 bg-carbon/90 border-b border-tacticalBorder backdrop-blur-md text-[11px] font-mono text-slate-400 py-1.5 px-4 sm:px-8">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-      <div class="flex items-center gap-3">
-        <span class="inline-flex items-center gap-1.5 text-emerald-400 font-semibold tracking-wider">
-          <span class="radar-beacon"><span class="radar-beacon-dot"></span></span>
-          NODE // ID-CGK-01
-        </span>
-        <span class="hidden md:inline text-slate-600">|</span>
-        <span class="hidden md:inline">PROTOCOL: DALVIK-v2.1</span>
-        <span class="hidden lg:inline text-slate-600">|</span>
-        <span class="hidden lg:inline">SIGNATURE: BP1A.250505</span>
-      </div>
-      <div class="flex items-center gap-4 text-slate-400 text-[11px]">
-        <span class="hidden sm:inline">LATENCY: <span class="text-emerald-400 font-bold">14ms</span></span>
-        <span>ENCRYPTION: <span class="text-cyan-400 font-bold">TLS 1.3 / AES-GCM</span></span>
-        <span class="text-slate-600">|</span>
-        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">
-          DIAWW.DEV
-        </a>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Main Tactical Navigation Bar -->
-  <header class="sticky top-0 z-50 bg-obsidian/85 border-b border-tacticalBorder backdrop-blur-xl">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
+  <!-- 1. STICKY NOPIXEL HEADER -->
+  <header class="sticky top-0 z-50 w-full bg-[rgba(12,12,12,0.65)] font-barlow backdrop-blur-[10px] border-b border-white/5">
+    <div class="mx-auto flex h-[60px] w-full items-center gap-5 px-5 md:h-[6rem] md:gap-8 md:px-8 max-w-[155rem]">
       
-      <!-- Brand Logo -->
-      <a href="/" class="flex items-center gap-3 group text-decoration-none">
-        <div class="w-9 h-9 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center font-mono font-bold text-emerald-400 text-sm group-hover:border-emerald-400 group-hover:shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all">
+      <!-- Brand Logo in NoPixel block style -->
+      <a href="/" class="flex items-center gap-3 shrink-0 group text-decoration-none">
+        <div class="w-8 h-8 md:w-10 md:h-10 bg-paper text-ink flex items-center justify-center font-extrabold text-lg md:text-xl tracking-tighter group-hover:bg-brand transition-colors">
           AM
         </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-display font-bold tracking-wider text-white text-base">PROTOCOL</span>
-            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold">
-              v2.2
-            </span>
-          </div>
-          <p class="text-[10px] font-mono text-slate-400 leading-none">ALIGHT REVERSE ENGINE</p>
+        <div class="leading-none">
+          <span class="block text-[15px] md:text-[1.5rem] font-bold tracking-[0.06em] text-paper">AM PROTOCOL</span>
+          <span class="block text-[8px] md:text-[0.8125rem] tracking-[0.42em] text-[rgba(255,255,255,0.48)]">STUDIOS</span>
         </div>
       </a>
 
-      <!-- Desktop Navigation Menu -->
-      <nav class="hidden md:flex items-center gap-6 text-xs font-mono tracking-wider uppercase">
-        <a href="/" class="text-emerald-400 font-semibold flex items-center gap-1.5 transition-colors">
-          <span class="text-[9px] text-emerald-500">01//</span> TERMINAL
+      <!-- Center Navigation Links (Exact NoPixel uppercase condensed typography) -->
+      <nav class="hidden flex-1 items-center justify-center gap-8 md:flex">
+        <a class="text-[1.25rem] font-semibold uppercase leading-[1.75rem] underline-offset-[0.5rem] transition-colors text-paper underline" href="/">
+          Home
         </a>
-        <a href="/changelog" class="text-slate-300 hover:text-emerald-400 flex items-center gap-1.5 transition-colors">
-          <span class="text-[9px] text-slate-500">02//</span> CHANGELOG
+        <a class="text-[1.25rem] font-semibold uppercase leading-[1.75rem] underline-offset-[0.5rem] transition-colors text-[rgba(255,255,255,0.48)] hover:text-paper" href="/changelog">
+          Changelog
         </a>
-        <a href="/terms" class="text-slate-300 hover:text-emerald-400 flex items-center gap-1.5 transition-colors">
-          <span class="text-[9px] text-slate-500">03//</span> KETENTUAN
+        <a class="text-[1.25rem] font-semibold uppercase leading-[1.75rem] underline-offset-[0.5rem] transition-colors text-[rgba(255,255,255,0.48)] hover:text-paper" href="/terms">
+          The Rulebook
         </a>
-        <a href="/privacy" class="text-slate-300 hover:text-emerald-400 flex items-center gap-1.5 transition-colors">
-          <span class="text-[9px] text-slate-500">04//</span> PRIVASI
+        <a class="text-[1.25rem] font-semibold uppercase leading-[1.75rem] underline-offset-[0.5rem] transition-colors text-[rgba(255,255,255,0.48)] hover:text-paper" href="/privacy">
+          Privacy Notice
         </a>
       </nav>
 
-      <!-- Developer Link & Status Button -->
-      <div class="hidden sm:flex items-center gap-3">
-        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="dev-pill" title="Kunjungi Portofolio Developer">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      <!-- Right Header Actions: Socials & Developer DIAWW.DEV -->
+      <div class="ml-auto hidden shrink-0 items-center gap-6 md:flex">
+        
+        <!-- Live Status indicator -->
+        <div class="flex items-center gap-2 text-xs uppercase tracking-wider text-[rgba(255,255,255,0.6)]">
+          <span class="np-beacon"><span class="np-beacon-ping"></span><span class="np-beacon-dot"></span></span>
+          <span class="text-brand font-semibold text-sm">ONLINE</span>
+        </div>
+
+        <span class="h-6 w-px bg-white/10"></span>
+
+        <!-- Developer Credit Button DIAWW.DEV -->
+        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="np-dev-badge" title="Portfolio Developer">
           <span>DEV: DIAWW.DEV</span>
-          <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+          <svg class="w-3.5 h-3.5 text-brand group-hover:text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
           </svg>
         </a>
+
       </div>
 
       <!-- Mobile Hamburger Button -->
-      <button id="mobile-menu-btn" class="md:hidden p-2 rounded text-slate-400 hover:text-white hover:bg-white/5 border border-tacticalBorder transition-colors" aria-label="Buka Menu">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <button id="mobile-menu-btn" class="ml-auto md:hidden p-2 text-paper hover:text-brand transition-colors" aria-label="Toggle Menu">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
@@ -122,479 +100,479 @@
     </div>
 
     <!-- Mobile Drawer Menu -->
-    <div id="mobile-menu" class="hidden md:hidden border-b border-tacticalBorder bg-carbon/95 px-6 py-4 space-y-3 font-mono text-xs">
-      <a href="/" class="block text-emerald-400 py-1.5">01// TERMINAL</a>
-      <a href="/changelog" class="block text-slate-300 hover:text-emerald-400 py-1.5">02// CHANGELOG</a>
-      <a href="/terms" class="block text-slate-300 hover:text-emerald-400 py-1.5">03// KETENTUAN LAYANAN</a>
-      <a href="/privacy" class="block text-slate-300 hover:text-emerald-400 py-1.5">04// KEBIJAKAN PRIVASI</a>
-      <div class="pt-3 border-t border-tacticalBorder">
-        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between text-emerald-400 py-1">
+    <div id="mobile-menu" class="hidden md:hidden border-b border-shade-700 bg-ink px-6 py-5 space-y-4 text-base font-semibold uppercase">
+      <a href="/" class="block text-paper underline py-1">Home</a>
+      <a href="/changelog" class="block text-paper/60 hover:text-paper py-1">Changelog</a>
+      <a href="/terms" class="block text-paper/60 hover:text-paper py-1">The Rulebook (Ketentuan)</a>
+      <a href="/privacy" class="block text-paper/60 hover:text-paper py-1">Privacy Notice</a>
+      <div class="pt-4 border-t border-shade-700">
+        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between text-brand py-1">
           <span>DEVELOPER: DIAWW.DEV</span>
-          <span class="text-[10px]">diaww.my.id &rarr;</span>
+          <span>diaww.my.id &rarr;</span>
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-8 pb-16">
+  <!-- 2. NOPIXEL CINEMATIC HERO SECTION (LAUNCH SHOWCASE) -->
+  <section class="relative h-svh min-h-[580px] w-full overflow-hidden bg-ink font-barlow text-paper flex items-center justify-center border-b border-white/10">
+    
+    <!-- Background Vignette & Ambient Radial Glow -->
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/60 z-10 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,248,185,0.08)_0%,transparent_70%)] pointer-events-none"></div>
+    
+    <!-- Fine Cyber Grid Background Texture -->
+    <div class="absolute inset-0 opacity-15 pointer-events-none" style="background-image: linear-gradient(to right, #333 1px, transparent 1px), linear-gradient(to bottom, #333 1px, transparent 1px); background-size: 50px 50px;"></div>
 
-    <!-- Breadcrumb & Status Pill -->
-    <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
-      <div class="inline-flex items-center gap-2 text-xs font-mono text-slate-400">
-        <span class="text-emerald-500">SYS://</span>
-        <span>GATEWAY</span>
-        <span>/</span>
-        <span class="text-slate-200">ALIGHT-MOTION</span>
-        <span>/</span>
-        <span class="text-cyan-400">VERIFY-PURCHASE</span>
-      </div>
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-panel border border-tacticalBorder text-xs font-mono">
-        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        <span class="text-slate-300">STATUS:</span>
-        <span id="stat-gateway" class="text-emerald-400 font-bold">ONLINE (200 OK)</span>
-      </div>
+    <!-- Center Play / Launch Terminal Button (Exact NoPixel Trigger) -->
+    <div class="relative z-20 flex flex-col items-center justify-center text-center px-4">
+      <a href="#terminal-section" aria-label="Buka Terminal Aktivasi" class="group flex h-[104px] w-[112px] md:h-[12.5rem] md:w-[13.3125rem] items-center justify-center bg-paper text-ink backdrop-blur-sm transition-transform hover:scale-[1.03] shadow-[0_0_50px_rgba(255,255,255,0.2)]">
+        <!-- Terminal / Lightning Icon -->
+        <svg viewBox="0 0 24 24" fill="currentColor" class="ml-1 h-11 w-11 text-ink md:h-[5.5rem] md:w-[5.5rem]">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+        </svg>
+      </a>
+      <span class="mt-4 text-xs md:text-sm uppercase tracking-[0.25em] text-[rgba(255,255,255,0.6)] font-semibold">
+        KLIK UNTUK MEMULAI AKTIVASI
+      </span>
     </div>
 
-    <!-- Title & Human Description (No AI Slop) -->
-    <div class="mb-10 max-w-3xl">
-      <div class="badge-tactical badge-tactical-green mb-3">
-        TACTICAL SUITE // PRODUCTION SPEC
-      </div>
-      <h1 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
-        ALIGHT MOTION VIP <span class="text-emerald-400">// REVERSE ENGINE</span>
-      </h1>
-      <p class="text-slate-400 text-sm sm:text-base leading-relaxed font-sans">
-        Antarmuka otomasi protokol berbasis riset rekayasa balik untuk aktivasi lisensi tahunan Alight Motion melalui jalur resmi Firebase Identity Gateway dan Google Cloud Functions. Tidak memerlukan kata sandi, tidak menyimpan data sesi akun, dan tanpa modifikasi biner APK.
-      </p>
-    </div>
-
-    <!-- Telemetry Cards Row -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-10 font-mono">
-      
-      <!-- Total Counter -->
-      <div class="tactical-card bracket-corners p-4 sm:p-5 rounded">
-        <div class="text-[11px] text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
-          <span>TOTAL AKTIVASI</span>
-          <span class="text-emerald-500 text-xs">[+]</span>
-        </div>
-        <div id="stat-total" class="font-display text-2xl sm:text-3xl font-bold text-emerald-400">
-          3,842
-        </div>
-        <div class="text-[10px] text-slate-500 mt-1">Terverifikasi di Cloud Functions</div>
-      </div>
-
-      <!-- Today Counter -->
-      <div class="tactical-card bracket-corners p-4 sm:p-5 rounded">
-        <div class="text-[11px] text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
-          <span>HARI INI</span>
-          <span class="text-cyan-500 text-xs">[+]</span>
-        </div>
-        <div id="stat-today" class="font-display text-2xl sm:text-3xl font-bold text-cyan-400">
-          42
-        </div>
-        <div class="text-[10px] text-slate-500 mt-1">Sesi verifikasi berhasil</div>
-      </div>
-
-      <!-- Gateway Protocol -->
-      <div class="tactical-card bracket-corners p-4 sm:p-5 rounded">
-        <div class="text-[11px] text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
-          <span>EMULASI DALVIK</span>
-          <span class="text-slate-400 text-xs">[+]</span>
-        </div>
-        <div class="font-display text-xl sm:text-2xl font-bold text-white">
-          Android 15
-        </div>
-        <div class="text-[10px] text-slate-400 mt-1">Build bp1a / Dalvik 2.1</div>
-      </div>
-
-      <!-- Retention -->
-      <div class="tactical-card bracket-corners p-4 sm:p-5 rounded">
-        <div class="text-[11px] text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
-          <span>RETENSI DATA</span>
-          <span class="text-emerald-500 text-xs">[+]</span>
-        </div>
-        <div class="font-display text-xl sm:text-2xl font-bold text-emerald-400">
-          ZERO-LOG
-        </div>
-        <div class="text-[10px] text-slate-400 mt-1">Hanya diproses di memori klien</div>
-      </div>
-
-    </div>
-
-    <!-- MAIN INTERACTIVE ACTIVATION CONSOLE (3-STEP TACTICAL MODULE) -->
-    <section class="max-w-2xl mx-auto mb-16">
-      
-      <!-- Terminal Window Container -->
-      <div class="tactical-card tactical-card-green bracket-corners rounded-lg overflow-hidden">
+    <!-- Bottom-Left Stacked Title Box (Signature NoPixel Hero Component) -->
+    <div class="absolute bottom-0 left-0 max-w-[calc(100%-1rem)] z-20">
+      <div class="flex flex-col items-start">
         
-        <!-- Terminal Header -->
-        <div class="bg-carbon/90 border-b border-tacticalBorder px-5 py-3.5 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
-            <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
-            <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
-            <span class="text-xs font-mono text-slate-400 ml-2">TERMINAL // ACTIVATION-CONSOLE</span>
-          </div>
-          <div class="text-[11px] font-mono text-emerald-400">
-            [MODE: DUAL-RELAY]
-          </div>
+        <!-- White Paper Title Block -->
+        <div class="bg-paper p-[8.5px] lg:p-[0.8375rem]">
+          <h1 class="whitespace-nowrap text-[28px] font-extrabold uppercase leading-[1.05] text-ink md:text-[4rem] md:leading-[4.25rem]">
+            ALIGHT MOTION VIP
+          </h1>
         </div>
 
-        <!-- Step Progress Tabs -->
-        <div class="border-b border-tacticalBorder bg-panel/40 grid grid-cols-3 text-center text-xs font-mono">
-          <div id="step-indicator-1" class="flex items-center justify-center gap-1.5 py-3 px-2 border-b-2 border-emerald-400 text-emerald-400 font-semibold transition-all">
-            <span class="text-[10px] opacity-75">01</span> EMAIL
-          </div>
-          <div id="step-indicator-2" class="flex items-center justify-center gap-1.5 py-3 px-2 border-b-2 border-slate-800 text-slate-500 font-semibold transition-all">
-            <span class="text-[10px] opacity-75">02</span> VERIFIKASI
-          </div>
-          <div id="step-indicator-3" class="flex items-center justify-center gap-1.5 py-3 px-2 border-b-2 border-slate-800 text-slate-500 font-semibold transition-all">
-            <span class="text-[10px] opacity-75">03</span> SELESAI
-          </div>
+        <!-- Dark Frosted Blur Subtitle Block -->
+        <div class="max-w-[421px] bg-ink/95 p-5 backdrop-blur-md lg:max-w-[42.0625rem] lg:p-8">
+          <p class="text-[13px] font-semibold leading-[1.3] text-paper md:text-[1.5rem] md:leading-[2rem]">
+            Aktivasi lisensi resmi tahunan Alight Motion melalui Firebase Identity Gateway dan Alight Creative Cloud Functions. Zero-log, aman, dan tanpa kata sandi.
+          </p>
         </div>
 
-        <!-- Panel Contents -->
-        <div class="p-6 sm:p-8">
+      </div>
+    </div>
 
-          <!-- STEP 1: EMAIL DISPATCH -->
-          <div id="panel-step-1" class="block space-y-5">
+    <!-- Bottom-Right Slide / Telemetry Box (Exact NoPixel) -->
+    <div class="absolute bottom-0 right-0 hidden h-[6rem] items-center gap-[0.9rem] bg-ink px-16 sm:flex lg:right-[11.25rem] z-20 border-t border-l border-white/10">
+      <span class="relative inline-flex overflow-hidden">
+        <span class="block text-[2rem] font-semibold uppercase leading-[2.25rem] text-paper">01</span>
+      </span>
+      <span class="flex items-center gap-[0.33125rem]">
+        <span class="block h-[0.21875rem] w-[1.4375rem] bg-paper"></span>
+        <span class="block h-[0.21875rem] w-[1.4375rem] bg-paper/30"></span>
+      </span>
+      <span class="text-xs text-[rgba(255,255,255,0.48)] font-mono ml-3">DALVIK // v2.1</span>
+    </div>
+
+  </section>
+
+  <!-- 3. MAIN TERMINAL / WHAT'S NEW SECTION (NoPixel Tabbed Interface) -->
+  <section id="terminal-section" class="relative w-full overflow-hidden bg-ink font-barlow py-16 sm:py-24 border-b border-white/10">
+    <div class="relative z-10 flex w-full flex-col px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] mx-auto max-w-[155rem]">
+      
+      <!-- Section Title -->
+      <h2 class="text-[20px] font-semibold uppercase leading-[22.5px] text-paper lg:text-[2rem] lg:leading-[2.25rem]">
+        Core Terminal // Aktivasi Lisensi
+      </h2>
+
+      <!-- Tab Filter List (Exact NoPixel Button Pill Style) -->
+      <div class="mt-[15px] flex flex-col gap-6 md:flex-row md:items-center md:justify-between lg:mt-6 pb-6 border-b border-white/10">
+        <ul class="flex flex-wrap items-center gap-x-[20px] gap-y-3 lg:gap-x-8">
+          
+          <li class="flex items-center">
+            <button id="step-indicator-1" type="button" class="px-[10px] py-[5px] text-[12.5px] leading-[17.5px] tracking-[0.02em] transition-colors duration-300 lg:px-5 lg:py-2.5 lg:text-[1.25rem] lg:leading-[1.75rem] bg-paper text-ink font-bold uppercase">
+              01 // Masukkan Email
+            </button>
+          </li>
+
+          <li class="flex items-center">
+            <button id="step-indicator-2" type="button" class="px-[10px] py-[5px] text-[12.5px] leading-[17.5px] tracking-[0.02em] transition-colors duration-300 lg:px-5 lg:py-2.5 lg:text-[1.25rem] lg:leading-[1.75rem] text-paper/60 hover:text-brand-2 font-semibold uppercase">
+              02 // Tempel Tautan
+            </button>
+          </li>
+
+          <li class="flex items-center">
+            <button id="step-indicator-3" type="button" class="px-[10px] py-[5px] text-[12.5px] leading-[17.5px] tracking-[0.02em] transition-colors duration-300 lg:px-5 lg:py-2.5 lg:text-[1.25rem] lg:leading-[1.75rem] text-paper/60 hover:text-brand font-semibold uppercase">
+              03 // Lisensi Aktif
+            </button>
+          </li>
+
+        </ul>
+
+        <!-- Right Header Status Button -->
+        <div class="inline-flex h-10 shrink-0 items-center justify-center gap-2 border border-shade-100 px-5 text-[12.5px] font-semibold uppercase leading-none text-paper lg:h-14 lg:px-8 lg:text-[1.15rem]">
+          <span>STATUS:</span>
+          <span id="stat-gateway" class="text-brand font-bold">ONLINE (200 OK)</span>
+        </div>
+      </div>
+
+      <!-- ACTIVE STEP CONSOLE CONTAINER -->
+      <div class="mt-8 max-w-4xl">
+
+        <!-- STEP 1: EMAIL DISPATCH -->
+        <div id="panel-step-1" class="block bg-shade-800 border border-shade-600 p-6 sm:p-10">
+          <div class="mb-6">
+            <span class="text-xs uppercase tracking-widest text-brand font-bold font-mono">// STEP 01 : OOB CONFIRMATION CODE DISPATCH</span>
+            <h3 class="text-2xl sm:text-4xl font-extrabold uppercase text-paper mt-1">KIRIM MAGIC LINK KE EMAIL</h3>
+            <p class="text-sm sm:text-base font-sans text-paper/70 mt-2">
+              Sistem akan mengirimkan tautan otentikasi sekali pakai melalui Google Identity Toolkit resmi. Masukkan email akun Alight Motion Anda.
+            </p>
+          </div>
+
+          <div class="space-y-4">
             <div>
-              <div class="text-xs font-mono text-emerald-400 uppercase tracking-wider mb-1">
-                // TAHAP 01 : PENGIRIMAN MAGIC LINK
-              </div>
-              <h2 class="text-lg font-bold text-white">Masukkan Alamat Email Akun</h2>
-              <p class="text-xs text-slate-400 mt-1">
-                Tautan otentikasi sekali pakai akan dikirim langsung oleh Google Identity Toolkit ke inbox atau spam email Anda.
-              </p>
-            </div>
-
-            <div class="space-y-2">
-              <label for="input-email" class="block text-xs font-mono uppercase text-slate-400 tracking-wider">
-                Alamat Email Pengguna
+              <label for="input-email" class="block text-xs uppercase font-bold text-paper/60 tracking-wider mb-2">
+                ALAMAT EMAIL AKUN
               </label>
-              <div class="relative">
-                <input 
-                  type="email" 
-                  id="input-email" 
-                  placeholder="contoh@gmail.com" 
-                  class="input-tactical"
-                  autocomplete="email"
-                >
-              </div>
+              <input 
+                type="email" 
+                id="input-email" 
+                placeholder="nama@email.com" 
+                class="np-input text-base sm:text-lg"
+                autocomplete="email"
+              >
             </div>
 
-            <div>
-              <button id="btn-send-link" class="btn-tactical btn-tactical-primary w-full">
+            <div class="pt-2">
+              <button id="btn-send-link" class="np-btn-primary w-full sm:w-auto text-base sm:text-xl py-3 px-8">
                 <span>KIRIM TAUTAN OTENTIKASI</span>
-                <span class="text-sm font-bold">&rarr;</span>
+                <span class="font-mono text-xl">&rarr;</span>
               </button>
             </div>
 
             <!-- Dynamic Alert Step 1 -->
             <div id="alert-step-1" class="hidden"></div>
-
-            <div class="pt-4 border-t border-tacticalBorder/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
-              <span>PROSES: GET_OOB_CODE</span>
-              <span>TIMEOUT: 15S</span>
-            </div>
           </div>
 
-          <!-- STEP 2: VERIFY MAGIC LINK -->
-          <div id="panel-step-2" class="hidden space-y-5">
-            <div>
-              <div class="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-1">
-                // TAHAP 02 : VERIFIKASI TAUTAN MASUK
-              </div>
-              <h2 class="text-lg font-bold text-white">Tempelkan Tautan dari Email</h2>
-              <p class="text-xs text-slate-400 mt-1">
-                Tautan otentikasi telah dikirim ke <span id="target-email-badge" class="text-emerald-400 font-mono font-semibold">-</span>. Buka email dari Alight Motion, salin tautan verifikasi atau kode oobCode, lalu tempelkan di bawah.
-              </p>
-            </div>
+          <div class="mt-8 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-paper/40">
+            <span>UPSTREAM: GET_OOB_CONFIRMATION_CODE</span>
+            <span>TIMEOUT: 15 SECONDS</span>
+          </div>
+        </div>
 
-            <div class="space-y-2">
-              <label for="input-magic-link" class="block text-xs font-mono uppercase text-slate-400 tracking-wider">
-                Tautan Lengkap atau Parameter oobCode
+        <!-- STEP 2: VERIFY LINK -->
+        <div id="panel-step-2" class="hidden bg-shade-800 border border-shade-600 p-6 sm:p-10">
+          <div class="mb-6">
+            <span class="text-xs uppercase tracking-widest text-brand-2 font-bold font-mono">// STEP 02 : VERIFIKASI TAUTAN MASUK</span>
+            <h3 class="text-2xl sm:text-4xl font-extrabold uppercase text-paper mt-1">TEMPELKAN TAUTAN DARI EMAIL</h3>
+            <p class="text-sm sm:text-base font-sans text-paper/70 mt-2">
+              Tautan telah dikirim ke <span id="target-email-badge" class="text-brand font-bold font-mono">-</span>. Buka email dari Alight Motion, salin tautan verifikasi lengkap atau parameter <code class="text-brand font-mono">oobCode</code>, lalu tempelkan di bawah.
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label for="input-magic-link" class="block text-xs uppercase font-bold text-paper/60 tracking-wider mb-2">
+                TAUTAN LENGKAP ATAU KODE OOBCODE
               </label>
               <textarea 
                 id="input-magic-link" 
-                rows="3"
+                rows="3" 
                 placeholder="https://alightcreative.com?ui_sid=...&oobCode=..." 
-                class="input-tactical font-mono text-xs resize-none"
+                class="np-input font-mono text-xs sm:text-sm resize-none"
               ></textarea>
             </div>
 
-            <div class="flex flex-col sm:flex-row items-center gap-3">
-              <button id="btn-back-step-1" class="btn-tactical btn-tactical-secondary w-full sm:w-auto">
+            <div class="flex flex-col sm:flex-row items-center gap-3 pt-2">
+              <button id="btn-back-step-1" class="np-btn-outline w-full sm:w-auto text-base sm:text-xl py-3 px-6">
                 <span>&larr; KEMBALI</span>
               </button>
-              <button id="btn-verify-link" class="btn-tactical btn-tactical-primary flex-1 w-full">
-                <span>VERIFIKASI & AKTIFKAN VIP</span>
-                <span class="text-sm font-bold">&rarr;</span>
+              <button id="btn-verify-link" class="np-btn-primary flex-1 w-full text-base sm:text-xl py-3 px-8">
+                <span>VERIFIKASI & AKTIFKAN LISENSI VIP</span>
+                <span class="font-mono text-xl">&rarr;</span>
               </button>
             </div>
 
             <!-- Dynamic Alert Step 2 -->
             <div id="alert-step-2" class="hidden"></div>
+          </div>
 
-            <div class="pt-4 border-t border-tacticalBorder/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
-              <span>ENDPOINT: VERIFY_PURCHASE</span>
-              <span>SKU: am.full.sub.annual</span>
+          <div class="mt-8 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-paper/40">
+            <span>ENDPOINT: VERIFY_PURCHASE (CLOUD FUNCTION)</span>
+            <span>SKU: am.full.sub.annual.19q4</span>
+          </div>
+        </div>
+
+        <!-- STEP 3: LISENSI AKTIF (RECEIPT) -->
+        <div id="panel-step-3" class="hidden bg-shade-800 border border-brand p-6 sm:p-10">
+          <div class="flex items-center gap-4 pb-4 border-b border-white/10 mb-6">
+            <div class="w-12 h-12 bg-brand text-ink flex items-center justify-center font-bold text-2xl">
+              ✓
+            </div>
+            <div>
+              <span class="text-xs uppercase tracking-widest text-brand font-bold font-mono">HANDSHAKE SUKSES // LISENSI AKTIF</span>
+              <h3 class="text-2xl sm:text-4xl font-extrabold uppercase text-paper">ALIGHT MOTION VIP AKTIF</h3>
             </div>
           </div>
 
-          <!-- STEP 3: VIP ACTIVATED RECEIPT -->
-          <div id="panel-step-3" class="hidden space-y-5">
-            <div class="flex items-center gap-3 pb-3 border-b border-tacticalBorder">
-              <div class="w-10 h-10 rounded bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-              </div>
-              <div>
-                <div class="text-xs font-mono text-emerald-400 uppercase tracking-wider">STATUS // SUKSES TERVERIFIKASI</div>
-                <h2 class="text-lg font-bold text-white">Lisensi VIP Annual Berhasil Aktif</h2>
-              </div>
+          <!-- Structured Receipt Grid -->
+          <div class="bg-shade-900 border border-white/10 p-5 space-y-3 font-mono text-xs sm:text-sm mb-6">
+            <div class="flex justify-between items-center py-2 border-b border-white/5">
+              <span class="text-paper/50 uppercase">STATUS LISENSI:</span>
+              <span class="text-brand font-bold bg-brand/10 px-2.5 py-0.5 border border-brand/30">PREMIUM_ACTIVE (ANNUAL VIP)</span>
             </div>
-
-            <!-- Receipt Breakdown Grid -->
-            <div class="bg-carbon/90 border border-tacticalBorder rounded p-4 space-y-3 font-mono text-xs">
-              <div class="flex justify-between items-center py-1.5 border-b border-tacticalBorder">
-                <span class="text-slate-400">Status Lisensi:</span>
-                <span class="text-emerald-400 font-bold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30">
-                  PREMIUM_ACTIVE (ANNUAL)
-                </span>
-              </div>
-              <div class="flex justify-between items-center py-1.5 border-b border-tacticalBorder">
-                <span class="text-slate-400">Email Akun:</span>
-                <span id="res-email" class="text-white font-semibold">-</span>
-              </div>
-              <div class="flex justify-between items-center py-1.5 border-b border-tacticalBorder">
-                <span class="text-slate-400">Firebase UID:</span>
-                <span id="res-uid" class="text-slate-300 max-w-[200px] truncate">-</span>
-              </div>
-              <div class="flex justify-between items-center py-1.5 border-b border-tacticalBorder">
-                <span class="text-slate-400">Order ID Handshake:</span>
-                <span id="res-order-id" class="text-cyan-400 font-semibold">-</span>
-              </div>
-              <div class="flex justify-between items-center py-1.5">
-                <span class="text-slate-400">Masa Berlaku Lisensi:</span>
-                <span id="res-valid-until" class="text-emerald-400 font-semibold">-</span>
-              </div>
+            <div class="flex justify-between items-center py-2 border-b border-white/5">
+              <span class="text-paper/50 uppercase">EMAIL PENGGUNA:</span>
+              <span id="res-email" class="text-paper font-semibold">-</span>
             </div>
-
-            <!-- Token Drawer (Collapsible) -->
-            <div class="space-y-2">
-              <div class="flex justify-between items-center text-xs font-mono">
-                <span class="text-slate-400 uppercase tracking-wider">ID TOKEN SESI (FIREBASE JWT)</span>
-                <button id="btn-copy-token" class="text-emerald-400 hover:text-emerald-300 underline font-semibold transition-colors">
-                  SALIN TOKEN
-                </button>
-              </div>
-              <div id="res-id-token" class="p-3 rounded bg-obsidian border border-tacticalBorder text-[11px] font-mono text-slate-400 break-all max-h-20 overflow-y-auto">
-                -
-              </div>
+            <div class="flex justify-between items-center py-2 border-b border-white/5">
+              <span class="text-paper/50 uppercase">FIREBASE UID:</span>
+              <span id="res-uid" class="text-paper/80 max-w-[220px] truncate">-</span>
             </div>
+            <div class="flex justify-between items-center py-2 border-b border-white/5">
+              <span class="text-paper/50 uppercase">ORDER ID TRANSAKSI:</span>
+              <span id="res-order-id" class="text-brand-2 font-semibold">-</span>
+            </div>
+            <div class="flex justify-between items-center py-2">
+              <span class="text-paper/50 uppercase">MASA BERLAKU:</span>
+              <span id="res-valid-until" class="text-brand font-semibold">-</span>
+            </div>
+          </div>
 
-            <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
-              <button id="btn-reset-flow" class="btn-tactical btn-tactical-primary w-full">
-                <span>AKTIVASI AKUN LAIN [↺]</span>
+          <!-- Token Drawer -->
+          <div class="space-y-2 mb-6">
+            <div class="flex justify-between items-center text-xs font-mono">
+              <span class="text-paper/60 uppercase">SESI ID TOKEN (FIREBASE JWT)</span>
+              <button id="btn-copy-token" class="text-brand hover:underline font-bold">
+                SALIN TOKEN [COPY]
               </button>
             </div>
+            <div id="res-id-token" class="p-3 bg-ink border border-white/10 text-xs font-mono text-paper/60 break-all max-h-24 overflow-y-auto">
+              -
+            </div>
           </div>
 
-        </div>
-
-        <!-- Terminal Footer Bar -->
-        <div class="bg-carbon/70 border-t border-tacticalBorder px-5 py-2.5 flex items-center justify-between text-[11px] font-mono text-slate-400">
-          <span>ALIGHT MOTION ENGINE</span>
-          <span class="text-slate-400">ENCRYPTION: ACTIVE</span>
+          <div class="pt-2">
+            <button id="btn-reset-flow" class="np-btn-primary w-full text-base sm:text-xl py-3 px-8">
+              <span>AKTIVASI AKUN LAIN [↺]</span>
+            </button>
+          </div>
         </div>
 
       </div>
 
-    </section>
+    </div>
+  </section>
 
-    <!-- ARCHITECTURAL BLUEPRINT & SPECS -->
-    <section class="max-w-5xl mx-auto mb-20">
-      <div class="text-center mb-10">
-        <div class="badge-tactical badge-tactical-cyan mb-2">SPESIFIKASI TEKNIS</div>
-        <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
-          ARSITEKTUR & PROTOKOL SISTEM
+  <!-- 4. NOPIXEL TELEMETRY HUD & LIVE STATS ROW -->
+  <section class="w-full bg-shade-900 border-b border-white/10 py-12 px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] max-w-[155rem] mx-auto">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 font-barlow">
+      
+      <div class="border-l-2 border-brand pl-4">
+        <div class="text-xs uppercase tracking-widest text-paper/50 font-semibold">TOTAL AKTIVASI LISENSI</div>
+        <div id="stat-total" class="text-3xl sm:text-5xl font-extrabold text-brand mt-1">3,842</div>
+        <div class="text-xs text-paper/40 font-mono mt-1">Terverifikasi Cloud Functions</div>
+      </div>
+
+      <div class="border-l-2 border-brand-2 pl-4">
+        <div class="text-xs uppercase tracking-widest text-paper/50 font-semibold">AKTIVASI HARI INI</div>
+        <div id="stat-today" class="text-3xl sm:text-5xl font-extrabold text-brand-2 mt-1">42</div>
+        <div class="text-xs text-paper/40 font-mono mt-1">Sesi upstream sukses</div>
+      </div>
+
+      <div class="border-l-2 border-white/30 pl-4">
+        <div class="text-xs uppercase tracking-widest text-paper/50 font-semibold">FINGERPRINT DALVIK</div>
+        <div class="text-3xl sm:text-5xl font-extrabold text-paper mt-1">DALVIK 2.1</div>
+        <div class="text-xs text-paper/40 font-mono mt-1">Android 15 / Build bp1a</div>
+      </div>
+
+      <div class="border-l-2 border-brand pl-4">
+        <div class="text-xs uppercase tracking-widest text-paper/50 font-semibold">RETENSI DATA</div>
+        <div class="text-3xl sm:text-5xl font-extrabold text-brand mt-1">ZERO-LOG</div>
+        <div class="text-xs text-paper/40 font-mono mt-1">Tanpa penyimpanan database</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. CITY HIGHLIGHTS / FEATURE CARDS GRID (Exact NoPixel Aspect Ratio Cards) -->
+  <section class="w-full bg-ink py-20 px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] max-w-[155rem] mx-auto border-b border-white/10 font-barlow">
+    
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+      <div>
+        <h2 class="text-[20px] font-semibold uppercase leading-[22.5px] text-paper lg:text-[2rem] lg:leading-[2.25rem]">
+          System Highlights // Fitur Arsitektur
         </h2>
-        <p class="text-slate-400 text-sm max-w-xl mx-auto mt-2">
-          Rincian mekanisme kerja rekayasa balik protokol otentikasi tanpa manipulasi biner aplikasi.
+        <p class="text-sm font-sans text-paper/60 mt-2">
+          Rincian protokol keamanan dan rekayasa balik yang diterapkan pada sistem.
         </p>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono">
-        
-        <!-- Feature 1 -->
-        <div class="tactical-card bracket-corners p-6 rounded">
-          <div class="flex items-center gap-3 mb-3">
-            <span class="w-8 h-8 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs font-bold">
-              01
-            </span>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Emulasi Dalvik 2.1 & Sertifikat Android</h3>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed font-sans">
-            Sistem mengirimkan identitas paket resmi <code class="text-emerald-400 font-mono">com.alightcreative.motion</code> beserta hash sertifikat SHA-1 asli (<code class="text-slate-300 font-mono">ECA6BF91...</code>) dan user-agent Dalvik Android 15 untuk menjamin kesesuaian protokol pada Google Identity Toolkit.
-          </p>
-        </div>
-
-        <!-- Feature 2 -->
-        <div class="tactical-card bracket-corners p-6 rounded">
-          <div class="flex items-center gap-3 mb-3">
-            <span class="w-8 h-8 rounded bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs font-bold">
-              02
-            </span>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Otentikasi Tanpa Sandi (OOB Magic Link)</h3>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed font-sans">
-            Menggunakan alur verifikasi resmi Firebase <code class="text-cyan-400 font-mono">emailLinkSignin</code>. Pengguna tidak perlu memberikan password akun sama sekali. Hak akses divalidasi langsung melalui tautan dinamis yang dikirim ke email pemilik.
-          </p>
-        </div>
-
-        <!-- Feature 3 -->
-        <div class="tactical-card bracket-corners p-6 rounded">
-          <div class="flex items-center gap-3 mb-3">
-            <span class="w-8 h-8 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs font-bold">
-              03
-            </span>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Handshake Upstream Cloud Functions</h3>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed font-sans">
-            Setelah sesi berhasil dibentuk, token otorisasi Bearer dikirimkan ke endpoint <code class="text-emerald-400 font-mono">verifyPurchase</code> milik Alight Creative di Google Cloud Platform dengan SKU <code class="text-slate-300 font-mono">am.full.sub.annual.19q4</code>.
-          </p>
-        </div>
-
-        <!-- Feature 4 -->
-        <div class="tactical-card bracket-corners p-6 rounded">
-          <div class="flex items-center gap-3 mb-3">
-            <span class="w-8 h-8 rounded bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs font-bold">
-              04
-            </span>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Prinsip Zero-Log & Privasi Absolut</h3>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed font-sans">
-            Tidak ada basis data yang menyimpan alamat email, token, atau informasi pribadi pengguna. Seluruh transmisi bersifat instan (ephemeral) dan token hanya dikembalikan ke peramban pengguna untuk keperluan verifikasi.
-          </p>
-        </div>
-
+      <div class="text-xs font-mono text-paper/40">
+        SPEC // v2.2.0 PRODUCTION
       </div>
-    </section>
+    </div>
 
-    <!-- OPERATIONAL FAQ SECTION -->
-    <section class="max-w-3xl mx-auto mb-20">
-      <div class="text-center mb-10">
-        <div class="badge-tactical badge-tactical-green mb-2">PANDUAN OPERASIONAL</div>
-        <h2 class="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
-          PERTANYAAN UMUM & JAWABAN TEKNIS
-        </h2>
+    <!-- 4-Card Grid in NoPixel Style -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <!-- Card 1 -->
+      <div class="np-card p-6 flex flex-col justify-between min-h-[300px]">
+        <div>
+          <span class="text-3xl font-extrabold text-brand block mb-2">01</span>
+          <h3 class="text-2xl font-bold uppercase text-paper mb-3">Dalvik Emulation</h3>
+          <p class="text-xs font-sans text-paper/70 leading-relaxed">
+            Meniru paket Android resmi <code class="text-brand font-mono">com.alightcreative.motion</code> dengan hash sertifikat SHA-1 asli dan Dalvik user agent untuk menjamin kesesuaian pada gateway.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-white/10 text-xs font-mono text-paper/40">
+          SIGNATURE: ECA6BF91B87...
+        </div>
       </div>
 
-      <div class="space-y-3 font-mono">
+      <!-- Card 2 -->
+      <div class="np-card p-6 flex flex-col justify-between min-h-[300px]">
+        <div>
+          <span class="text-3xl font-extrabold text-brand-2 block mb-2">02</span>
+          <h3 class="text-2xl font-bold uppercase text-paper mb-3">Cloud Relay</h3>
+          <p class="text-xs font-sans text-paper/70 leading-relaxed">
+            Menghubungkan langsung token otorisasi Bearer ke Google Cloud Function <code class="text-brand-2 font-mono">verifyPurchase</code> milik Alight Creative untuk validasi lisensi paket tahunan.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-white/10 text-xs font-mono text-paper/40">
+          ENDPOINT: CLOUD FUNCTIONS
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="np-card p-6 flex flex-col justify-between min-h-[300px]">
+        <div>
+          <span class="text-3xl font-extrabold text-brand block mb-2">03</span>
+          <h3 class="text-2xl font-bold uppercase text-paper mb-3">Zero-Log Privacy</h3>
+          <p class="text-xs font-sans text-paper/70 leading-relaxed">
+            Seluruh proses otentikasi bersifat sementara (stateless) di memori RAM dan tidak pernah mencatat email, password, atau token ke dalam database eksternal mana pun.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-white/10 text-xs font-mono text-paper/40">
+          DATABASE: NONE (EPHEMERAL)
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="np-card p-6 flex flex-col justify-between min-h-[300px]">
+        <div>
+          <span class="text-3xl font-extrabold text-brand-2 block mb-2">04</span>
+          <h3 class="text-2xl font-bold uppercase text-paper mb-3">Proxy Rotation</h3>
+          <p class="text-xs font-sans text-paper/70 leading-relaxed">
+            Injeksi header transmisi IP acak (<code class="text-paper font-mono">x-forwarded-for</code>, <code class="text-paper font-mono">x-real-ip</code>) untuk merotasi koneksi dan memitigasi risiko rate-limit.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-white/10 text-xs font-mono text-paper/40">
+          PROXY: RANDOMIZED SUITE
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- 6. OPERATIONAL FAQ (Barlow Condensed Headers + Clean Body) -->
+  <section class="w-full bg-ink py-20 px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] max-w-[155rem] mx-auto border-b border-white/10 font-barlow">
+    <div class="max-w-4xl">
+      <h2 class="text-[20px] font-semibold uppercase leading-[22.5px] text-paper lg:text-[2rem] lg:leading-[2.25rem] mb-8">
+        The Rulebook // Pertanyaan Operasional
+      </h2>
+
+      <div class="space-y-4">
         
-        <details class="tactical-card p-4 sm:p-5 rounded group cursor-pointer">
-          <summary class="text-xs sm:text-sm font-bold text-white flex items-center justify-between list-none">
-            <span>Apakah saya perlu memasukkan kata sandi email atau akun?</span>
-            <span class="text-emerald-400 group-open:rotate-180 transition-transform">&darr;</span>
+        <details class="bg-shade-800 border border-white/10 p-5 group cursor-pointer">
+          <summary class="text-lg sm:text-xl font-bold uppercase text-paper flex items-center justify-between list-none">
+            <span>Apakah saya perlu memasukkan kata sandi akun?</span>
+            <span class="text-brand group-open:rotate-180 transition-transform">&darr;</span>
           </summary>
-          <p class="mt-3 text-xs text-slate-400 font-sans leading-relaxed">
+          <p class="mt-3 text-xs sm:text-sm font-sans text-paper/70 leading-relaxed">
             Tidak. Sistem menggunakan protokol resmi Google Firebase Email Link (tanpa password). Anda hanya perlu membuka email yang dikirim oleh Alight Motion dan menyalin tautan konfirmasi.
           </p>
         </details>
 
-        <details class="tactical-card p-4 sm:p-5 rounded group cursor-pointer">
-          <summary class="text-xs sm:text-sm font-bold text-white flex items-center justify-between list-none">
+        <details class="bg-shade-800 border border-white/10 p-5 group cursor-pointer">
+          <summary class="text-lg sm:text-xl font-bold uppercase text-paper flex items-center justify-between list-none">
             <span>Bagaimana cara menggunakan akun setelah aktivasi selesai?</span>
-            <span class="text-emerald-400 group-open:rotate-180 transition-transform">&darr;</span>
+            <span class="text-brand group-open:rotate-180 transition-transform">&darr;</span>
           </summary>
-          <p class="mt-3 text-xs text-slate-400 font-sans leading-relaxed">
+          <p class="mt-3 text-xs sm:text-sm font-sans text-paper/70 leading-relaxed">
             Buka aplikasi resmi Alight Motion di perangkat Android atau iOS Anda, pilih menu Masuk (Sign In) dengan email yang sama. Status keanggotaan Anda akan otomatis terdeteksi sebagai langganan penuh (Annual Member VIP).
           </p>
         </details>
 
-        <details class="tactical-card p-4 sm:p-5 rounded group cursor-pointer">
-          <summary class="text-xs sm:text-sm font-bold text-white flex items-center justify-between list-none">
+        <details class="bg-shade-800 border border-white/10 p-5 group cursor-pointer">
+          <summary class="text-lg sm:text-xl font-bold uppercase text-paper flex items-center justify-between list-none">
             <span>Berapa lama masa aktif lisensi ini?</span>
-            <span class="text-emerald-400 group-open:rotate-180 transition-transform">&darr;</span>
+            <span class="text-brand group-open:rotate-180 transition-transform">&darr;</span>
           </summary>
-          <p class="mt-3 text-xs text-slate-400 font-sans leading-relaxed">
+          <p class="mt-3 text-xs sm:text-sm font-sans text-paper/70 leading-relaxed">
             Lisensi yang diverifikasi pada cloud endpoint adalah paket tahunan (Annual). Anda dapat melakukan aktivasi ulang kapan pun jika sesi akun telah berakhir.
           </p>
         </details>
 
-        <details class="tactical-card p-4 sm:p-5 rounded group cursor-pointer">
-          <summary class="text-xs sm:text-sm font-bold text-white flex items-center justify-between list-none">
-            <span>Apakah aman dan tidak merusak akun?</span>
-            <span class="text-emerald-400 group-open:rotate-180 transition-transform">&darr;</span>
-          </summary>
-          <p class="mt-3 text-xs text-slate-400 font-sans leading-relaxed">
-            Proyek ini merupakan hasil riset independen rekayasa balik. Gunakan dengan bijak sesuai kebutuhan dan pertimbangan pribadi Anda. Kami menyediakan dokumen ketentuan layanan lengkap pada menu Ketentuan.
-          </p>
-        </details>
-
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
-
-  <!-- TACTICAL FOOTER (NoPixel Standard) -->
-  <footer class="relative z-20 bg-carbon border-t border-tacticalBorder text-slate-400 font-mono text-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-10">
+  <!-- 7. EXACT NOPIXEL SIGNATURE LIGHT PAPER FOOTER -->
+  <footer class="mt-auto w-full font-barlow">
+    <div class="relative bg-[#fbfbfc] text-ink lg:min-h-[28rem] py-12 px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] max-w-[155rem] mx-auto">
       
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div class="flex flex-col lg:flex-row justify-between gap-12 lg:items-start">
         
-        <!-- Brand & Description -->
-        <div class="md:col-span-2 space-y-3">
-          <div class="flex items-center gap-2">
-            <div class="w-6 h-6 rounded bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center font-bold text-emerald-400 text-xs">
+        <!-- Brand & Description Column -->
+        <div class="flex w-full max-w-[280px] lg:max-w-[22rem] flex-col gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-ink text-paper flex items-center justify-center font-extrabold text-base tracking-tighter">
               AM
             </div>
-            <span class="font-display font-bold text-white text-sm">AM // PROTOCOL ENGINE</span>
+            <div class="leading-none">
+              <span class="block text-[18px] font-bold tracking-[0.06em] text-ink lg:text-[1.6rem]">AM PROTOCOL</span>
+              <span class="block text-[8px] tracking-[0.42em] text-[#666] lg:text-[0.8125rem]">STUDIOS</span>
+            </div>
           </div>
-          <p class="text-xs text-slate-400 font-sans leading-relaxed max-w-sm">
-            Arsitektur reverse engineering untuk aktivasi lisensi Alight Motion via Firebase Auth. Dioptimalkan untuk performa tinggi dengan antarmuka taktis gelap NoPixel.
+          <p class="text-[13px] leading-[1.4] text-[#444] font-sans">
+            Platform riset protokol independen untuk analisis lalu lintas otentikasi Firebase dan verifikasi lisensi Alight Motion.
           </p>
           <div class="pt-2">
-            <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="dev-pill">
-              <span>LEAD DEVELOPER: DIAWW.DEV</span>
-              <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-              </svg>
+            <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-1.5 bg-ink text-paper text-sm font-bold uppercase tracking-wider hover:bg-black transition-colors">
+              <span>DEVELOPED BY DIAWW.DEV</span>
+              <span>&rarr;</span>
             </a>
           </div>
         </div>
 
-        <!-- Navigation Links -->
-        <div class="space-y-2">
-          <div class="text-xs font-bold text-white uppercase tracking-wider mb-2">NAVIGASI SISTEM</div>
-          <ul class="space-y-1.5 text-xs text-slate-400">
-            <li><a href="/" class="hover:text-emerald-400 transition-colors">Terminal Aktivasi</a></li>
-            <li><a href="/changelog" class="hover:text-emerald-400 transition-colors">Riwayat Changelog</a></li>
-            <li><a href="/terms" class="hover:text-emerald-400 transition-colors">Ketentuan Layanan</a></li>
-            <li><a href="/privacy" class="hover:text-emerald-400 transition-colors">Kebijakan Privasi</a></li>
-          </ul>
+        <!-- Sitemap Column -->
+        <div class="flex flex-col gap-2 min-w-[120px]">
+          <h3 class="text-[20px] font-bold uppercase leading-[22.5px] text-black lg:text-[1.75rem]">Sitemap</h3>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors" href="/">Homepage</a>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors" href="/#terminal-section">Terminal Aktivasi</a>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors" href="/changelog">Changelog</a>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors" href="/terms">The Rulebook</a>
         </div>
 
-        <!-- System Credits & Specs -->
-        <div class="space-y-2">
-          <div class="text-xs font-bold text-white uppercase tracking-wider mb-2">INFORMASI BUILD</div>
-          <div class="text-xs text-slate-400 space-y-1">
-            <div>CORE: v2.2.0 Tactical HUD</div>
-            <div>DEVELOPER: <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">DIAWW.DEV</a></div>
-            <div>STATUS: STANDALONE NODE</div>
-            <div>ENGINE: NODE 22 / EXPRESS</div>
-          </div>
+        <!-- Legal Column -->
+        <div class="flex flex-col gap-2 min-w-[120px]">
+          <h3 class="text-[20px] font-bold uppercase leading-[22.5px] text-black lg:text-[1.75rem]">Legal</h3>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors" href="/terms">Terms of Service</a>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors" href="/privacy">Privacy Notice</a>
+        </div>
+
+        <!-- Developer Portfolio Column -->
+        <div class="flex flex-col gap-2 min-w-[160px]">
+          <h3 class="text-[20px] font-bold uppercase leading-[22.5px] text-black lg:text-[1.75rem]">Engineer</h3>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors font-semibold" href="https://diaww.my.id" target="_blank" rel="noopener noreferrer">
+            DIAWW.DEV (diaww.my.id)
+          </a>
+          <span class="text-xs text-[#777] font-mono">JAKARTA // INDONESIA</span>
         </div>
 
       </div>
 
-      <!-- Bottom Disclaimer -->
-      <div class="pt-6 border-t border-tacticalBorder/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-400">
+      <!-- Bottom Copyright Row -->
+      <div class="mt-12 pt-6 border-t border-black/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#666] font-mono">
         <div>
-          &copy; 2026 AM // REVERSE. Developed by <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="text-emerald-400 font-semibold hover:underline">DIAWW.DEV</a> (diaww.my.id).
+          &copy; 2026 AM PROTOCOL. Developed by <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="font-bold text-black underline">DIAWW.DEV</a>.
         </div>
         <div>
           Unofficial research tool. Not affiliated with Alight Creative, Inc. or Google LLC.
@@ -604,7 +582,7 @@
     </div>
   </footer>
 
-  <!-- Application Controller Script -->
+  <!-- Controller Script -->
   <script src="/js/app.js"></script>
 
 </body>

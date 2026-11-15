@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AM // PROTOCOL — Kebijakan Privasi</title>
-  <meta name="description" content="Kebijakan privasi transparansi data dan arsitektur zero-log AM // PROTOCOL.">
+  <title>Privacy Notice // AM PROTOCOL STUDIOS</title>
+  <meta name="description" content="Kebijakan privasi transparansi data dan arsitektur zero-log AM PROTOCOL.">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -13,17 +13,20 @@
       theme: {
         extend: {
           colors: {
-            obsidian: '#07080b',
-            carbon: '#0c0e15',
-            panel: '#10131e',
-            tacticalGreen: '#10b981',
-            tacticalCyan: '#06b6d4',
-            tacticalBorder: 'rgba(255, 255, 255, 0.08)'
+            ink: '#0c0c0c',
+            paper: '#fefefe',
+            brand: '#00f8b9',
+            'brand-2': '#40e5ff',
+            'shade-900': '#080808',
+            'shade-800': '#141414',
+            'shade-700': '#1c1c1c',
+            'shade-600': '#2b2b2b',
+            'shade-100': 'rgba(255, 255, 255, 0.16)',
           },
           fontFamily: {
-            sans: ['Space Grotesk', 'Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-            display: ['Chakra Petch', 'sans-serif']
+            barlow: ['"Barlow Condensed"', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
           }
         }
       }
@@ -32,162 +35,113 @@
 
   <link rel="stylesheet" href="/css/tactical.css">
 </head>
-<body class="bg-obsidian text-slate-100 min-h-screen relative selection:bg-emerald-500/30 selection:text-emerald-300">
+<body class="bg-ink text-paper font-barlow min-h-screen relative selection:bg-brand selection:text-ink flex flex-col justify-between">
 
-  <div class="tactical-grid-bg"></div>
-  <div class="ambient-glow-green"></div>
-
-  <!-- Top System Telemetry Bar -->
-  <aside aria-label="System Telemetry" class="relative z-40 bg-carbon/90 border-b border-tacticalBorder backdrop-blur-md text-[11px] font-mono text-slate-400 py-1.5 px-4 sm:px-8">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-      <div class="flex items-center gap-3">
-        <span class="inline-flex items-center gap-1.5 text-emerald-400 font-semibold tracking-wider">
-          <span class="radar-beacon"><span class="radar-beacon-dot"></span></span>
-          NODE // ID-CGK-01
-        </span>
-        <span class="hidden md:inline text-slate-600">|</span>
-        <span>SECURITY & ZERO-LOG PROTOCOL</span>
-      </div>
-      <div class="flex items-center gap-4 text-slate-400 text-[11px]">
-        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">
-          DEVELOPER: DIAWW.DEV
-        </a>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Navigation Bar -->
-  <header class="sticky top-0 z-50 bg-obsidian/85 border-b border-tacticalBorder backdrop-blur-xl">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
+  <!-- NoPixel Sticky Header -->
+  <header class="sticky top-0 z-50 w-full bg-[rgba(12,12,12,0.65)] font-barlow backdrop-blur-[10px] border-b border-white/5">
+    <div class="mx-auto flex h-[60px] w-full items-center gap-5 px-5 md:h-[6rem] md:gap-8 md:px-8 max-w-[155rem]">
       
-      <a href="/" class="flex items-center gap-3 group text-decoration-none">
-        <div class="w-9 h-9 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center font-mono font-bold text-emerald-400 text-sm group-hover:border-emerald-400 transition-all">
+      <a href="/" class="flex items-center gap-3 shrink-0 group text-decoration-none">
+        <div class="w-8 h-8 md:w-10 md:h-10 bg-paper text-ink flex items-center justify-center font-extrabold text-lg md:text-xl tracking-tighter group-hover:bg-brand transition-colors">
           AM
         </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-display font-bold tracking-wider text-white text-base">PROTOCOL</span>
-            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold">
-              v2.2
-            </span>
-          </div>
-          <p class="text-[10px] font-mono text-slate-400 leading-none">ALIGHT REVERSE ENGINE</p>
+        <div class="leading-none">
+          <span class="block text-[15px] md:text-[1.5rem] font-bold tracking-[0.06em] text-paper">AM PROTOCOL</span>
+          <span class="block text-[8px] md:text-[0.8125rem] tracking-[0.42em] text-[rgba(255,255,255,0.48)]">STUDIOS</span>
         </div>
       </a>
 
-      <nav class="hidden md:flex items-center gap-6 text-xs font-mono tracking-wider uppercase">
-        <a href="/" class="text-slate-300 hover:text-emerald-400 flex items-center gap-1.5 transition-colors">
-          <span class="text-[9px] text-slate-500">01//</span> TERMINAL
+      <nav class="hidden flex-1 items-center justify-center gap-8 md:flex">
+        <a class="text-[1.25rem] font-semibold uppercase leading-[1.75rem] underline-offset-[0.5rem] transition-colors text-[rgba(255,255,255,0.48)] hover:text-paper" href="/">
+          Home
         </a>
-        <a href="/changelog" class="text-slate-300 hover:text-emerald-400 flex items-center gap-1.5 transition-colors">
-          <span class="text-[9px] text-slate-500">02//</span> CHANGELOG
+        <a class="text-[1.25rem] font-semibold uppercase leading-[1.75rem] underline-offset-[0.5rem] transition-colors text-[rgba(255,255,255,0.48)] hover:text-paper" href="/changelog">
+          Changelog
         </a>
-        <a href="/terms" class="text-slate-300 hover:text-emerald-400 flex items-center gap-1.5 transition-colors">
-          <span class="text-[9px] text-slate-500">03//</span> KETENTUAN
+        <a class="text-[1.25rem] font-semibold uppercase leading-[1.75rem] underline-offset-[0.5rem] transition-colors text-[rgba(255,255,255,0.48)] hover:text-paper" href="/terms">
+          The Rulebook
         </a>
-        <a href="/privacy" class="text-emerald-400 font-semibold flex items-center gap-1.5 transition-colors">
-          <span class="text-[9px] text-emerald-500">04//</span> PRIVASI
+        <a class="text-[1.25rem] font-semibold uppercase leading-[1.75rem] underline-offset-[0.5rem] transition-colors text-paper underline" href="/privacy">
+          Privacy Notice
         </a>
       </nav>
 
-      <div class="hidden sm:flex items-center gap-3">
-        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="dev-pill">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      <div class="ml-auto hidden shrink-0 items-center gap-6 md:flex">
+        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="np-dev-badge">
           <span>DEV: DIAWW.DEV</span>
         </a>
       </div>
 
-      <button id="mobile-menu-btn" class="md:hidden p-2 rounded text-slate-400 hover:text-white border border-tacticalBorder">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <button id="mobile-menu-btn" class="ml-auto md:hidden p-2 text-paper hover:text-brand" aria-label="Toggle Menu">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
 
     </div>
 
-    <!-- Mobile Drawer Menu -->
-    <div id="mobile-menu" class="hidden md:hidden border-b border-tacticalBorder bg-carbon/95 px-6 py-4 space-y-3 font-mono text-xs">
-      <a href="/" class="block text-slate-300 hover:text-emerald-400 py-1.5">01// TERMINAL</a>
-      <a href="/changelog" class="block text-slate-300 hover:text-emerald-400 py-1.5">02// CHANGELOG</a>
-      <a href="/terms" class="block text-slate-300 hover:text-emerald-400 py-1.5">03// KETENTUAN LAYANAN</a>
-      <a href="/privacy" class="block text-emerald-400 py-1.5">04// KEBIJAKAN PRIVASI</a>
-      <div class="pt-3 border-t border-tacticalBorder">
-        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between text-emerald-400 py-1">
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-b border-shade-700 bg-ink px-6 py-5 space-y-4 text-base font-semibold uppercase">
+      <a href="/" class="block text-paper/60 hover:text-paper py-1">Home</a>
+      <a href="/changelog" class="block text-paper/60 hover:text-paper py-1">Changelog</a>
+      <a href="/terms" class="block text-paper/60 hover:text-paper py-1">The Rulebook (Ketentuan)</a>
+      <a href="/privacy" class="block text-paper underline py-1">Privacy Notice</a>
+      <div class="pt-4 border-t border-shade-700">
+        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between text-brand py-1">
           <span>DEVELOPER: DIAWW.DEV</span>
-          <span class="text-[10px]">diaww.my.id &rarr;</span>
+          <span>diaww.my.id &rarr;</span>
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Main Privacy Document Content -->
-  <main class="relative z-10 max-w-4xl mx-auto px-4 sm:px-8 py-12">
+  <!-- Main Privacy Section -->
+  <main class="w-full px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] max-w-[155rem] mx-auto py-16">
     
-    <div class="mb-10">
-      <div class="badge-tactical badge-tactical-green mb-3">DATA INTEGRITY // ZERO LOG</div>
-      <h1 class="font-display text-3xl sm:text-4xl font-bold text-white mb-2 tracking-tight">
-        KEBIJAKAN PRIVASI & PERLINDUNGAN DATA
-      </h1>
-      <p class="text-sm text-slate-400 font-sans">
-        Prinsip privasi tanpa kompromi: transparansi pemrosesan tanpa retensi basis data eksternal.
+    <div class="mb-12">
+      <div class="np-title-box text-3xl sm:text-5xl mb-3">
+        PRIVACY NOTICE // KEBIJAKAN PRIVASI
+      </div>
+      <p class="text-sm sm:text-base font-sans text-paper/70 max-w-2xl">
+        Arsitektur stateless, zero-data retention, dan nihil penyimpanan kredensial sensitif.
       </p>
     </div>
 
-    <!-- Content Card -->
-    <div class="tactical-card bracket-corners p-6 sm:p-10 rounded-lg space-y-8 font-sans text-sm text-slate-300 leading-relaxed">
+    <div class="space-y-8 max-w-4xl bg-shade-800 border border-white/10 p-6 sm:p-12 font-sans text-xs sm:text-sm text-paper/80 leading-relaxed">
 
       <!-- Section 1 -->
-      <section class="space-y-3">
-        <div class="flex items-center gap-2 text-xs font-mono text-emerald-400 uppercase tracking-wider">
-          <span>[POIN 01]</span> ARSITEKTUR ZERO-DATA RETENTION
-        </div>
-        <h2 class="text-lg font-bold text-white font-display">Prinsip Tanpa Penyimpanan Data Akun</h2>
+      <section class="space-y-2">
+        <span class="text-xs font-mono font-bold uppercase tracking-wider text-brand">// PRINSIP 01 : ZERO DATA RETENTION</span>
+        <h2 class="text-xl sm:text-2xl font-bold uppercase font-barlow text-paper">Tidak Ada Database Kredensial</h2>
         <p>
-          Server <strong class="text-white">AM // PROTOCOL</strong> dirancang dengan filosofi stateless: <strong class="text-white">kami tidak pernah menyimpan alamat email, kata sandi, token otorisasi, riwayat login, maupun data profil pengguna</strong> ke dalam database permanen apa pun. Setiap permintaan HTTP diproses secara sementara di dalam Random Access Memory (RAM) server dan langsung dibersihkan begitu siklus respon selesai.
+          Server AM PROTOCOL menerapkan arsitektur tanpa status (stateless). Kami tidak menyimpan alamat email, token otorisasi, riwayat sesi pengguna, maupun parameter akun ke dalam database eksternal apa pun. Setiap permintaan HTTP diproses secara sementara di memori RAM dan dibersihkan seketika.
         </p>
       </section>
 
       <!-- Section 2 -->
-      <section class="space-y-3 pt-6 border-t border-tacticalBorder">
-        <div class="flex items-center gap-2 text-xs font-mono text-cyan-400 uppercase tracking-wider">
-          <span>[POIN 02]</span> KETIADAAN PENGUMPULAN KATA SANDI
-        </div>
-        <h2 class="text-lg font-bold text-white font-display">Keamanan Magic Link (Tanpa Password)</h2>
+      <section class="space-y-2 pt-6 border-t border-white/10">
+        <span class="text-xs font-mono font-bold uppercase tracking-wider text-brand-2">// PRINSIP 02 : MEKANISME TANPA KATA SANDI</span>
+        <h2 class="text-xl sm:text-2xl font-bold uppercase font-barlow text-paper">Otentikasi Magic Link</h2>
         <p>
-          Sistem sama sekali tidak menyediakan atau meminta input kata sandi. Pengesahan identitas akun mengandalkan secara murni tautan sekali pakai (Out-Of-Band Code / oobCode) yang diterbitkan secara resmi oleh infrastruktur Google Identity Toolkit. Dengan demikian, risiko kebocoran kata sandi adalah nol karena kredensial sensitif tidak pernah melewati gateway kami.
+          Sistem sama sekali tidak meminta kata sandi email atau akun pengguna. Hak akses divalidasi langsung melalui kode token sekali pakai (oobCode) yang diterbitkan secara resmi oleh infrastruktur Google Identity Toolkit.
         </p>
       </section>
 
       <!-- Section 3 -->
-      <section class="space-y-3 pt-6 border-t border-tacticalBorder">
-        <div class="flex items-center gap-2 text-xs font-mono text-emerald-400 uppercase tracking-wider">
-          <span>[POIN 03]</span> TRANSMISI ENKRIPSI PIHAK KETIGA
-        </div>
-        <h2 class="text-lg font-bold text-white font-display">Koneksi Terenkripsi TLS 1.3</h2>
+      <section class="space-y-2 pt-6 border-t border-white/10">
+        <span class="text-xs font-mono font-bold uppercase tracking-wider text-brand">// PRINSIP 03 : ENKRIPSI PROTOKOL TLS 1.3</span>
+        <h2 class="text-xl sm:text-2xl font-bold uppercase font-barlow text-paper">Transmisi Aman</h2>
         <p>
-          Seluruh komunikasi antara klien (browser Anda), server perantara, dan server Google Identity Toolkit / Alight Creative Cloud Functions dilindungi dengan enkripsi Transport Layer Security (TLS) versi 1.3 dengan cipher suite modern berbasis AES-GCM. Tidak ada perantara pihak ketiga lain yang menyadap atau membaca paket data tersebut.
+          Seluruh komunikasi antara browser pengguna, server perantara, dan Google Cloud Platform dilindungi dengan enkripsi TLS 1.3. Tidak ada pihak ketiga yang memiliki akses ke paket data transmisi.
         </p>
       </section>
 
       <!-- Section 4 -->
-      <section class="space-y-3 pt-6 border-t border-tacticalBorder">
-        <div class="flex items-center gap-2 text-xs font-mono text-cyan-400 uppercase tracking-wider">
-          <span>[POIN 04]</span> LOG TEKNIS & TELEMETRI AGREGAT
-        </div>
-        <h2 class="text-lg font-bold text-white font-display">Hanya Jumlah Numerik Tanpa Identitas</h2>
+      <section class="space-y-2 pt-6 border-t border-white/10">
+        <span class="text-xs font-mono font-bold uppercase tracking-wider text-brand-2">// PRINSIP 04 : TELEMETRI AGREGAT ANONIM</span>
+        <h2 class="text-xl sm:text-2xl font-bold uppercase font-barlow text-paper">Penghitung Numerik Anonim</h2>
         <p>
-          Satu-satunya data yang dicatat pada server adalah counter numerik sederhana (total aktivasi sukses dan jumlah hari ini) yang disimpan secara agregat murni pada file internal server tanpa kaitan apa pun dengan alamat email atau alamat IP pengguna. Kami tidak mengumpulkan log aktivitas per-pengguna.
-        </p>
-      </section>
-
-      <!-- Section 5 -->
-      <section class="space-y-3 pt-6 border-t border-tacticalBorder">
-        <div class="flex items-center gap-2 text-xs font-mono text-emerald-400 uppercase tracking-wider">
-          <span>[POIN 05]</span> PENYELIDIKAN DAN HAK PENGGUNA
-        </div>
-        <h2 class="text-lg font-bold text-white font-display">Kontak Pengembang</h2>
-        <p>
-          Apabila Anda memiliki pertanyaan teknis atau kekhawatiran terkait arsitektur privasi sistem ini, Anda dapat menghubungi tim pengembang melalui situs resmi di <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="text-emerald-400 font-semibold underline">DIAWW.DEV</a> (https://diaww.my.id).
+          Satu-satunya data yang dicatat pada server adalah counter numerik sederhana (total aktivasi sukses dan jumlah hari ini) yang disimpan secara agregat murni pada file internal server tanpa kaitan apa pun dengan alamat email atau alamat IP pengguna.
         </p>
       </section>
 
@@ -195,28 +149,70 @@
 
   </main>
 
-  <!-- Footer -->
-  <footer class="relative z-20 bg-carbon border-t border-tacticalBorder text-slate-400 font-mono text-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div>
-        &copy; 2026 AM // PROTOCOL. Engineered by <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">DIAWW.DEV</a>.
+  <!-- Exact NoPixel Signature Light Paper Footer -->
+  <footer class="mt-auto w-full font-barlow">
+    <div class="relative bg-[#fbfbfc] text-ink lg:min-h-[22rem] py-12 px-6 sm:px-10 lg:pl-[6.25rem] lg:pr-[11.25rem] max-w-[155rem] mx-auto">
+      <div class="flex flex-col lg:flex-row justify-between gap-12 lg:items-start">
+        
+        <div class="flex w-full max-w-[280px] lg:max-w-[22rem] flex-col gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-ink text-paper flex items-center justify-center font-extrabold text-base">
+              AM
+            </div>
+            <div class="leading-none">
+              <span class="block text-[18px] font-bold tracking-[0.06em] text-ink lg:text-[1.6rem]">AM PROTOCOL</span>
+              <span class="block text-[8px] tracking-[0.42em] text-[#666] lg:text-[0.8125rem]">STUDIOS</span>
+            </div>
+          </div>
+          <p class="text-[13px] leading-[1.4] text-[#444] font-sans">
+            Platform riset protokol independen untuk analisis lalu lintas otentikasi Firebase dan verifikasi lisensi Alight Motion.
+          </p>
+          <div class="pt-2">
+            <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-1.5 bg-ink text-paper text-sm font-bold uppercase tracking-wider hover:bg-black transition-colors">
+              <span>DEVELOPED BY DIAWW.DEV</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2 min-w-[120px]">
+          <h3 class="text-[20px] font-bold uppercase leading-[22.5px] text-black lg:text-[1.75rem]">Sitemap</h3>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors" href="/">Homepage</a>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors" href="/changelog">Changelog</a>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors" href="/terms">The Rulebook</a>
+        </div>
+
+        <div class="flex flex-col gap-2 min-w-[120px]">
+          <h3 class="text-[20px] font-bold uppercase leading-[22.5px] text-black lg:text-[1.75rem]">Legal</h3>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors" href="/terms">Terms of Service</a>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors" href="/privacy">Privacy Notice</a>
+        </div>
+
+        <div class="flex flex-col gap-2 min-w-[160px]">
+          <h3 class="text-[20px] font-bold uppercase leading-[22.5px] text-black lg:text-[1.75rem]">Engineer</h3>
+          <a class="text-[14px] text-[#444] hover:text-black transition-colors font-semibold" href="https://diaww.my.id" target="_blank" rel="noopener noreferrer">
+            DIAWW.DEV (diaww.my.id)
+          </a>
+          <span class="text-xs text-[#777] font-mono">JAKARTA // INDONESIA</span>
+        </div>
+
       </div>
-      <div class="flex items-center gap-4 text-xs">
-        <a href="/" class="hover:text-emerald-400">Terminal</a>
-        <a href="/changelog" class="hover:text-emerald-400">Changelog</a>
-        <a href="/terms" class="hover:text-emerald-400">Ketentuan</a>
+
+      <div class="mt-12 pt-6 border-t border-black/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#666] font-mono">
+        <div>
+          &copy; 2026 AM PROTOCOL. Developed by <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="font-bold text-black underline">DIAWW.DEV</a>.
+        </div>
+        <div>
+          Unofficial research tool. Not affiliated with Alight Creative, Inc. or Google LLC.
+        </div>
       </div>
     </div>
   </footer>
 
   <script>
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn')
-    const mobileMenu = document.getElementById('mobile-menu')
-    if (mobileMenuBtn && mobileMenu) {
-      mobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden')
-      })
-    }
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
   </script>
 
 </body>
