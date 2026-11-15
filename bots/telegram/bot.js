@@ -139,9 +139,24 @@ bot.onText(/\/activate/, (msg) => {
 Silakan kirimkan alamat email akun Alight Motion Anda.
 Contoh: \`pengguna@gmail.com\`
 
-_Ketik /cancel kapan saja untuk membatalkan._
+_Ingin menggunakan email sementara tanpa registrasi? Tekan tombol di bawah:_
 `
-  bot.sendMessage(chatId, promptText, { parse_mode: 'Markdown' })
+  const keyboard = {
+    reply_markup: {
+      inline_keyboard: [
+        [
+          { text: '🚀 1-Click Auto VIP (@codai.site)', callback_data: 'action_autovip' },
+          { text: '📬 Buat Temp Mail', callback_data: 'action_tempmail' }
+        ],
+        [
+          { text: '❌ Batalkan Sesi', callback_data: 'action_cancel' },
+          { text: '🌐 mail.codai.site', url: 'https://mail.codai.site/' }
+        ]
+      ]
+    }
+  }
+
+  bot.sendMessage(chatId, promptText, { parse_mode: 'Markdown', ...keyboard })
 })
 
 /**
@@ -283,6 +298,9 @@ bot.on('callback_query', async (query) => {
 • *Status:* \`ONLINE (200 OK)\`
 `
     bot.sendMessage(chatId, statsText, { parse_mode: 'Markdown', ...getMainKeyboard() })
+  } else if (action === 'action_cancel') {
+    userStates.delete(chatId)
+    bot.sendMessage(chatId, '✅ Sesi aktivasi telah dibatalkan.', getMainKeyboard())
   } else if (action.startsWith('autovip_with_')) {
     const targetEmail = action.replace('autovip_with_', '').trim()
     await runAutoVip(chatId, targetEmail)

@@ -120,18 +120,35 @@ client.once('ready', async () => {
   await registerSlashCommands()
 })
 
-// Helper: Tombol tautan developer
-function getDeveloperButtons() {
-  return new ActionRowBuilder().addComponents(
+// Helper: Action rows tombol interaktif & developer
+function getQuickActionRows() {
+  const row1 = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
-      .setLabel('Web Portal')
+      .setCustomId('btn_quick_autovip')
+      .setLabel('🚀 1-Click Auto VIP')
+      .setStyle(ButtonStyle.Success),
+    new ButtonBuilder()
+      .setCustomId('btn_quick_tempmail')
+      .setLabel('📬 Temp Mail (@codai.site)')
+      .setStyle(ButtonStyle.Primary)
+  )
+
+  const row2 = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setLabel('Buka mail.codai.site')
       .setStyle(ButtonStyle.Link)
-      .setURL('https://diaww.my.id'),
+      .setURL('https://mail.codai.site/'),
     new ButtonBuilder()
-      .setLabel('Developer: DIAWW.DEV')
+      .setLabel('DEV: DIAWW.DEV')
       .setStyle(ButtonStyle.Link)
       .setURL('https://diaww.my.id')
   )
+
+  return [row1, row2]
+}
+
+function getDeveloperButtons() {
+  return getQuickActionRows()
 }
 
 // ==========================================
@@ -336,6 +353,42 @@ client.on('interactionCreate', async (interaction) => {
   // ==========================================
   if (interaction.isButton()) {
     const customId = interaction.customId
+
+    if (customId === 'btn_quick_autovip') {
+      await interaction.deferReply()
+      return runDiscordAutoVip(interaction, null, false)
+    }
+
+    if (customId === 'btn_quick_tempmail') {
+      const mailData = tempmail.generateEmail()
+      const embed = new EmbedBuilder()
+        .setTitle('📬 CODAI DISPOSABLE MAIL GENERATED')
+        .setColor(BRAND_COLOR)
+        .setDescription('Alamat email sementara resmi via [mail.codai.site](https://mail.codai.site/).')
+        .addFields(
+          { name: 'Alamat Email', value: `\`${mailData.email}\``, inline: true },
+          { name: 'Domain', value: `\`@${mailData.domain}\``, inline: true },
+          { name: 'Infrastruktur', value: '`CODAI MAIL API (api-mail.codai.site)`', inline: false }
+        )
+        .setFooter({ text: 'MOTION V // ZERO-LOG PROTOCOL' })
+
+      const row = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId(`btn_autovip_${mailData.email}`)
+          .setLabel('🚀 1-Click Auto VIP')
+          .setStyle(ButtonStyle.Success),
+        new ButtonBuilder()
+          .setCustomId(`btn_checkmail_${mailData.email}`)
+          .setLabel('📬 Cek Inbox API')
+          .setStyle(ButtonStyle.Primary),
+        new ButtonBuilder()
+          .setLabel('Buka mail.codai.site')
+          .setStyle(ButtonStyle.Link)
+          .setURL('https://mail.codai.site/')
+      )
+
+      return interaction.reply({ embeds: [embed], components: [row] })
+    }
 
     if (customId.startsWith('btn_autovip_')) {
       const email = customId.replace('btn_autovip_', '')
