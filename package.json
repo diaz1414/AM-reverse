@@ -1,8 +1,15 @@
 {
   "name": "motion-v",
-  "version": "2.2.0",
-  "description": "MOTION V // Alight Motion Reverse Engineering Terminal",
+  "version": "2.3.0",
+  "description": "MOTION V // Alight Motion Reverse Engineering Suite & VIP Activator",
   "main": "server.js",
+  "homepage": "https://github.com/diaz1414/AM-reverse#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/diaz1414/AM-reverse.git"
+  },
+  "author": "DIAWW.DEV (https://diaww.my.id)",
+  "license": "MIT",
   "scripts": {
     "start": "node server.js"
   },

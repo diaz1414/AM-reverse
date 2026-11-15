@@ -75,7 +75,8 @@ pm2 start bot.js --name "motion-v-telegram"
 
 ---
 
-## Pengembang
+## Pengembang & Repositori
 
-Dikembangkan oleh **[DIAWW.DEV](https://diaww.my.id)**.
-Lisensi Open Source: MIT.
+- **Pengembang:** [DIAWW.DEV](https://diaww.my.id)
+- **Repositori Resmi:** [https://github.com/diaz1414/AM-reverse](https://github.com/diaz1414/AM-reverse)
+- **Lisensi:** Open Source (MIT)

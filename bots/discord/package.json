@@ -1,8 +1,16 @@
 {
   "name": "motion-v-discord-bot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Discord Bot Interface for MOTION V (Alight Motion VIP Activator)",
   "main": "bot.js",
+  "homepage": "https://github.com/diaz1414/AM-reverse#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/diaz1414/AM-reverse.git",
+    "directory": "bots/discord"
+  },
+  "author": "DIAWW.DEV (https://diaww.my.id)",
+  "license": "MIT",
   "scripts": {
     "start": "node bot.js"
   },
