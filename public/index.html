@@ -243,8 +243,57 @@
             <span class="text-xs uppercase tracking-widest text-brand font-bold font-mono">// STEP 01 : OOB CONFIRMATION CODE DISPATCH</span>
             <h3 class="text-2xl sm:text-4xl font-extrabold uppercase text-paper mt-1">KIRIM MAGIC LINK KE EMAIL</h3>
             <p class="text-sm sm:text-base font-sans text-paper/70 mt-2">
-              Sistem akan mengirimkan tautan otentikasi sekali pakai melalui Google Identity Toolkit resmi. Masukkan email akun Alight Motion Anda.
+              Sistem akan mengirimkan tautan otentikasi sekali pakai melalui Google Identity Toolkit resmi. Masukkan email akun Alight Motion Anda atau buat email sementara melalui integrasi resmi <a href="https://mail.codai.site/" target="_blank" rel="noopener noreferrer" class="text-brand underline font-semibold">CODAI MAIL</a>.
             </p>
+          </div>
+
+          <!-- CODAI DISPOSABLE MAIL TACTICAL SUITE -->
+          <div class="mb-6 p-4 sm:p-5 bg-shade-900 border border-brand/30 relative overflow-hidden group">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-white/10">
+              <div class="flex items-center gap-2.5">
+                <span class="inline-flex items-center justify-center w-7 h-7 bg-brand/20 border border-brand text-brand font-mono text-sm font-bold">📬</span>
+                <div>
+                  <div class="text-xs font-mono font-bold uppercase tracking-wider text-brand">INTEGRASI RESMI CODAI TEMP MAIL</div>
+                  <div class="text-xs text-paper/60 font-sans">Enggan menggunakan email pribadi? Gunakan disposable email domain <code class="text-brand font-mono">@codai.site</code>.</div>
+                </div>
+              </div>
+              <a href="https://mail.codai.site/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-mono uppercase text-brand hover:underline self-start sm:self-auto" title="Buka Portal CODAI MAIL">
+                <span>mail.codai.site</span>
+                <span class="text-[10px]">&rarr;</span>
+              </a>
+            </div>
+
+            <!-- Action Buttons for Temp Mail -->
+            <div class="mt-3.5 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <button type="button" id="btn-generate-tempmail" class="flex items-center justify-center gap-2 py-2.5 px-4 bg-shade-800 hover:bg-shade-700 border border-shade-600 hover:border-brand-2 text-paper text-xs uppercase font-bold tracking-wider transition-colors">
+                <span>⚡ GENERATE @CODAI.SITE</span>
+              </button>
+
+              <button type="button" id="btn-auto-activate" class="flex items-center justify-center gap-2 py-2.5 px-4 bg-brand text-ink hover:bg-white border border-brand text-xs uppercase font-extrabold tracking-wider transition-transform active:scale-[0.98] shadow-[0_0_20px_rgba(0,248,185,0.25)]">
+                <span>🚀 1-CLICK AUTO AKTIVASI</span>
+              </button>
+            </div>
+
+            <!-- Active Temp Mail Details Tray -->
+            <div id="tempmail-tray" class="hidden mt-3.5 pt-3 border-t border-white/10 space-y-2">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono">
+                <div class="flex items-center gap-2">
+                  <span class="text-paper/50 uppercase">EMAIL TERPASANG:</span>
+                  <span id="tempmail-display" class="text-brand font-bold bg-brand/10 px-2 py-0.5 border border-brand/30">-</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button type="button" id="btn-copy-tempmail" class="text-xs text-paper/80 hover:text-brand border border-white/20 px-2 py-1 font-mono uppercase">
+                    SALIN ALAMAT
+                  </button>
+                  <a id="tempmail-web-link" href="https://mail.codai.site/" target="_blank" rel="noopener noreferrer" class="text-xs text-brand-2 hover:underline border border-brand-2/30 px-2 py-1 font-mono uppercase">
+                    BUKA INBOX WEB &rarr;
+                  </a>
+                </div>
+              </div>
+              <div class="text-[11px] font-sans text-paper/50">
+                Email sementara aktif. Klik tombol <strong class="text-paper">"Kirim Tautan Otentikasi"</strong> di bawah, lalu sistem akan mendeteksi tautan masuk dari kotak surat Anda.
+              </div>
+            </div>
           </div>
 
           <div class="space-y-4">
@@ -255,7 +304,7 @@
               <input 
                 type="email" 
                 id="input-email" 
-                placeholder="nama@email.com" 
+                placeholder="nama@email.com atau gunakan @codai.site di atas" 
                 class="np-input text-base sm:text-lg"
                 autocomplete="email"
               >
@@ -286,6 +335,25 @@
             <p class="text-sm sm:text-base font-sans text-paper/70 mt-2">
               Tautan telah dikirim ke <span id="target-email-badge" class="text-brand font-bold font-mono">-</span>. Buka email dari Alight Motion, salin tautan verifikasi lengkap atau parameter <code class="text-brand font-mono">oobCode</code>, lalu tempelkan di bawah.
             </p>
+          </div>
+
+          <!-- CODAI Mail Helper Banner in Step 2 -->
+          <div id="tempmail-step2-helper" class="hidden mb-5 p-4 bg-shade-900 border border-brand-2/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono">
+            <div class="flex items-center gap-2 text-brand-2">
+              <span class="text-base">📬</span>
+              <div>
+                <div class="font-bold uppercase tracking-wider">CODAI MAIL DETECTED</div>
+                <div class="text-[11px] text-paper/60 font-sans">Kotak surat <span id="tempmail-step2-addr" class="text-paper font-mono font-bold">-</span> dapat dipindai otomatis.</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+              <button type="button" id="btn-auto-poll-step2" class="flex-1 sm:flex-none px-3 py-1.5 bg-brand-2 text-ink font-bold hover:bg-white text-xs uppercase tracking-wider transition-colors">
+                ⚡ AMBIL TAUTAN OTOMATIS
+              </button>
+              <a id="btn-open-webmail-step2" href="https://mail.codai.site/" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 border border-white/20 hover:border-paper text-paper text-xs uppercase tracking-wider font-mono">
+                BUKA INBOX &rarr;
+              </a>
+            </div>
           </div>
 
           <div class="space-y-4">
@@ -647,6 +715,68 @@
 
     </div>
   </footer>
+
+  <!-- 5. 1-CLICK FULL AUTO ACTIVATION HUD MODAL -->
+  <div id="modal-auto-activate" class="fixed inset-0 z-50 bg-ink/90 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="relative w-full max-w-xl bg-shade-900 border-2 border-brand p-6 sm:p-8 shadow-[0_0_60px_rgba(0,248,185,0.25)] font-barlow">
+      
+      <!-- Top Tactical Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 bg-brand text-ink flex items-center justify-center font-bold text-lg">
+            ⚡
+          </div>
+          <div>
+            <div class="text-xs font-mono font-bold uppercase tracking-widest text-brand">CODAI PROTOCOL // FULL AUTO</div>
+            <h3 class="text-xl sm:text-2xl font-extrabold uppercase text-paper leading-none mt-0.5">1-CLICK VIP ACTIVATION</h3>
+          </div>
+        </div>
+        <button id="btn-cancel-auto" type="button" class="text-paper/40 hover:text-paper text-xl font-bold font-mono px-2 py-1">
+          &times;
+        </button>
+      </div>
+
+      <!-- Active Tempmail Display -->
+      <div class="bg-shade-800 border border-shade-600 p-3 flex items-center justify-between mb-6 text-xs font-mono">
+        <span class="text-paper/50 uppercase">TARGET CODAI MAIL:</span>
+        <span id="modal-target-email" class="text-brand font-bold">Inisialisasi...</span>
+      </div>
+
+      <!-- Live Pipeline Steps -->
+      <div class="space-y-3 mb-6 font-mono text-xs sm:text-sm">
+        <div id="step-pipe-1" class="flex items-center gap-3 text-paper/40">
+          <span class="step-icon w-5 text-center">○</span>
+          <span class="step-label">1. Generate disposable email (@codai.site)</span>
+        </div>
+        <div id="step-pipe-2" class="flex items-center gap-3 text-paper/40">
+          <span class="step-icon w-5 text-center">○</span>
+          <span class="step-label">2. Request oobCode via Google Identity Toolkit</span>
+        </div>
+        <div id="step-pipe-3" class="flex items-center gap-3 text-paper/40">
+          <span class="step-icon w-5 text-center">○</span>
+          <span class="step-label">3. Memantau kotak masuk CODAI MAIL API (Polling)...</span>
+        </div>
+        <div id="step-pipe-4" class="flex items-center gap-3 text-paper/40">
+          <span class="step-icon w-5 text-center">○</span>
+          <span class="step-label">4. Ekstraksi oobCode & Aktivasi Lisensi Annual</span>
+        </div>
+      </div>
+
+      <!-- Terminal Log Stream -->
+      <div id="modal-log-stream" class="p-3 bg-ink border border-white/10 font-mono text-xs text-brand/80 h-24 overflow-y-auto mb-6 whitespace-pre-wrap leading-relaxed">
+[SYS] Memulai urutan automasi 1-Click...
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex items-center justify-between text-xs font-mono text-paper/40 pt-2 border-t border-white/10">
+        <span>GATEWAY: api-mail.codai.site</span>
+        <button id="btn-close-modal-auto" type="button" class="text-paper/70 hover:text-paper uppercase tracking-wider underline">
+          Tutup Layar
+        </button>
+      </div>
+
+    </div>
+  </div>
 
   <!-- Controller Script -->
   <script src="/js/app.js"></script>

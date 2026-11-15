@@ -151,6 +151,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnVerifyLink = document.getElementById('btn-verify-link')
   const verifyAlert = document.getElementById('alert-step-2')
 
+  // CODAI Mail Elements
+  const btnGenerateTempmail = document.getElementById('btn-generate-tempmail')
+  const btnAutoActivate = document.getElementById('btn-auto-activate')
+  const tempmailTray = document.getElementById('tempmail-tray')
+  const tempmailDisplay = document.getElementById('tempmail-display')
+  const btnCopyTempmail = document.getElementById('btn-copy-tempmail')
+  const tempmailWebLink = document.getElementById('tempmail-web-link')
+
+  const tempmailStep2Helper = document.getElementById('tempmail-step2-helper')
+  const tempmailStep2Addr = document.getElementById('tempmail-step2-addr')
+  const btnAutoPollStep2 = document.getElementById('btn-auto-poll-step2')
+  const btnOpenWebmailStep2 = document.getElementById('btn-open-webmail-step2')
+
+  // 1-Click Auto Activation Modal Elements
+  const modalAutoActivate = document.getElementById('modal-auto-activate')
+  const btnCancelAuto = document.getElementById('btn-cancel-auto')
+  const btnCloseModalAuto = document.getElementById('btn-close-modal-auto')
+  const modalTargetEmail = document.getElementById('modal-target-email')
+  const modalLogStream = document.getElementById('modal-log-stream')
+  const pipeSteps = {
+    1: document.getElementById('step-pipe-1'),
+    2: document.getElementById('step-pipe-2'),
+    3: document.getElementById('step-pipe-3'),
+    4: document.getElementById('step-pipe-4')
+  }
+
   const resEmail = document.getElementById('res-email')
   const resUid = document.getElementById('res-uid')
   const resOrderId = document.getElementById('res-order-id')
@@ -260,6 +286,17 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           stepIndicators[i].className = 'px-[10px] py-[5px] text-[12.5px] leading-[17.5px] tracking-[0.02em] transition-colors duration-300 lg:px-5 lg:py-2.5 lg:text-[1.25rem] lg:leading-[1.75rem] text-paper/60 hover:text-brand-2 font-semibold uppercase'
         }
+      }
+    }
+
+    // Check if current email is from CODAI MAIL when in Step 2
+    if (step === 2 && tempmailStep2Helper) {
+      const isCodai = currentEmail && (currentEmail.includes('@codai.site') || currentEmail.includes('@daz.codai.site') || currentEmail.includes('@mkr.codai.site'))
+      if (isCodai) {
+        tempmailStep2Helper.classList.remove('hidden')
+        if (tempmailStep2Addr) tempmailStep2Addr.textContent = currentEmail
+      } else {
+        tempmailStep2Helper.classList.add('hidden')
       }
     }
   }
@@ -447,6 +484,277 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
   }
+
+  // ==========================================
+  // CODAI TEMP MAIL CONTROLLERS
+  // ==========================================
+
+  // 1. Generate Disposable @codai.site Email
+  if (btnGenerateTempmail) {
+    btnGenerateTempmail.addEventListener('click', async () => {
+      playTactileFeedback('click')
+      btnGenerateTempmail.disabled = true
+      const origText = btnGenerateTempmail.innerHTML
+      btnGenerateTempmail.innerHTML = `<span>MEMBUAT EMAIL...</span>`
+
+      try {
+        const res = await fetch('/api/tempmail/generate')
+        const json = await res.json()
+
+        if (json.success && json.data) {
+          playTactileFeedback('success')
+          const email = json.data.email
+          currentEmail = email
+
+          if (emailInput) {
+            emailInput.value = email
+          }
+
+          if (tempmailTray && tempmailDisplay) {
+            tempmailDisplay.textContent = email
+            tempmailTray.classList.remove('hidden')
+          }
+
+          showToast(`Email sementara dibuat: ${email}`, 'success')
+        } else {
+          showToast('Gagal membuat alamat email sementara.', 'error')
+        }
+      } catch (err) {
+        showToast('Gagal menghubungi API CODAI MAIL.', 'error')
+      } finally {
+        btnGenerateTempmail.disabled = false
+        btnGenerateTempmail.innerHTML = origText
+      }
+    })
+  }
+
+  // 2. Copy Generated Temp Mail
+  if (btnCopyTempmail && tempmailDisplay) {
+    btnCopyTempmail.addEventListener('click', async () => {
+      const addr = tempmailDisplay.textContent.trim()
+      if (!addr || addr === '-') return
+
+      try {
+        await navigator.clipboard.writeText(addr)
+        playTactileFeedback('click')
+        showToast('Alamat email disalin ke clipboard.', 'info')
+        btnCopyTempmail.textContent = 'DISALIN!'
+        setTimeout(() => {
+          btnCopyTempmail.textContent = 'SALIN ALAMAT'
+        }, 2000)
+      } catch {
+        showToast('Gagal menyalin email.', 'error')
+      }
+    })
+  }
+
+  // 3. Auto-Poll Magic Link in Step 2 for CODAI Mail
+  if (btnAutoPollStep2) {
+    btnAutoPollStep2.addEventListener('click', async () => {
+      if (!currentEmail) {
+        showToast('Alamat email belum terdeteksi.', 'error')
+        return
+      }
+
+      playTactileFeedback('click')
+      btnAutoPollStep2.disabled = true
+      const origText = btnAutoPollStep2.innerHTML
+      btnAutoPollStep2.innerHTML = `<span>MEMINDAI INBOX...</span>`
+
+      showToast('Memindai kotak masuk mail.codai.site...', 'info')
+
+      try {
+        const res = await fetch('/api/tempmail/poll-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ address: currentEmail, timeoutSeconds: 60 })
+        })
+        const json = await res.json()
+
+        if (json.success && json.data && json.data.found) {
+          playTactileFeedback('success')
+          showToast('Tautan otentikasi ditemukan dari CODAI MAIL!', 'success')
+          const linkOrCode = json.data.oobCode || json.data.link
+
+          if (magicLinkInput) {
+            magicLinkInput.value = linkOrCode
+          }
+
+          // Auto trigger verify link
+          setTimeout(() => {
+            if (btnVerifyLink) btnVerifyLink.click()
+          }, 300)
+        } else {
+          playTactileFeedback('error')
+          showToast('Tautan belum diterima di mail.codai.site. Silakan coba sesaat lagi.', 'error')
+        }
+      } catch (err) {
+        playTactileFeedback('error')
+        showToast('Gagal memindai kotak masuk CODAI MAIL.', 'error')
+      } finally {
+        btnAutoPollStep2.disabled = false
+        btnAutoPollStep2.innerHTML = origText
+      }
+    })
+  }
+
+  // 4. 1-Click End-to-End Auto Activation Flow
+  let autoAbortController = null
+
+  function appendModalLog(msg) {
+    if (!modalLogStream) return
+    const time = new Date().toLocaleTimeString('id-ID')
+    modalLogStream.textContent += `\n[${time}] ${msg}`
+    modalLogStream.scrollTop = modalLogStream.scrollHeight
+  }
+
+  function setPipeStepStatus(num, status) {
+    const el = pipeSteps[num]
+    if (!el) return
+    const icon = el.querySelector('.step-icon')
+
+    if (status === 'active') {
+      el.className = 'flex items-center gap-3 text-brand font-bold animate-pulse'
+      if (icon) icon.textContent = '▶'
+    } else if (status === 'success') {
+      el.className = 'flex items-center gap-3 text-brand font-bold'
+      if (icon) icon.textContent = '✓'
+    } else if (status === 'error') {
+      el.className = 'flex items-center gap-3 text-red-400 font-bold'
+      if (icon) icon.textContent = '✗'
+    } else {
+      el.className = 'flex items-center gap-3 text-paper/40'
+      if (icon) icon.textContent = '○'
+    }
+  }
+
+  if (btnAutoActivate && modalAutoActivate) {
+    btnAutoActivate.addEventListener('click', async () => {
+      playTactileFeedback('click')
+      modalAutoActivate.classList.remove('hidden')
+      if (modalLogStream) modalLogStream.textContent = '[SYS] Menginisialisasi urutan automasi 1-Click CODAI...'
+      if (modalTargetEmail) modalTargetEmail.textContent = 'Membuat alamat...'
+
+      // Reset step indicators
+      for (let i = 1; i <= 4; i++) setPipeStepStatus(i, 'pending')
+
+      let generatedEmail = ''
+
+      try {
+        // --- STEP 1: Generate Email ---
+        setPipeStepStatus(1, 'active')
+        appendModalLog('Menghubungi https://api-mail.codai.site/ untuk membuat alamat email...')
+        
+        const genRes = await fetch('/api/tempmail/generate')
+        const genJson = await genRes.json()
+        if (!genJson.success || !genJson.data?.email) {
+          throw new Error('Gagal membuat alamat email sementara dari CODAI MAIL.')
+        }
+
+        generatedEmail = genJson.data.email
+        currentEmail = generatedEmail
+        if (modalTargetEmail) modalTargetEmail.textContent = generatedEmail
+        if (emailInput) emailInput.value = generatedEmail
+        setPipeStepStatus(1, 'success')
+        appendModalLog(`Email berhasil dibuat: ${generatedEmail}`)
+
+        // --- STEP 2: Dispatch Magic Link ---
+        setPipeStepStatus(2, 'active')
+        appendModalLog(`Mengirimkan magic link otentikasi ke ${generatedEmail}...`)
+
+        const sendRes = await fetch('/api/send-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: generatedEmail })
+        })
+        const sendJson = await sendRes.json()
+        if (!sendJson.success) {
+          throw new Error(sendJson.message || 'Gagal mengirim magic link via Google Identity Toolkit.')
+        }
+
+        setPipeStepStatus(2, 'success')
+        appendModalLog('Magic link berhasil dikirim oleh Google Identity Toolkit.')
+
+        // --- STEP 3: Poll CODAI MAIL Inbox ---
+        setPipeStepStatus(3, 'active')
+        appendModalLog('Memantau kotak masuk CODAI MAIL API secara otomatis...')
+
+        const pollRes = await fetch('/api/tempmail/poll-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ address: generatedEmail, timeoutSeconds: 75 })
+        })
+        const pollJson = await pollRes.json()
+        if (!pollJson.success || !pollJson.data?.found) {
+          throw new Error('Waktu tunggu habis (timeout). Tautan verifikasi belum diterima di mail.codai.site.')
+        }
+
+        const magicLink = pollJson.data.oobCode || pollJson.data.link
+        setPipeStepStatus(3, 'success')
+        appendModalLog(`Tautan verifikasi ditemukan! oobCode: ${pollJson.data.oobCode || 'OK'}`)
+
+        // --- STEP 4: Verify & Activate VIP License ---
+        setPipeStepStatus(4, 'active')
+        appendModalLog('Melakukan handshake verifikasi ke verifyPurchase Cloud Function...')
+
+        const verifyRes = await fetch('/api/verify-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: generatedEmail,
+            magicLink: magicLink
+          })
+        })
+        const verifyJson = await verifyRes.json()
+        if (!verifyJson.success || !verifyJson.data) {
+          throw new Error(verifyJson.message || 'Handshake aktivasi lisensi upstream gagal.')
+        }
+
+        setPipeStepStatus(4, 'success')
+        appendModalLog('Handshake berhasil! Lisensi Alight Motion VIP Annual Aktif!')
+        playTactileFeedback('success')
+        showToast('1-Click Auto Aktivasi Berhasil!', 'success')
+
+        // Fill receipt
+        const details = verifyJson.data
+        if (resEmail) resEmail.textContent = details.email || generatedEmail
+        if (resUid) resUid.textContent = details.uid || '-'
+        if (resOrderId) resOrderId.textContent = details.orderId || '-'
+        if (resValidUntil) resValidUntil.textContent = details.validUntil || '1 Tahun (Aktif)'
+        if (resIdToken) resIdToken.textContent = details.idToken || '-'
+
+        fetchTelemetry()
+
+        // Wait 1.4s for user to see completed checklist, then close and transition to step 3
+        setTimeout(() => {
+          modalAutoActivate.classList.add('hidden')
+          goToStep(3)
+        }, 1400)
+
+      } catch (err) {
+        playTactileFeedback('error')
+        appendModalLog(`[ERROR] ${err.message}`)
+        showToast(err.message, 'error')
+        // Mark the active step as error
+        for (let i = 1; i <= 4; i++) {
+          const el = pipeSteps[i]
+          if (el && el.className.includes('animate-pulse')) {
+            setPipeStepStatus(i, 'error')
+          }
+        }
+      }
+    })
+  }
+
+  // Close Auto Modal
+  function closeAutoModal() {
+    if (modalAutoActivate) {
+      modalAutoActivate.classList.add('hidden')
+    }
+  }
+
+  if (btnCancelAuto) btnCancelAuto.addEventListener('click', closeAutoModal)
+  if (btnCloseModalAuto) btnCloseModalAuto.addEventListener('click', closeAutoModal)
 
   // Copy ID Token
   if (btnCopyToken && resIdToken) {

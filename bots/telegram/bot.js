@@ -10,6 +10,7 @@ const path = require('path')
 
 // Import core engine modules from root
 const auth = require('../../lib/auth')
+const tempmail = require('../../lib/tempmail')
 const { friendlyFirebaseError } = require('../../lib/errors')
 const { getStats, incrementStats } = require('../../lib/stats')
 
@@ -39,11 +40,15 @@ function getMainKeyboard() {
     reply_markup: {
       inline_keyboard: [
         [
-          { text: '⚡ Mulai Aktivasi VIP', callback_data: 'action_start_activate' },
-          { text: '📊 Telemetri Sistem', callback_data: 'action_stats' }
+          { text: '🚀 1-Click Auto VIP (@codai.site)', callback_data: 'action_autovip' },
+          { text: '⚡ Aktivasi Manual', callback_data: 'action_start_activate' }
         ],
         [
-          { text: '🌐 Kunjungi Web Portal', url: 'https://diaww.my.id' },
+          { text: '📬 Buat Temp Mail (@codai.site)', callback_data: 'action_tempmail' },
+          { text: '📊 Telemetri', callback_data: 'action_stats' }
+        ],
+        [
+          { text: '🌐 Buka mail.codai.site', url: 'https://mail.codai.site/' },
           { text: '👨‍💻 Developer (DIAWW.DEV)', url: 'https://diaww.my.id' }
         ]
       ]
@@ -62,19 +67,63 @@ bot.onText(/\/(start|help)/, (msg) => {
 *MOTION V // TELEGRAM TERMINAL*
 _Alight Motion VIP Activation Protocol Engine_
 ────────────────────────────
-Selamat datang di terminal otomatisasi *MOTION V*. Bot ini berinteraksi langsung dengan Google Identity Toolkit & Alight Creative Cloud Functions.
+Selamat datang di terminal otomatisasi *MOTION V*. Bot ini terhubung langsung ke Google Identity Toolkit, Upstream Alight Creative Cloud Functions, dan layanan email sekali pakai resmi *CODAI MAIL* (https://mail.codai.site/).
 
-*Perintah yang Tersedia:*
-• \`/activate\` — Mulai panduan interaktif aktivasi akun
+*Perintah Utama:*
+• \`/autovip\` — *1-Click Instant Activation* (Buat tempmail @codai.site, ambil link & aktifkan VIP tanpa repot!)
+• \`/tempmail\` — Generate alamat email sementara @codai.site
+• \`/activate\` — Panduan interaktif aktivasi akun (email pribadi)
 • \`/send <email>\` — Kirim magic link login ke email
 • \`/verify <email> <tautan>\` — Verifikasi link & aktifkan VIP
-• \`/stats\` — Cek total lisensi terverifikasi
+• \`/stats\` — Cek telemetri lisensi terverifikasi
 • \`/status\` — Cek status gateway server
 • \`/cancel\` — Batalkan sesi aktivasi berjalan
 
 _Zero-log retention. Tanpa kata sandi akun._
 `
   bot.sendMessage(chatId, welcomeText, { parse_mode: 'Markdown', ...getMainKeyboard() })
+})
+
+/**
+ * Handler Command: /tempmail & /mail
+ */
+bot.onText(/\/(tempmail|mail)/, (msg) => {
+  const chatId = msg.chat.id
+  const mailData = tempmail.generateEmail()
+
+  const mailText = `
+📬 *CODAI DISPOSABLE MAIL GENERATED*
+────────────────────────────
+• *Alamat Email:* \`${mailData.email}\`
+• *Domain:* \`@${mailData.domain}\`
+• *Penyedia:* [mail.codai.site](https://mail.codai.site/)
+────────────────────────────
+Kotak masuk email ini dipantau secara realtime oleh API CODAI MAIL. Anda dapat langsung mengaktifkan VIP Alight Motion menggunakan email ini dalam 1-klik!
+`
+
+  const keyboard = {
+    reply_markup: {
+      inline_keyboard: [
+        [
+          { text: '⚡ Auto-Aktifkan VIP dengan Email Ini', callback_data: `autovip_with_${mailData.email}` }
+        ],
+        [
+          { text: '🔍 Cek Kotak Masuk (API)', callback_data: `checkmail_${mailData.email}` },
+          { text: '🌐 Buka di mail.codai.site', url: 'https://mail.codai.site/' }
+        ]
+      ]
+    }
+  }
+
+  bot.sendMessage(chatId, mailText, { parse_mode: 'Markdown', ...keyboard })
+})
+
+/**
+ * Handler Command: /autovip (1-Click Automated Activation)
+ */
+bot.onText(/\/autovip/, async (msg) => {
+  const chatId = msg.chat.id
+  await runAutoVip(chatId)
 })
 
 /**
