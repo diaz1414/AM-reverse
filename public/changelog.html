@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AM // PROTOCOL — Changelog & Riwayat Rilis</title>
+  <meta name="description" content="Riwayat pembaruan teknis dan log rilis antarmuka AM // PROTOCOL.">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#07080b',
+            carbon: '#0c0e15',
+            panel: '#10131e',
+            tacticalGreen: '#10b981',
+            tacticalCyan: '#06b6d4',
+            tacticalBorder: 'rgba(255, 255, 255, 0.08)'
+          },
+          fontFamily: {
+            sans: ['Space Grotesk', 'Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            display: ['Chakra Petch', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="/css/tactical.css">
+</head>
+<body class="bg-obsidian text-slate-100 min-h-screen relative selection:bg-emerald-500/30 selection:text-emerald-300">
+
+  <div class="tactical-grid-bg"></div>
+  <div class="ambient-glow-green"></div>
+
+  <!-- Top System Telemetry Bar -->
+  <aside aria-label="System Telemetry" class="relative z-40 bg-carbon/90 border-b border-tacticalBorder backdrop-blur-md text-[11px] font-mono text-slate-400 py-1.5 px-4 sm:px-8">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 text-emerald-400 font-semibold tracking-wider">
+          <span class="radar-beacon"><span class="radar-beacon-dot"></span></span>
+          NODE // ID-CGK-01
+        </span>
+        <span class="hidden md:inline text-slate-600">|</span>
+        <span>CHANGELOG REPOSITORY</span>
+      </div>
+      <div class="flex items-center gap-4 text-slate-400 text-[11px]">
+        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors">
+          DEVELOPER: DIAWW.DEV
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-obsidian/85 border-b border-tacticalBorder backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
+      
+      <a href="/" class="flex items-center gap-3 group text-decoration-none">
+        <div class="w-9 h-9 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center font-mono font-bold text-emerald-400 text-sm group-hover:border-emerald-400 transition-all">
+          AM
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-display font-bold tracking-wider text-white text-base">PROTOCOL</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold">
+              v2.2
+            </span>
+          </div>
+          <p class="text-[10px] font-mono text-slate-400 leading-none">ALIGHT REVERSE ENGINE</p>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6 text-xs font-mono tracking-wider uppercase">
+        <a href="/" class="text-slate-300 hover:text-emerald-400 flex items-center gap-1.5 transition-colors">
+          <span class="text-[9px] text-slate-500">01//</span> TERMINAL
+        </a>
+        <a href="/changelog" class="text-emerald-400 font-semibold flex items-center gap-1.5 transition-colors">
+          <span class="text-[9px] text-emerald-500">02//</span> CHANGELOG
+        </a>
+        <a href="/terms" class="text-slate-300 hover:text-emerald-400 flex items-center gap-1.5 transition-colors">
+          <span class="text-[9px] text-slate-500">03//</span> KETENTUAN
+        </a>
+        <a href="/privacy" class="text-slate-300 hover:text-emerald-400 flex items-center gap-1.5 transition-colors">
+          <span class="text-[9px] text-slate-500">04//</span> PRIVASI
+        </a>
+      </nav>
+
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="dev-pill">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>DEV: DIAWW.DEV</span>
+        </a>
+      </div>
+
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded text-slate-400 hover:text-white border border-tacticalBorder">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-b border-tacticalBorder bg-carbon/95 px-6 py-4 space-y-3 font-mono text-xs">
+      <a href="/" class="block text-slate-300 hover:text-emerald-400 py-1.5">01// TERMINAL</a>
+      <a href="/changelog" class="block text-emerald-400 py-1.5">02// CHANGELOG</a>
+      <a href="/terms" class="block text-slate-300 hover:text-emerald-400 py-1.5">03// KETENTUAN LAYANAN</a>
+      <a href="/privacy" class="block text-slate-300 hover:text-emerald-400 py-1.5">04// KEBIJAKAN PRIVASI</a>
+      <div class="pt-3 border-t border-tacticalBorder">
+        <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between text-emerald-400 py-1">
+          <span>DEVELOPER: DIAWW.DEV</span>
+          <span class="text-[10px]">diaww.my.id &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Changelog Content -->
+  <main class="relative z-10 max-w-4xl mx-auto px-4 sm:px-8 py-12">
+    
+    <div class="mb-10">
+      <div class="badge-tactical badge-tactical-green mb-3">VERSION CONTROL // AUDIT LOG</div>
+      <h1 class="font-display text-3xl sm:text-4xl font-bold text-white mb-2 tracking-tight">
+        LOG PEMBARUAN SISTEM
+      </h1>
+      <p class="text-sm text-slate-400 font-sans">
+        Catatan rilis berurutan mengenai optimasi protokol, peningkatan mitigasi deteksi, dan pembaruan arsitektur antarmuka.
+      </p>
+    </div>
+
+    <!-- Timeline Container -->
+    <div class="space-y-8 font-mono">
+
+      <!-- Version 2.2.0 (Current) -->
+      <article class="tactical-card tactical-card-green bracket-corners p-6 sm:p-8 rounded-lg">
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-tacticalBorder mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-lg font-bold text-emerald-400 font-display">v2.2.0 // TACTICAL OVERHAUL</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold">
+              CURRENT
+            </span>
+          </div>
+          <div class="text-xs text-slate-400">
+            16 NOVEMBER 2026
+          </div>
+        </div>
+
+        <div class="space-y-4 text-xs font-sans">
+          <div>
+            <h2 class="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider mb-2">[UI/UX & INTERFACE]</h2>
+            <ul class="space-y-1.5 text-slate-400 list-disc list-inside">
+              <li>Perombakan visual 100% mengadopsi bahasa desain taktis gelap NoPixel (NoPixel Dark Tactical Design Language).</li>
+              <li>Implementasi arsitektur responsif mobile-first untuk kenyamanan penggunaan di smartphone, tablet, dan desktop.</li>
+              <li>Penyediaan umpan balik audio taktil berlatensi nol menggunakan sintesis Web Audio API murni.</li>
+              <li>Sistem notifikasi toast mengambang untuk konfirmasi salin token dan status galat.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 class="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider mb-2">[ENGINEERING & PROTOCOL]</h2>
+            <ul class="space-y-1.5 text-slate-400 list-disc list-inside">
+              <li>Parser oobCode otomatis yang mampu mengekstrak token dari URL kueri bertingkat (nested link, q, dan parameter url).</li>
+              <li>Penyediaan rute halaman dedicated untuk <code class="text-emerald-400 font-mono">/terms</code>, <code class="text-emerald-400 font-mono">/privacy</code>, dan <code class="text-emerald-400 font-mono">/changelog</code>.</li>
+              <li>Penambahan integrasi identitas pengembang resmi ke <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="text-emerald-400 underline">DIAWW.DEV</a>.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- Version 2.1.0 -->
+      <article class="tactical-card bracket-corners p-6 sm:p-8 rounded-lg">
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-tacticalBorder mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-lg font-bold text-cyan-400 font-display">v2.1.0 // STEALTH DALVIK SUITE</span>
+          </div>
+          <div class="text-xs text-slate-400">
+            28 OKTOBER 2026
+          </div>
+        </div>
+
+        <div class="space-y-4 text-xs font-sans">
+          <div>
+            <h2 class="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider mb-2">[MITIGASI & STEALTH]</h2>
+            <ul class="space-y-1.5 text-slate-400 list-disc list-inside">
+              <li>Penyisipan header identitas paket resmi <code class="text-slate-300 font-mono">com.alightcreative.motion</code> pada seluruh panggilan upstream Identity Toolkit.</li>
+              <li>Injeksi fingerprint sertifikat SHA-1 <code class="text-slate-300 font-mono">ECA6BF91B8715A6F810ED0BBFC65B6CD578F52A8</code>.</li>
+              <li>Simulasi header multi-proxy IP acak (<code class="text-slate-300 font-mono">x-forwarded-for</code>, <code class="text-slate-300 font-mono">x-real-ip</code>, <code class="text-slate-300 font-mono">client-ip</code>) untuk menghindari rate-limit.</li>
+              <li>Penyempurnaan mekanisme refresh token sesi melalui endpoint Google Secure Token API.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- Version 2.0.0 -->
+      <article class="tactical-card bracket-corners p-6 sm:p-8 rounded-lg">
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-tacticalBorder mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-lg font-bold text-slate-200 font-display">v2.0.0 // WEB ENGINE MIGRATION</span>
+          </div>
+          <div class="text-xs text-slate-400">
+            10 OKTOBER 2026
+          </div>
+        </div>
+
+        <div class="space-y-4 text-xs font-sans">
+          <div>
+            <h2 class="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider mb-2">[ARSITEKTUR]</h2>
+            <ul class="space-y-1.5 text-slate-400 list-disc list-inside">
+              <li>Transisi dari utilitas baris perintah (CLI murni) ke arsitektur server Express.js modular.</li>
+              <li>Penyediaan endpoint API terstruktur: <code class="text-slate-300 font-mono">/api/send-link</code>, <code class="text-slate-300 font-mono">/api/verify-link</code>, dan <code class="text-slate-300 font-mono">/api/stats</code>.</li>
+              <li>Penyimpanan telemetri jumlah aktivasi harian dan total yang persisten pada file lokal JSON.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- Version 1.0.0 -->
+      <article class="tactical-card bracket-corners p-6 sm:p-8 rounded-lg">
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-tacticalBorder mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-lg font-bold text-slate-400 font-display">v1.0.0 // CORE RESEARCH POC</span>
+          </div>
+          <div class="text-xs text-slate-400">
+            15 SEPTEMBER 2026
+          </div>
+        </div>
+
+        <div class="space-y-4 text-xs font-sans">
+          <div>
+            <h2 class="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider mb-2">[REVERSE ENGINEERING AWAL]</h2>
+            <ul class="space-y-1.5 text-slate-400 list-disc list-inside">
+              <li>Analisis sniffing trafik jaringan pada aplikasi Android Alight Motion.</li>
+              <li>Dokumentasi struktur payload verifikasi lisensi pada endpoint Cloud Functions <code class="text-slate-300 font-mono">verifyPurchase</code>.</li>
+              <li>Uji coba implementasi pengiriman tautan login oobConfirmationCode via CLI.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="relative z-20 bg-carbon border-t border-tacticalBorder text-slate-400 font-mono text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div>
+        &copy; 2026 AM // PROTOCOL. Engineered by <a href="https://diaww.my.id" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">DIAWW.DEV</a>.
+      </div>
+      <div class="flex items-center gap-4 text-xs">
+        <a href="/" class="hover:text-emerald-400">Terminal</a>
+        <a href="/terms" class="hover:text-emerald-400">Ketentuan</a>
+        <a href="/privacy" class="hover:text-emerald-400">Privasi</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn')
+    const mobileMenu = document.getElementById('mobile-menu')
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden')
+      })
+    }
+  </script>
+
+</body>
+</html>
