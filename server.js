@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const cors = require('cors')
 const auth = require('./lib/auth')
+const tempmail = require('./lib/tempmail')
 const { friendlyFirebaseError } = require('./lib/errors')
 const { getStats, incrementStats } = require('./lib/stats')
 
@@ -186,6 +187,168 @@ app.post('/api/refresh', async (req, res) => {
   return res.json({
     success: true,
     data: result
+  })
+})
+
+// ==========================================
+// 6. CODAI MAIL API ENDPOINTS (https://mail.codai.site)
+// ==========================================
+
+// 6a. Generate New Disposable Email
+app.get('/api/tempmail/generate', (req, res) => {
+  const { prefix, domain } = req.query
+  const mailData = tempmail.generateEmail(prefix, domain)
+  res.json({
+    success: true,
+    data: mailData
+  })
+})
+
+// 6b. Check Temp Mail Health & Domains
+app.get('/api/tempmail/status', async (req, res) => {
+  const health = await tempmail.getHealth()
+  res.json({
+    success: health.ok,
+    data: health
+  })
+})
+
+// 6c. Get Inbox Messages
+app.get('/api/tempmail/inbox', async (req, res) => {
+  const { address } = req.query
+  if (!address) {
+    return res.status(400).json({
+      success: false,
+      message: 'Parameter address wajib disediakan.'
+    })
+  }
+
+  const result = await tempmail.getInbox(address)
+  res.json({
+    success: result.ok,
+    data: result
+  })
+})
+
+// 6d. Get Single Message Details
+app.get('/api/tempmail/message', async (req, res) => {
+  const { address, id } = req.query
+  if (!address || !id) {
+    return res.status(400).json({
+      success: false,
+      message: 'Parameter address dan id wajib disediakan.'
+    })
+  }
+
+  const result = await tempmail.getMessage(address, id)
+  res.json({
+    success: result.ok,
+    data: result.data || null,
+    error: result.error || null
+  })
+})
+
+// 6e. Poll Inbox for Alight Motion Magic Link
+app.post('/api/tempmail/poll-link', async (req, res) => {
+  const { address, timeoutSeconds } = req.body
+  if (!address) {
+    return res.status(400).json({
+      success: false,
+      message: 'Parameter address wajib disediakan.'
+    })
+  }
+
+  const timeout = Math.min(Number(timeoutSeconds) || 60, 120)
+  const pollResult = await tempmail.pollForMagicLink(address, timeout, 3)
+
+  res.json({
+    success: pollResult.ok,
+    data: pollResult
+  })
+})
+
+// 6f. 1-Click End-to-End Auto Activation with CODAI Temp Mail
+app.post('/api/tempmail/auto-activate', async (req, res) => {
+  const { customPrefix, domain } = req.body
+
+  // Step 1: Generate Email
+  const tempEmailData = tempmail.generateEmail(customPrefix, domain)
+  const email = tempEmailData.email
+
+  // Step 2: Send Magic Link via Google Identity Toolkit
+  const sendRes = await auth.sendMagicLink(email)
+  if (!sendRes.ok) {
+    return res.status(400).json({
+      success: false,
+      step: 'SEND_LINK',
+      email: email,
+      message: friendlyFirebaseError(sendRes.error),
+      code: sendRes.error
+    })
+  }
+
+  // Step 3: Poll CODAI Mail Inbox for Incoming Verification Email
+  const pollRes = await tempmail.pollForMagicLink(email, 75, 3)
+  if (!pollRes.ok || !pollRes.link) {
+    return res.status(408).json({
+      success: false,
+      step: 'POLL_INBOX',
+      email: email,
+      inboxWebUrl: tempEmailData.inboxWebUrl,
+      message: 'Waktu tunggu habis (timeout). Tautan verifikasi belum masuk ke kotak masuk mail.codai.site. Anda dapat mengecek manual di https://mail.codai.site/'
+    })
+  }
+
+  // Step 4: Verify Magic Link
+  const linkOrCode = pollRes.oobCode || pollRes.link
+  const verifyResult = await auth.verifyMagicLink(email, linkOrCode)
+  if (!verifyResult.ok) {
+    return res.status(400).json({
+      success: false,
+      step: 'VERIFY_LINK',
+      email: email,
+      message: friendlyFirebaseError(verifyResult.error),
+      code: verifyResult.error
+    })
+  }
+
+  // Step 5: Activate Premium VIP Annual Subscription
+  const premiumResult = await auth.activatePremium(verifyResult.idToken)
+  const stats = premiumResult.ok ? incrementStats() : getStats()
+
+  const now = new Date()
+  const validUntil = new Date()
+  validUntil.setFullYear(validUntil.getFullYear() + 1)
+
+  return res.json({
+    success: true,
+    message: '1-Click Auto Aktivasi Berhasil! Lisensi Alight Motion VIP Annual aktif dengan email CODAI MAIL.',
+    tempmail: tempEmailData,
+    data: {
+      stats: stats,
+      uid: verifyResult.uid,
+      email: verifyResult.user?.email || email,
+      emailVerified: verifyResult.user?.emailVerified ?? true,
+      displayName: verifyResult.user?.displayName || 'Alight Creator',
+      photoUrl: verifyResult.user?.photoUrl || null,
+      createdAt: verifyResult.user?.createdAt ? new Date(Number(verifyResult.user.createdAt)).toISOString() : null,
+      lastLoginAt: verifyResult.user?.lastLoginAt ? new Date(Number(verifyResult.user.lastLoginAt)).toISOString() : now.toISOString(),
+      isNewUser: verifyResult.isNewUser,
+      status: premiumResult.ok ? 'ACTIVE' : 'INACTIVE',
+      membershipStatus: premiumResult.ok ? 'VIP_ANNUAL_ACTIVE' : 'AUTH_ONLY',
+      planName: 'Alight Motion Pro / VIP License',
+      subscriptionType: 'Annual Subscription (Full Access)',
+      orderId: premiumResult.orderId || null,
+      activatedAt: now.toISOString(),
+      validUntil: validUntil.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }),
+      validUntilTimestamp: validUntil.getTime(),
+      tokenType: 'Bearer',
+      idToken: verifyResult.idToken,
+      refreshToken: verifyResult.refreshToken,
+      cloudResponse: premiumResult.ok ? premiumResult.response : null,
+      cloudError: premiumResult.ok ? null : premiumResult.error,
+      profile: verifyResult.user || null
+    }
   })
 })
 
