@@ -4,6 +4,9 @@
  * Developed by DIAWW.DEV (https://diaww.my.id)
  */
 
+const path = require('path')
+// Load .env dari folder bot maupun root directory (kompatibel dengan Pterodactyl & Docker)
+require('dotenv').config({ path: path.join(__dirname, '.env') })
 require('dotenv').config()
 const {
   Client,
