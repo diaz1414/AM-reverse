@@ -52,10 +52,12 @@ Sistem ini hadir dalam 3 antarmuka yang siap digunakan:
 ## Fitur Utama
 
 - ⚡ **Otentikasi Tanpa Sandi (Passwordless):** Memanfaatkan protokol resmi Firebase Out-Of-Band (`getOobConfirmationCode` & `emailLinkSignin`). Pengguna tidak perlu memberikan password akun sama sekali.
+- 📬 **Integrasi Resmi CODAI MAIL (Temp Mail):** Didukung oleh platform disposable email resmi [mail.codai.site](https://mail.codai.site/) (API: `api-mail.codai.site`). Pengguna yang enggan menggunakan email pribadi dapat membuat alamat `@codai.site` sekali pakai dengan 1-klik!
+- 🚀 **1-Click Full Auto VIP Activation:** Fitur automasi end-to-end yang secara otomatis membuat tempmail, mengirim magic link, memantau inbox via polling API, mengekstrak kode oobCode, dan mengaktifkan lisensi VIP tahunan secara instan!
 - 🛡️ **Stealth Dalvik 2.1 Virtualization:** Menginjeksi identitas paket resmi `com.alightcreative.motion`, hash sertifikat SHA-1 asli, dan rotasi multi-IP spoofing untuk mencegah limitasi upstream.
 - 🔒 **Arsitektur Zero-Log:** Bersifat *stateless* murni. Server tidak pernah menyimpan email, password, maupun token sesi pengguna ke database permanen apa pun.
 - 🎮 **NoPixel V UI/UX:** Memadukan tipografi bold condensed, switcher latar belakang dinamis (GTA VI, GTA V, NoPixel V), dan efek transformatif navbar saat scroll.
-- 🤖 **Multi-Platform Bot Suite:** Folder modular terpisah untuk bot Telegram dan bot Discord.
+- 🤖 **Multi-Platform Bot Suite:** Folder modular terpisah untuk bot Telegram dan bot Discord dengan dukungan penuh slash commands, interactive buttons, dan automasi CODAI MAIL.
 
 ---
 
@@ -106,6 +108,7 @@ AM-premium/
 │
 ├── lib/
 │   ├── auth.js                # Core reverse engineering & Google API relay
+│   ├── tempmail.js            # Integrasi CODAI MAIL (https://mail.codai.site)
 │   ├── errors.js              # Pemetaan pesan error teknis ke teks ramah
 │   └── stats.js               # Pengelola counter telemetri persisten
 │
@@ -272,7 +275,42 @@ Memvalidasi parameter `oobCode` dan mengeksekusi aktivasi lisensi tahunan Alight
 }
 ```
 
-### 3. `GET /api/stats`
+### 3. `POST /api/tempmail/auto-activate`
+Eksekusi 1-Click Auto Aktivasi lengkap: membuat disposable email `@codai.site`, mengirim magic link, memantau inbox via polling API CODAI MAIL, mengekstrak `oobCode`, dan mengaktifkan VIP Annual secara instan.
+```json
+// Request Body (opsional)
+{
+  "customPrefix": "creator_vip",
+  "domain": "codai.site"
+}
+
+// Response (200 OK)
+{
+  "success": true,
+  "message": "1-Click Auto Aktivasi Berhasil!...",
+  "tempmail": {
+    "email": "creator_vip@codai.site",
+    "inboxWebUrl": "https://mail.codai.site/"
+  },
+  "data": {
+    "status": "ACTIVE",
+    "membershipStatus": "VIP_ANNUAL_ACTIVE",
+    "orderId": "np-98fbc123",
+    "validUntil": "16 November 2027"
+  }
+}
+```
+
+### 4. `GET /api/tempmail/generate`
+Membuat alamat email sementara baru (`@codai.site`, `@daz.codai.site`, `@mkr.codai.site`).
+
+### 5. `GET /api/tempmail/inbox?address=...`
+Mengambil daftar pesan masuk dari kotak surat CODAI MAIL.
+
+### 6. `POST /api/tempmail/poll-link`
+Memantau kotak masuk secara berkala untuk mengekstrak tautan otentikasi Alight Motion atau parameter `oobCode`.
+
+### 7. `GET /api/stats`
 Mengambil jumlah total aktivasi lisensi agregat.
 ```json
 {

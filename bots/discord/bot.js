@@ -266,7 +266,25 @@ client.on('interactionCreate', async (interaction) => {
       )
       .setFooter({ text: 'MOTION V // ZERO-LOG PROTOCOL' })
 
-    return interaction.editReply({ embeds: [embed] })
+    const isCodai = email.includes('@codai.site') || email.includes('@daz.codai.site') || email.includes('@mkr.codai.site')
+    const components = []
+
+    if (isCodai) {
+      components.push(
+        new ActionRowBuilder().addComponents(
+          new ButtonBuilder()
+            .setCustomId(`btn_polllink_${email}`)
+            .setLabel('⚡ Ambil Link Otomatis dari CODAI')
+            .setStyle(ButtonStyle.Success),
+          new ButtonBuilder()
+            .setLabel('Buka mail.codai.site')
+            .setStyle(ButtonStyle.Link)
+            .setURL('https://mail.codai.site/')
+        )
+      )
+    }
+
+    return interaction.editReply({ embeds: [embed], components: components })
   }
 
   // Command: /verify
@@ -312,7 +330,178 @@ client.on('interactionCreate', async (interaction) => {
 
     return interaction.editReply({ embeds: [embed], components: [getDeveloperButtons()] })
   }
+
+  // ==========================================
+  // BUTTON INTERACTIONS HANDLER
+  // ==========================================
+  if (interaction.isButton()) {
+    const customId = interaction.customId
+
+    if (customId.startsWith('btn_autovip_')) {
+      const email = customId.replace('btn_autovip_', '')
+      await interaction.deferReply()
+      return runDiscordAutoVip(interaction, email, false)
+    }
+
+    if (customId.startsWith('btn_checkmail_')) {
+      const email = customId.replace('btn_checkmail_', '')
+      await interaction.deferReply({ ephemeral: true })
+      const inbox = await tempmail.getInbox(email)
+      if (!inbox.ok || inbox.count === 0) {
+        return interaction.editReply(`📭 Kotak masuk \`${email}\` masih kosong. Silakan periksa kembali beberapa saat lagi.`)
+      }
+      let summary = `📬 **Kotak Masuk CODAI MAIL (${inbox.count} Pesan)** untuk \`${email}\`:\n`
+      for (const m of inbox.messages) {
+        summary += `• Dari: **${m.from || 'Alight Motion'}** | Subjek: *${m.subject || '-'}*\n`
+      }
+      return interaction.editReply(summary)
+    }
+
+    if (customId.startsWith('btn_polllink_')) {
+      const email = customId.replace('btn_polllink_', '')
+      await interaction.deferReply()
+      const pollRes = await tempmail.pollForMagicLink(email, 60, 3)
+      if (!pollRes.ok || !pollRes.link) {
+        return interaction.editReply(`⚠️ Belum ada tautan masuk untuk \`${email}\`. Anda dapat memeriksa di https://mail.codai.site/`)
+      }
+      const magicLink = pollRes.oobCode || pollRes.link
+      const verifyResult = await auth.verifyMagicLink(email, magicLink)
+      if (!verifyResult.ok) {
+        return interaction.editReply(`❌ Verifikasi Gagal: ${friendlyFirebaseError(verifyResult.error)}`)
+      }
+      const prem = await auth.activatePremium(verifyResult.idToken)
+      if (prem.ok) incrementStats()
+
+      const now = new Date()
+      const validUntil = new Date()
+      validUntil.setFullYear(validUntil.getFullYear() + 1)
+      const formattedDate = validUntil.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })
+
+      const finalEmbed = new EmbedBuilder()
+        .setTitle('🎉 LISENSI ALIGHT MOTION VIP AKTIF!')
+        .setColor(BRAND_COLOR)
+        .addFields(
+          { name: 'Status Lisensi', value: '`PREMIUM_ACTIVE (ANNUAL VIP)`', inline: true },
+          { name: 'Email Akun', value: `\`${email}\``, inline: true },
+          { name: 'Masa Berlaku', value: `\`${formattedDate} (1 Tahun)\``, inline: true },
+          { name: 'Order ID', value: `\`${prem.orderId || '-'}\``, inline: true }
+        )
+        .setFooter({ text: 'MOTION V // DEVELOPED BY DIAWW.DEV' })
+
+      return interaction.editReply({ embeds: [finalEmbed], components: [getDeveloperButtons()] })
+    }
+  }
 })
+
+/**
+ * Helper: 1-Click Automated Activation Engine for Discord
+ */
+async function runDiscordAutoVip(context, specificEmail = null, isMessage = false) {
+  const mailData = specificEmail ? { email: specificEmail } : tempmail.generateEmail()
+  const email = mailData.email
+
+  const step1Embed = new EmbedBuilder()
+    .setTitle('🚀 MOTION V // 1-CLICK AUTO VIP')
+    .setColor(CYAN_COLOR)
+    .setDescription('Menjalankan automasi end-to-end aktivasi lisensi via CODAI MAIL (https://mail.codai.site).')
+    .addFields(
+      { name: '1. Inisialisasi Email', value: `✓ Dibuat: \`${email}\``, inline: false },
+      { name: '2. Upstream Magic Link', value: '⏳ _Mengirimkan tautan otentikasi via Google Identity Toolkit..._', inline: false },
+      { name: '3. Polling CODAI MAIL Inbox', value: '○ _Menunggu tautan masuk..._', inline: false },
+      { name: '4. Aktivasi Lisensi Upstream', value: '○ _Pending_', inline: false }
+    )
+    .setFooter({ text: 'CODAI MAIL PROTOCOL // mail.codai.site' })
+
+  let currentMsg
+  if (isMessage) {
+    currentMsg = await context.reply({ embeds: [step1Embed] })
+  } else {
+    currentMsg = await context.editReply({ embeds: [step1Embed] })
+  }
+
+  // Step 2: Send Magic Link
+  const sendRes = await auth.sendMagicLink(email)
+  if (!sendRes.ok) {
+    const errEmbed = new EmbedBuilder()
+      .setTitle('❌ AUTO-AKTIVASI GAGAL (STEP 2)')
+      .setColor(ERROR_COLOR)
+      .setDescription(`Gagal saat mengirim magic link: ${friendlyFirebaseError(sendRes.error)}`)
+    return isMessage ? currentMsg.edit({ embeds: [errEmbed] }) : context.editReply({ embeds: [errEmbed] })
+  }
+
+  const step2Embed = new EmbedBuilder()
+    .setTitle('🚀 MOTION V // 1-CLICK AUTO VIP')
+    .setColor(CYAN_COLOR)
+    .setDescription('Menjalankan automasi end-to-end aktivasi lisensi via CODAI MAIL.')
+    .addFields(
+      { name: '1. Inisialisasi Email', value: `✓ \`${email}\``, inline: false },
+      { name: '2. Upstream Magic Link', value: '✓ _Tautan otentikasi terkirim_', inline: false },
+      { name: '3. Polling CODAI MAIL Inbox', value: '⏳ _Memantau inbox API (maks 75 detik)..._', inline: false },
+      { name: '4. Aktivasi Lisensi Upstream', value: '○ _Pending_', inline: false }
+    )
+    .setFooter({ text: 'CODAI MAIL PROTOCOL // mail.codai.site' })
+
+  if (isMessage) await currentMsg.edit({ embeds: [step2Embed] })
+  else await context.editReply({ embeds: [step2Embed] })
+
+  // Step 3: Poll Inbox
+  const pollRes = await tempmail.pollForMagicLink(email, 75, 3)
+  if (!pollRes.ok || !pollRes.link) {
+    const timeoutEmbed = new EmbedBuilder()
+      .setTitle('⚠️ WAKTU TUNGGU HABIS (TIMEOUT)')
+      .setColor(ERROR_COLOR)
+      .setDescription(`Tautan verifikasi belum masuk ke kotak surat \`${email}\`.\nSilakan periksa di [mail.codai.site](https://mail.codai.site/).`)
+
+    const retryRow = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId(`btn_polllink_${email}`)
+        .setLabel('🔄 Coba Pindai Ulang')
+        .setStyle(ButtonStyle.Primary),
+      new ButtonBuilder()
+        .setLabel('Buka mail.codai.site')
+        .setStyle(ButtonStyle.Link)
+        .setURL('https://mail.codai.site/')
+    )
+
+    return isMessage ? currentMsg.edit({ embeds: [timeoutEmbed], components: [retryRow] }) : context.editReply({ embeds: [timeoutEmbed], components: [retryRow] })
+  }
+
+  // Step 4: Verify & Activate
+  const magicLink = pollRes.oobCode || pollRes.link
+  const verifyResult = await auth.verifyMagicLink(email, magicLink)
+  if (!verifyResult.ok) {
+    const errEmbed = new EmbedBuilder()
+      .setTitle('❌ VERIFIKASI GAGAL')
+      .setColor(ERROR_COLOR)
+      .setDescription(friendlyFirebaseError(verifyResult.error))
+    return isMessage ? currentMsg.edit({ embeds: [errEmbed] }) : context.editReply({ embeds: [errEmbed] })
+  }
+
+  const premiumResult = await auth.activatePremium(verifyResult.idToken)
+  if (premiumResult.ok) incrementStats()
+
+  const now = new Date()
+  const validUntil = new Date()
+  validUntil.setFullYear(validUntil.getFullYear() + 1)
+  const formattedDate = validUntil.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })
+
+  const finalEmbed = new EmbedBuilder()
+    .setTitle('🎉 1-CLICK AUTO AKTIVASI BERHASIL!')
+    .setColor(BRAND_COLOR)
+    .addFields(
+      { name: 'Status Lisensi', value: '`PREMIUM_ACTIVE (ANNUAL VIP)`', inline: true },
+      { name: 'Email Akun', value: `\`${email}\``, inline: true },
+      { name: 'Masa Berlaku', value: `\`${formattedDate} (1 Tahun)\``, inline: true },
+      { name: 'Firebase UID', value: `\`${verifyResult.uid || '-'}\``, inline: false },
+      { name: 'Order ID Transaksi', value: `\`${premiumResult.orderId || '-'}\``, inline: true },
+      { name: 'ID Token (JWT)', value: `\`${verifyResult.idToken.slice(0, 80)}...\``, inline: false }
+    )
+    .setFooter({ text: 'MOTION V // DEVELOPED BY DIAWW.DEV (https://diaww.my.id)' })
+
+  const devRow = getDeveloperButtons()
+  if (isMessage) return currentMsg.edit({ embeds: [finalEmbed], components: [devRow] })
+  return context.editReply({ embeds: [finalEmbed], components: [devRow] })
+}
 
 // ==========================================
 // 2. TEXT PREFIX COMMANDS HANDLER (!send, !verify, !stats, !ping)
@@ -331,6 +520,38 @@ client.on('messageCreate', async (message) => {
       .setDescription(`🏓 Latensi WebSocket: \`${client.ws.ping}ms\``)
       .setFooter({ text: 'MOTION V // DIAWW.DEV' })
     return message.reply({ embeds: [embed] })
+  }
+
+  // Command: !autovip
+  if (command === 'autovip') {
+    return runDiscordAutoVip(message, null, true)
+  }
+
+  // Command: !tempmail
+  if (command === 'tempmail') {
+    const mailData = tempmail.generateEmail()
+    const embed = new EmbedBuilder()
+      .setTitle('📬 CODAI DISPOSABLE MAIL')
+      .setColor(BRAND_COLOR)
+      .setDescription(`Disposable email resmi via [mail.codai.site](https://mail.codai.site/)\n• Email: \`${mailData.email}\`\n• Domain: \`@${mailData.domain}\``)
+      .setFooter({ text: 'Gunakan !autovip untuk aktivasi otomatis 1-klik!' })
+
+    const row = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId(`btn_autovip_${mailData.email}`)
+        .setLabel('🚀 Auto Aktifkan VIP')
+        .setStyle(ButtonStyle.Success),
+      new ButtonBuilder()
+        .setCustomId(`btn_checkmail_${mailData.email}`)
+        .setLabel('📬 Cek Inbox API')
+        .setStyle(ButtonStyle.Primary),
+      new ButtonBuilder()
+        .setLabel('Buka mail.codai.site')
+        .setStyle(ButtonStyle.Link)
+        .setURL('https://mail.codai.site/')
+    )
+
+    return message.reply({ embeds: [embed], components: [row] })
   }
 
   // Command: !stats
