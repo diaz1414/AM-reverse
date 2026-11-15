@@ -13,6 +13,7 @@
 **Next-Gen Protocol Automation & VIP License Verification Suite for Alight Motion**  
 *Web Interface (NoPixel V Design Language) • Telegram Bot • Discord Bot • RESTful Gateway API*
 
+[![GitHub Repository](https://img.shields.io/badge/GitHub-diaz1414%2FAM--reverse-00F8B9?style=for-the-badge&logo=github&logoColor=black)](https://github.com/diaz1414/AM-reverse)
 [![Node.js](https://img.shields.io/badge/Node.js-v20%2B-00F8B9?style=for-the-badge&logo=node.js&logoColor=black)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-40E5FF?style=for-the-badge)](LICENSE)
 [![UI: NoPixel V](https://img.shields.io/badge/UI-NoPixel%20V%20Aesthetic-FEFEFE?style=for-the-badge&logo=rockstargames&logoColor=black)](https://www.nopixel.net/)
@@ -142,8 +143,8 @@ AM-premium/
 
 ### Kloning Repositori
 ```bash
-git clone https://github.com/username/motion-v.git
-cd motion-v
+git clone https://github.com/diaz1414/AM-reverse.git
+cd AM-reverse
 ```
 
 ---
@@ -341,7 +342,8 @@ Dikembangkan dan dipelihara secara independen oleh:
 
 **DIAWW.DEV**  
 - Website: [https://diaww.my.id](https://diaww.my.id)  
-- Portfolio & Projects: [diaww.my.id](https://diaww.my.id)
+- Portfolio & Projects: [diaww.my.id](https://diaww.my.id)  
+- GitHub Repository: [https://github.com/diaz1414/AM-reverse](https://github.com/diaz1414/AM-reverse)
 
 ---
 
