@@ -6,6 +6,8 @@ Antarmuka bot Telegram untuk sistem aktivasi otomatis lisensi Alight Motion VIP 
 
 ## Fitur Utama
 
+- **🚀 1-Click Auto VIP (`/autovip`):** Automasi instan end-to-end tanpa memerlukan email pribadi. Sistem membuat disposable email `@codai.site`, mengirim magic link, memantau inbox via polling API CODAI MAIL, dan langsung mengaktifkan VIP Annual!
+- **📬 Integrasi Resmi CODAI MAIL (`/tempmail`):** Buat alamat email sekali pakai `@codai.site` resmi via [mail.codai.site](https://mail.codai.site/) dengan tombol cek kotak masuk langsung di chat.
 - **Alur Interaktif Wizard:** Cukup ketik `/activate`, bot akan memandu input email dan penempelan tautan masuk secara otomatis.
 - **Perintah Cepat Direct:** Mendukung perintah direct `/send <email>` dan `/verify <email> <tautan>`.
 - **Integrasi Penuh Engine:** Terhubung langsung ke modul `lib/auth.js` (Firebase Identity Toolkit & Upstream Cloud Functions).
