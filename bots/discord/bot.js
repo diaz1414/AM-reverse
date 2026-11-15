@@ -135,6 +135,10 @@ function getQuickActionRows() {
 
   const row2 = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
+      .setLabel('GitHub Repo')
+      .setStyle(ButtonStyle.Link)
+      .setURL('https://github.com/diaz1414/AM-reverse'),
+    new ButtonBuilder()
       .setLabel('Buka mail.codai.site')
       .setStyle(ButtonStyle.Link)
       .setURL('https://mail.codai.site/'),

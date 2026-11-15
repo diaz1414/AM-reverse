@@ -49,6 +49,9 @@ function getMainKeyboard() {
         ],
         [
           { text: '🌐 Buka mail.codai.site', url: 'https://mail.codai.site/' },
+          { text: '⭐ GitHub Repo', url: 'https://github.com/diaz1414/AM-reverse' }
+        ],
+        [
           { text: '👨‍💻 Developer (DIAWW.DEV)', url: 'https://diaww.my.id' }
         ]
       ]
